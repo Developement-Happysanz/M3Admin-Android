@@ -28,7 +28,7 @@ public class SplashScreenActivity extends Activity {
         final int getStatus = database.appInfoCheck();
 //        String GCMKey = PreferenceStorage.getGCM(getApplicationContext());
 //        if (GCMKey.equalsIgnoreCase("")) {
-//            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+//            String refreshedToken = FirebaseInstanceId.getInstance().getToken(); 
 //            PreferenceStorage.saveGCM(getApplicationContext(), refreshedToken);
 //        }
 
