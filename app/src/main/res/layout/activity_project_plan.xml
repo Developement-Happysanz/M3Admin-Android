@@ -9,63 +9,53 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/blue"
             android:minHeight="60dp" />
 
         <ImageView
-            android:id="@+id/back_btn"
+            android:id="@+id/side_menu"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:minHeight="60dp"
-            android:paddingEnd="15dp"
-            android:paddingStart="10dp"
-            android:src="@drawable/ic_arrow_back_white_24dp" />
+            android:paddingStart="13dp"
+            android:paddingEnd="13dp"
+            android:src="@drawable/ic_menu_button" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/side_menu"
             android:gravity="center_vertical|left"
             android:minHeight="60dp"
-            android:layout_toRightOf="@+id/back_btn"
             android:padding="5dp"
-            android:text="Forgot Password"
+            android:text="Project"
             android:textColor="@color/white"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/ic_forgot_password"
-        android:layout_gravity="center_horizontal"/>
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_height="50dp"
-        android:hint="Enter Username"/>
-
-    <Button
+    <DatePicker
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:background="@color/blue"
-        android:textColor="@color/white"
-        android:layout_marginTop="40dp"
-        android:layout_gravity="center_horizontal"/>
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner">
+
+    </DatePicker>
+
+    <DatePicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner">
+
+    </DatePicker>
 
 
 </LinearLayout>
