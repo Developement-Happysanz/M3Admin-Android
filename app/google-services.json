@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "858503390200",
+    "firebase_url": "https://m3-admin.firebaseio.com",
+    "project_id": "m3-admin",
+    "storage_bucket": "m3-admin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858503390200:android:4f01720f4484835c",
+        "android_client_info": {
+          "package_name": "com.happysanz.m3admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "858503390200-2ine3795deui8prq36u775e0cpagl32o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.happysanz.m3admin",
+            "certificate_hash": "0359e7dc48fefeb14bc7b8d941c6ca08301ad167"
+          }
+        },
+        {
+          "client_id": "858503390200-risdq74vi2sckusefj9pfe6hraltknch.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjDzpwn7SXO7cgENXMAFKU5Mdh5nX8wkE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "858503390200-risdq74vi2sckusefj9pfe6hraltknch.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

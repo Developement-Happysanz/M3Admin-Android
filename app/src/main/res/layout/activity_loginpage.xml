@@ -55,9 +55,10 @@
         android:layout_gravity="end"
         android:padding="5dp"
         android:layout_marginRight="40dp"
-        android:text="Forgot Password"/>
+        android:text="Forgot Password?"/>
 
     <Button
+        android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"

@@ -12,6 +12,8 @@ import android.support.v7.app.AlertDialog;
 
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.bean.database.SQLiteHelper;
+import com.happysanz.m3admin.utils.AppValidator;
+import com.happysanz.m3admin.utils.PreferenceStorage;
 
 public class SplashScreenActivity extends Activity {
 
@@ -26,15 +28,15 @@ public class SplashScreenActivity extends Activity {
             @Override
             public void run() {
 
-//                if (PreferenceStorage.getUserName(getApplicationContext()) != null && AppValidator.checkNullString(PreferenceStorage.getUserName(getApplicationContext()))) {
+                if (PreferenceStorage.getUserName(getApplicationContext()) != null && AppValidator.checkNullString(PreferenceStorage.getUserName(getApplicationContext()))) {
+                    Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+                } else {
                     Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
                     startActivity(i);
                     finish();
-//                } else {
-//                    Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
-//                    startActivity(i);
-//                    finish();
-//                }
+                }
             }
         }, SPLASH_TIME_OUT);
 
