@@ -206,7 +206,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                startService(new Intent(LoginActivity.this, GPSTracker.class));
 
                 JSONObject userData = response.getJSONObject("userData");
-                JSONObject staffProfile = response.getJSONObject("staffProfile");
+//                JSONObject staffProfile = response.getJSONObject("staffProfile");
 
 //                saveUserData(userData);
 //                saveStaffProfile(staffProfile);
