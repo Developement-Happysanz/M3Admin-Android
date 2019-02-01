@@ -7,7 +7,8 @@ public class M3AdminConstants {
     private static final String BASE_URL ="http://happysanz.net/";
 
     //BUILD URL
-    public static final String BUILD_URL = BASE_URL + "M3TNSRLM/";
+//    public static final String BUILD_URL = BASE_URL + "M3TNSRLM/";
+    public static final String BUILD_URL = BASE_URL + "m3test/";
 
     //GENERAL URL
     //Users URL
@@ -19,6 +20,14 @@ public class M3AdminConstants {
     // User Login Preferences
     // User data
     public static final String KEY_USER_NAME = "user_name";
+    public static final String KEY_USER_ID = "user_id";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_USER_IMAGE = "user_pic";
+    public static final String KEY_USER_TYPE = "user_type";
+    public static final String KEY_USER_TYPE_NAME = "user_type_name";
+
+    // PIA Profile
+    public  static  final String KEY_PIA_PROFILE_ID = "";
 
     //    Shared FCM ID
     public static final String KEY_FCM_ID = "fcm_id";
