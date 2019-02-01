@@ -79,15 +79,62 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:hint=""
+            android:hint="Center Name"
             android:layout_below="@+id/upload_layout"/>
         <EditText
             android:id="@+id/center_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:hint=""
+            android:hint="Center Detail"
             android:layout_below="@+id/center_name"/>
+
+        <LinearLayout
+            android:id="@+id/gallery_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:layout_below="@id/center_detail"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rect_border"
+                android:text="Photos"
+                android:layout_marginLeft="10dp"
+                android:drawablePadding="10dp"
+                android:textColor="@color/black"
+                android:layout_marginRight="20dp"
+                android:drawableLeft="@drawable/ic_photo"
+                android:padding="15dp"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rect_border"
+                android:text="Videos"
+                android:layout_marginLeft="10dp"
+                android:drawablePadding="10dp"
+                android:textColor="@color/black"
+                android:drawableLeft="@drawable/ic_video"
+                android:padding="15dp"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/save_center"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:background="@color/blue"
+            android:textColor="@color/white"
+            android:text="Save"
+            android:layout_below="@id/gallery_layout"/>
 
     </RelativeLayout>
 
