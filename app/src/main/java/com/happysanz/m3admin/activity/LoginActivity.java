@@ -206,10 +206,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                startService(new Intent(LoginActivity.this, GPSTracker.class));
 
                 JSONObject userData = response.getJSONObject("userData");
-//                JSONObject staffProfile = response.getJSONObject("staffProfile");
+                JSONObject piaProfile = response.getJSONObject("piaProfile");
+//                JSONObject dashBoardData = response.getJSONObject("dashboardData");
 
-//                saveUserData(userData);
-//                saveStaffProfile(staffProfile);
+                saveUserData(userData);
+                savePIAProfile(piaProfile);
+
 
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -227,4 +229,97 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialogHelper.hideProgressDialog();
         AlertDialogHelper.showSimpleAlertDialog(this, error);
     }
+
+    private void saveUserData(JSONObject userData) {
+
+        Log.d(TAG, "userData dictionary" + userData.toString());
+
+        String userId = "";
+        String fullName = "";
+        String userName = "";
+        String userPicture = "";
+        String userTypeName = "";
+        String userType = "";
+        String passwordStatus = "";
+
+        try {
+
+            if (userData != null) {
+
+                // User Preference - User Id
+                userId = userData.getString("user_id");
+                if ((userId != null) && !(userId.isEmpty()) && !userId.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveUserId(this, userId);
+                }
+
+                // User Preference - User Full Name
+                fullName = userData.getString("name");
+                if ((fullName != null) && !(fullName.isEmpty()) && !fullName.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveName(this, fullName);
+                }
+
+                // User Preference - User Name
+                userName = userData.getString("user_name");
+                if ((userName != null) && !(userName.isEmpty()) && !userName.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveUserName(this, userName);
+                }
+
+                // User Preference - User Picture
+                userPicture = userData.getString("user_pic");
+                if ((userPicture != null) && !(userPicture.isEmpty()) && !userPicture.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveUserPicture(this, userPicture);
+                }
+
+                // User Preference - User Type Name
+                userTypeName = userData.getString("user_type_name");
+                if ((userTypeName != null) && !(userTypeName.isEmpty()) && !userTypeName.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveUserTypeName(this, userTypeName);
+                }
+
+                // User Preference - User Type
+                userType = userData.getString("user_type");
+                if ((userType != null) && !(userType.isEmpty()) && !userType.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveUserType(this, userType);
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void savePIAProfile(JSONObject piaProfile) {
+
+        Log.d(TAG, "piaProfile dictionary" + piaProfile.toString());
+
+        String piaProfileId = "";
+        String piaPRNNumber = "";
+        String piaName = "";
+        String piaAddress = "";
+        String piEmail = "";
+        String piaPhone = "";
+
+        try {
+
+            if (piaProfile != null) {
+
+                // User Preference - Staff Id
+                piaProfileId = piaProfile.getString("pia_profile_id");
+                if ((piaProfileId != null) && !(piaProfileId.isEmpty()) && !piaProfileId.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savePIAProfileId(this, piaProfileId);
+                }
+
+                /*// User Preference - Staff Id
+                piaPRNNumber = piaProfile.getString("pia_unique_number");
+                if ((piaPRNNumber != null) && !(piaPRNNumber.isEmpty()) && !piaPRNNumber.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savePRNNumber(this, piaPRNNumber);
+                }*/
+
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
 }
