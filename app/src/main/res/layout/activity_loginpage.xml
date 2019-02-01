@@ -57,7 +57,7 @@
         android:id="@+id/ti_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="45dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         app:passwordToggleEnabled="true">
@@ -66,9 +66,9 @@
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="30dp"
             android:layout_marginTop="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginRight="30dp"
             android:hint="Username"
             android:singleLine="true" />
 
@@ -78,7 +78,7 @@
         android:id="@+id/ti_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         app:passwordToggleEnabled="true">
@@ -87,8 +87,8 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:hint="Password"
             android:inputType="textPassword"
             android:singleLine="true" />
