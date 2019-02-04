@@ -4,7 +4,7 @@ public class M3AdminConstants {
 
     //URL'S
     //BASE URL
-    private static final String BASE_URL ="http://happysanz.net/";
+    private static final String BASE_URL = "http://happysanz.net/";
 
     //BUILD URL
 //    public static final String BUILD_URL = BASE_URL + "M3TNSRLM/";
@@ -27,7 +27,12 @@ public class M3AdminConstants {
     public static final String KEY_USER_TYPE_NAME = "user_type_name";
 
     // PIA Profile
-    public  static  final String KEY_PIA_PROFILE_ID = "";
+    public static final String KEY_PIA_PROFILE_ID = "pia_profile_id";
+    public static final String KEY_PIA_PRN_NUMBER = "pia_prn_number";
+    public static final String KEY_PIA_NAME = "pia_name";
+    public static final String KEY_PIA_ADDRESS = "pia_address";
+    public static final String KEY_PIA_PHONE = "pia_phone";
+    public static final String KEY_PIA_EMAIL = "pia_email";
 
     //    Shared FCM ID
     public static final String KEY_FCM_ID = "fcm_id";

@@ -135,7 +135,7 @@ public class PreferenceStorage {
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(M3AdminConstants.KEY_USER_TYPE, userType);
+        editor.putString(M3AdminConstants.KEY_PIA_PROFILE_ID, userType);
         editor.apply();
     }
 
@@ -143,10 +143,99 @@ public class PreferenceStorage {
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(context);
         String userType;
-        userType = sharedPreferences.getString(M3AdminConstants.KEY_USER_TYPE, "");
+        userType = sharedPreferences.getString(M3AdminConstants.KEY_PIA_PROFILE_ID, "");
         return userType;
     }
     /*End*/
 
+    // PIA PRN Number
+    public static void savePIAPRNNumber(Context context, String userType) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.KEY_PIA_PRN_NUMBER, userType);
+        editor.apply();
+    }
+
+    public static String getPIAPRNNumber(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String userType;
+        userType = sharedPreferences.getString(M3AdminConstants.KEY_PIA_PRN_NUMBER, "");
+        return userType;
+    }
+    /*End*/
+
+    // PIA Name
+    public static void savePIAName(Context context, String userType) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.KEY_PIA_NAME, userType);
+        editor.apply();
+    }
+
+    public static String getPIAName(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String userType;
+        userType = sharedPreferences.getString(M3AdminConstants.KEY_PIA_NAME, "");
+        return userType;
+    }
+    /*End*/
+
+    // PIA Address
+    public static void savePIAAddress(Context context, String userType) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.KEY_PIA_ADDRESS, userType);
+        editor.apply();
+    }
+
+    public static String getPIAAddress(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String userType;
+        userType = sharedPreferences.getString(M3AdminConstants.KEY_PIA_ADDRESS, "");
+        return userType;
+    }
+    /*End*/
+
+    // PIA Phone
+    public static void savePIAPhone(Context context, String userType) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.KEY_PIA_PHONE, userType);
+        editor.apply();
+    }
+
+    public static String getPIAPhone(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String userType;
+        userType = sharedPreferences.getString(M3AdminConstants.KEY_PIA_PHONE, "");
+        return userType;
+    }
+    /*End*/
+
+    // PIA Email
+    public static void savePIAEmail(Context context, String userType) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.KEY_PIA_EMAIL, userType);
+        editor.apply();
+    }
+
+    public static String getPIAEmail(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String userType;
+        userType = sharedPreferences.getString(M3AdminConstants.KEY_PIA_EMAIL, "");
+        return userType;
+    }
+    /*End*/
 
 }

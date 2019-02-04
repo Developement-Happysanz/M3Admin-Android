@@ -130,6 +130,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String url = M3AdminConstants.BUILD_URL + M3AdminConstants.USER_LOGIN_API;
                     serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
                 }
+            } else if (v == txtForgotPsw) {
+                Intent i = new Intent(LoginActivity.this,
+                        ForgotPasswordActivity.class);
+                startActivity(i);
             }
         } else {
             AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection available");
@@ -296,25 +300,48 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String piaPRNNumber = "";
         String piaName = "";
         String piaAddress = "";
-        String piEmail = "";
         String piaPhone = "";
+        String piaEmail = "";
 
         try {
 
             if (piaProfile != null) {
 
-                // User Preference - Staff Id
+                // PIA Preference - PIA profile Id
                 piaProfileId = piaProfile.getString("pia_profile_id");
                 if ((piaProfileId != null) && !(piaProfileId.isEmpty()) && !piaProfileId.equalsIgnoreCase("null")) {
                     PreferenceStorage.savePIAProfileId(this, piaProfileId);
                 }
 
-                /*// User Preference - Staff Id
+                // PIA Preference - PIA PRN Number
                 piaPRNNumber = piaProfile.getString("pia_unique_number");
                 if ((piaPRNNumber != null) && !(piaPRNNumber.isEmpty()) && !piaPRNNumber.equalsIgnoreCase("null")) {
-                    PreferenceStorage.savePRNNumber(this, piaPRNNumber);
-                }*/
+                    PreferenceStorage.savePIAPRNNumber(this, piaPRNNumber);
+                }
 
+                // PIA Preference - PIA Name
+                piaName = piaProfile.getString("pia_name");
+                if ((piaName != null) && !(piaName.isEmpty()) && !piaName.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savePIAName(this, piaName);
+                }
+
+                // PIA Preference - PIA Address
+                piaAddress = piaProfile.getString("pia_address");
+                if ((piaAddress != null) && !(piaAddress.isEmpty()) && !piaAddress.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savePIAAddress(this, piaAddress);
+                }
+
+                // PIA Preference - PIA Phone
+                piaPhone = piaProfile.getString("pia_phone");
+                if ((piaPhone != null) && !(piaPhone.isEmpty()) && !piaPhone.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savePIAPhone(this, piaPhone);
+                }
+
+                // PIA Preference - PIA PRN Number
+                piaEmail = piaProfile.getString("pia_email");
+                if ((piaEmail != null) && !(piaEmail.isEmpty()) && !piaEmail.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savePIAEmail(this, piaEmail);
+                }
             }
 
         } catch (Exception ex) {

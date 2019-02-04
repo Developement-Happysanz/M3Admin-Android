@@ -46,8 +46,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
-        <activity android:name=".activity.loginmodule.SplashScreenActivity">
+        android:theme="@style/AppThemeNoActionBarLogin">
+        <activity android:name=".activity.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,11 +63,18 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".activity.loginmodule.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarLogin"
             android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".activity.ForgotPasswordActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"></activity>
 
         <service android:name=".fcm.MyFirebaseInstanceIDService">
             <intent-filter>
@@ -89,7 +96,6 @@
             android:value="@integer/google_play_services_version" />
 
     </application>
-
 
 
 </manifest>
