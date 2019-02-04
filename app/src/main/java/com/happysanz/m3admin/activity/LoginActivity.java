@@ -129,6 +129,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String url = M3AdminConstants.BUILD_URL + M3AdminConstants.USER_LOGIN_API;
                     serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
                 }
+            } else if (v == txtForgotPsw) {
+                Intent i = new Intent(LoginActivity.this,
+                        ForgotPasswordActivity.class);
+                startActivity(i);
             }
         } else {
             AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection available");
