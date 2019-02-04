@@ -1,4 +1,4 @@
-package com.happysanz.m3admin.activity;
+package com.happysanz.m3admin.activity.loginmodule;
 
 import android.Manifest;
 import android.content.Context;
@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.happysanz.m3admin.R;
+import com.happysanz.m3admin.activity.MainActivity;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;

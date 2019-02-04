@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import com.happysanz.m3admin.R;
-import com.happysanz.m3admin.activity.SplashScreenActivity;
+import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
 import com.happysanz.m3admin.utils.M3AdminConstants;
 

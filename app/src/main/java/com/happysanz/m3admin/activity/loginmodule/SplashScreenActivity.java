@@ -1,17 +1,13 @@
-package com.happysanz.m3admin.activity;
+package com.happysanz.m3admin.activity.loginmodule;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 
 import com.happysanz.m3admin.R;
-import com.happysanz.m3admin.bean.database.SQLiteHelper;
+import com.happysanz.m3admin.activity.MainActivity;
 import com.happysanz.m3admin.utils.AppValidator;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 

@@ -59,8 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        app:passwordToggleEnabled="true">
+        android:paddingRight="10dp">
 
         <EditText
             android:id="@+id/username"
