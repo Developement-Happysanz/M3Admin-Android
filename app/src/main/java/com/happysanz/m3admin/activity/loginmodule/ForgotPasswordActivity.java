@@ -1,4 +1,4 @@
-package com.happysanz.m3admin.activity;
+package com.happysanz.m3admin.activity.loginmodule;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
