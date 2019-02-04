@@ -69,5 +69,16 @@
 
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/save_center"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:background="@color/blue"
+        android:textColor="@color/white"
+        android:text="Save"
+        android:layout_below="@id/gallery_layout"/>
+
 
 </LinearLayout>

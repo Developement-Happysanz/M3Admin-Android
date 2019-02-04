@@ -47,7 +47,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppThemeNoActionBarLogin">
-        <activity android:name=".activity.SplashScreenActivity">
+        <activity android:name=".activity.loginmodule.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,7 +63,7 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.loginmodule.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarLogin"
@@ -74,7 +74,98 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarLogin"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.PiaDashboard"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.AddCenterDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.AddPhotoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.AddTradeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.AddVideoActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.CenterActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.CenterDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.PhotoGalleryActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.ProjectPlanActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.SchemeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.TradeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.VideoGalleryActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.tnsrlmmodule.TnsrlmDashboard"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
 
         <service android:name=".fcm.MyFirebaseInstanceIDService">
             <intent-filter>
