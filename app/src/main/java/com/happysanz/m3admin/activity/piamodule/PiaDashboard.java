@@ -20,7 +20,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     Context context;
-    RelativeLayout prospect, user, addPlan, task, tracking, controlPanel, expView;
+    RelativeLayout prospect, user, addPlan, task, tracking, controlPanel, expView, dashBoard;
     TextView scheme, center, project, trade, batch, tradeAndBatch, time;
     LinearLayout subMenu;
     Boolean visib = false;
@@ -63,6 +63,9 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
         tradeAndBatch.setOnClickListener(this);
         time = (TextView) findViewById(R.id.txt_time);
         time.setOnClickListener(this);
+
+        dashBoard = (RelativeLayout) findViewById(R.id.dash_layout);
+        dashBoard.setOnClickListener(this);
     }
 
     private void initializeNavigationDrawer() {
@@ -175,6 +178,10 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
         }
         if (view == time){
             Intent intent = new Intent(getApplicationContext(), TimeActivity.class);
+            startActivity(intent);
+        }
+        if (view == dashBoard){
+            Intent intent = new Intent(getApplicationContext(), PiaDashboard.class);
             startActivity(intent);
         }
     }

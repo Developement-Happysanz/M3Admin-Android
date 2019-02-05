@@ -38,153 +38,15 @@
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/exp_view"
-                android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_below="@id/dash_layout"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="20dp"
-                android:layout_height="wrap_content">
-
-                <RelativeLayout
-                    android:id="@+id/master_layout"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/img_master"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_master" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/img_master"
-                        android:layout_alignBottom="@id/img_master"
-                        android:layout_marginLeft="15dp"
-                        android:layout_toRightOf="@id/img_master"
-                        android:gravity="center_vertical"
-                        android:text="Master"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                    <ImageView
-                        android:id="@+id/drop_down"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginLeft="15dp"
-                        android:src="@drawable/ic_down_arroww" />
-
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/sub_menu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/master_layout"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txt_scheme"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:gravity="center_vertical"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="Scheme"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/txt_center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:gravity="center_vertical"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="Center"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/txt_project"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:gravity="center_vertical"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="Project"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/txt_trade"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:gravity="center_vertical"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="Trade"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/txt_batch"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:gravity="center_vertical"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="Batch"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/txt_trade_batch"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:gravity="center_vertical"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="Trade and Batch"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/txt_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40dp"
-                        android:gravity="center_vertical"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:text="Time"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/exp_view"
+                android:layout_below="@id/dash_layout"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:id="@+id/pros_layout"
+                    android:id="@+id/pia_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -193,24 +55,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:src="@drawable/ic_prospects" />
+                        android:src="@drawable/ic_pia_sidemenu" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/img_pros"
                         android:layout_alignBottom="@id/img_pros"
                         android:layout_marginLeft="15dp"
                         android:layout_toRightOf="@id/img_pros"
                         android:gravity="center_vertical"
-                        android:text="Prospects"
+                        android:text="PIA"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/user_layout"
+                    android:id="@+id/mobi_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -220,24 +82,24 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
-                        android:src="@drawable/ic_prospects" />
+                        android:src="@drawable/ic_mobilization_plan_sidemenu" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/img_user"
                         android:layout_alignBottom="@id/img_user"
                         android:layout_marginLeft="15dp"
                         android:layout_toRightOf="@id/img_user"
                         android:gravity="center_vertical"
-                        android:text="User"
+                        android:text="Mobilization Plan"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/add_plan_layout"
+                    android:id="@+id/tnsrlm_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -247,24 +109,24 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
-                        android:src="@drawable/ic_add_task" />
+                        android:src="@drawable/ic_tnsrlm_staff_sidemenu" />
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignTop="@+id/img_add_plan"
                         android:layout_alignBottom="@id/img_add_plan"
                         android:layout_marginLeft="15dp"
                         android:layout_toRightOf="@id/img_add_plan"
                         android:gravity="center_vertical"
-                        android:text="Add Plan"
+                        android:text="TNSRLM Staff"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/task_layout"
+                    android:id="@+id/profile_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -274,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
-                        android:src="@drawable/ic_task_menu" />
+                        android:src="@drawable/ic_prospects" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -284,62 +146,7 @@
                         android:layout_marginLeft="15dp"
                         android:layout_toRightOf="@id/img_task"
                         android:gravity="center_vertical"
-                        android:text="Task"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/tracking_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/img_tracking"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:src="@drawable/ic_prospects" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/img_tracking"
-                        android:layout_alignBottom="@id/img_tracking"
-                        android:layout_marginLeft="15dp"
-                        android:layout_toRightOf="@id/img_tracking"
-                        android:gravity="center_vertical"
-                        android:text="Tracking"
-                        android:textColor="@color/black"
-                        android:textSize="18sp" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/control_panel_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:id="@+id/img_control_panel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="20dp"
-                        android:src="@drawable/ic_control_panel" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/img_control_panel"
-                        android:layout_alignBottom="@id/img_control_panel"
-                        android:layout_marginLeft="15dp"
-                        android:layout_toRightOf="@id/img_control_panel"
-                        android:gravity="center_vertical"
-                        android:text="Control Panel"
+                        android:text="Profile"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 

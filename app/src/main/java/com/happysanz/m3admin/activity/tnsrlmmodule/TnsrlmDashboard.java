@@ -1,6 +1,7 @@
 package com.happysanz.m3admin.activity.tnsrlmmodule;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -13,13 +14,12 @@ import android.widget.RelativeLayout;
 
 import com.happysanz.m3admin.R;
 
-public class TnsrlmDashboard extends AppCompatActivity {
+public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickListener {
     Toolbar toolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     Context context;
-    RelativeLayout prospect, user, addPlan, task, tracking, controlPanel, expView;
-    LinearLayout subMenu;
+    RelativeLayout pia, mobilizationPlan, tnsrlmStaff, profile, dashBoard;
     Boolean visib = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,20 +30,16 @@ public class TnsrlmDashboard extends AppCompatActivity {
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
         initializeNavigationDrawer();
         context = getApplicationContext();
-        subMenu = (LinearLayout) findViewById(R.id.sub_menu);
-        expView = (RelativeLayout) findViewById(R.id.exp_view);
-        expView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                visib = !visib;
-                if (visib) {
-                    subMenu.setVisibility(View.VISIBLE);
-                } else {
-                    subMenu.setVisibility(View.GONE);
-                }
-            }
-        });
-
+        pia = (RelativeLayout) findViewById(R.id.exp_view);
+        pia.setOnClickListener(this);
+        mobilizationPlan = (RelativeLayout) findViewById(R.id.pros_layout);
+        mobilizationPlan.setOnClickListener(this);
+        tnsrlmStaff = (RelativeLayout) findViewById(R.id.user_layout);
+        tnsrlmStaff.setOnClickListener(this);
+        profile = (RelativeLayout) findViewById(R.id.add_plan_layout);
+        profile.setOnClickListener(this);
+        dashBoard = (RelativeLayout) findViewById(R.id.dash_layout);
+        dashBoard.setOnClickListener(this);
 
     }
 
@@ -97,4 +93,27 @@ public class TnsrlmDashboard extends AppCompatActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    public void onClick(View view) {
+        if (view == pia){
+            Intent intent = new Intent(getApplicationContext(), PiaActivity.class);
+            startActivity(intent);
+        }
+        if (view == mobilizationPlan){
+            Intent intent = new Intent(getApplicationContext(), MobilizationPlanActivity.class);
+            startActivity(intent);
+        }
+        if (view == tnsrlmStaff){
+            Intent intent = new Intent(getApplicationContext(), TnsrlmStaffActivity.class);
+            startActivity(intent);
+        }
+        if (view == profile){
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
+        }
+        if (view == dashBoard){
+            Intent intent = new Intent(getApplicationContext(), TnsrlmDashboard.class);
+            startActivity(intent);
+        }
+    }
 }
