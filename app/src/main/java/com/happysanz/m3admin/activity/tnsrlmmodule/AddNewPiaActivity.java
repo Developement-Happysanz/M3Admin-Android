@@ -57,6 +57,12 @@ public class AddNewPiaActivity extends AppCompatActivity implements IServiceList
             }
         });
 
+        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override

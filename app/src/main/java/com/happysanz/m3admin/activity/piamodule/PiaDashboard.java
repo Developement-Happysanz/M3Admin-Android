@@ -25,7 +25,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
     Context context;
     RelativeLayout prospect, user, addPlan, task, tracking, controlPanel, expView, dashBoard, logout;
     TextView scheme, center, project, trade, batch, tradeAndBatch, time;
-    LinearLayout subMenu;
+    LinearLayout subMenu, mobilizerDash, studentDash, centerInfoDash, tradeDash, taskDash;
     Boolean visib = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +77,17 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
                 doLogout();
             }
         });
+
+        mobilizerDash = findViewById(R.id.mobilizer_layout);
+        mobilizerDash.setOnClickListener(this);
+        studentDash = findViewById(R.id.student_layout);
+        studentDash.setOnClickListener(this);
+        centerInfoDash = findViewById(R.id.center_layout);
+        centerInfoDash.setOnClickListener(this);
+        tradeDash = findViewById(R.id.trade_layout);
+        tradeDash.setOnClickListener(this);
+        taskDash = findViewById(R.id.task_layout);
+        taskDash.setOnClickListener(this);
     }
 
     public void doLogout() {
@@ -203,9 +214,26 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(getApplicationContext(), TimeActivity.class);
             startActivity(intent);
         }
-        if (view == dashBoard){
-            Intent intent = new Intent(getApplicationContext(), PiaDashboard.class);
+        if (view == mobilizerDash){
+            Intent intent = new Intent(getApplicationContext(), MobilizerActivity.class);
             startActivity(intent);
         }
+        if (view == studentDash){
+            Intent intent = new Intent(getApplicationContext(), StudentsActivity.class);
+            startActivity(intent);
+        }
+        if (view == centerInfoDash){
+            Intent intent = new Intent(getApplicationContext(), CenterActivity.class);
+            startActivity(intent);
+        }
+        if (view == tradeDash){
+            Intent intent = new Intent(getApplicationContext(), TradeActivity.class);
+            startActivity(intent);
+        }
+        if (view == taskDash){
+            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+            startActivity(intent);
+        }
+
     }
 }
