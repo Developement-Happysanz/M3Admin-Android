@@ -14,6 +14,12 @@ public class M3AdminConstants {
     //Users URL
     public static final String USER_LOGIN_API = "apimain/login/";
 
+
+//    TNSRLM
+//    PIA Creation URL
+    public static final String CREATE_PIA = "apimain/create_pia";
+
+
     //    Service Params
     public static String PARAM_MESSAGE = "msg";
 
@@ -50,5 +56,13 @@ public class M3AdminConstants {
     public static final String PARAMS_PASSWORD = "password";
     public static final String PARAMS_GCM_KEY = "device_id";
     public static final String PARAMS_MOBILE_TYPE = "mobile_type";
+
+    //    Create Pia params
+    public static final String PARAMS_USER_ID = "user_id";
+    public static final String PARAMS_UNIQUE_NUMBER = "unique_number";
+    public static final String PARAMS_NAME = "name";
+    public static final String PARAMS_ADDRESS = "address";
+    public static final String PARAMS_PHONE = "phone";
+    public static final String PARAMS_EMAIL = "email";
 
 }
