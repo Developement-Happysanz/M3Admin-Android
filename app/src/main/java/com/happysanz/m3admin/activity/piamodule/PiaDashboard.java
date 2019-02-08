@@ -20,7 +20,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     Context context;
-    RelativeLayout prospect, user, addPlan, task, tracking, controlPanel, expView, dashBoard;
+    RelativeLayout prospect, user, addPlan, taskPortion, tracking, controlPanel, expView, dashBoard;
     TextView scheme, center, project, trade, batch, tradeAndBatch, time;
     LinearLayout subMenu;
     Boolean visib = false;
@@ -42,8 +42,8 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
         user.setOnClickListener(this);
         addPlan = (RelativeLayout) findViewById(R.id.add_plan_layout);
         addPlan.setOnClickListener(this);
-        task = (RelativeLayout) findViewById(R.id.task_layout);
-        task.setOnClickListener(this);
+        taskPortion = (RelativeLayout) findViewById(R.id.task_layout);
+        taskPortion.setOnClickListener(this);
         tracking = (RelativeLayout) findViewById(R.id.tracking_layout);
         tracking.setOnClickListener(this);
         controlPanel = (RelativeLayout) findViewById(R.id.control_panel_layout);
@@ -140,7 +140,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(getApplicationContext(), AddPlanActivity.class);
             startActivity(intent);
         }
-        if (view == task){
+        if (view == taskPortion){
             Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
             startActivity(intent);
         }

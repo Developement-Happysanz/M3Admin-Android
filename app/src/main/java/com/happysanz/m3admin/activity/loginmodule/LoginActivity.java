@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.MainActivity;
+import com.happysanz.m3admin.activity.piamodule.PiaDashboard;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -211,17 +212,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                startService(new Intent(LoginActivity.this, GPSTracker.class));
 
                 JSONObject userData = response.getJSONObject("userData");
-                JSONObject piaProfile = response.getJSONObject("piaProfile");
+
+                String findUser = userData.getString("user_type");
+
+                if (findUser.equalsIgnoreCase("3")) {
+                    JSONObject piaProfile = response.getJSONObject("piaProfile");
 //                JSONObject dashBoardData = response.getJSONObject("dashboardData");
 
-                saveUserData(userData);
-                savePIAProfile(piaProfile);
+                    saveUserData(userData);
+                    savePIAProfile(piaProfile);
 
 
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                    Intent intent = new Intent(this, PiaDashboard.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+
+                } else if (findUser.equalsIgnoreCase("1")) {
+                    String checkUser = "";
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
