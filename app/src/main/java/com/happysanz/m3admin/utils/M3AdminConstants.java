@@ -14,8 +14,11 @@ public class M3AdminConstants {
     //Users URL
     public static final String USER_LOGIN_API = "apimain/login/";
 
+    //Forgot password URL
+    public static final String USER_FORGOT_PASSWORD = "apimain/forgot_password/";
 
-//    TNSRLM
+
+    //    TNSRLM
 //    PIA Creation URL
     public static final String CREATE_PIA = "apimain/create_pia";
 
