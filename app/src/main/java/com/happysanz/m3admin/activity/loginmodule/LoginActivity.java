@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.MainActivity;
 import com.happysanz.m3admin.activity.piamodule.PiaDashboard;
+import com.happysanz.m3admin.activity.tnsrlmmodule.TnsrlmDashboard;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -230,6 +231,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 } else if (findUser.equalsIgnoreCase("1")) {
                     String checkUser = "";
+                    Intent intent = new Intent(this, TnsrlmDashboard.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
                 }
 
             } catch (JSONException e) {

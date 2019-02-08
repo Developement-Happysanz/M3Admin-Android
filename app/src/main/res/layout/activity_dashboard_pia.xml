@@ -117,8 +117,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/master_layout"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/txt_scheme"
@@ -296,7 +296,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:id="@+id/task_layout"
+                        android:id="@+id/task_layout_sidemenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 

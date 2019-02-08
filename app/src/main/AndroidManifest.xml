@@ -162,6 +162,27 @@
             android:windowSoftInputMode="stateHidden"/>
 
         <activity
+            android:name=".activity.piamodule.TimeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.TradeAndBatchActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.BatchActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
             android:name=".activity.tnsrlmmodule.TnsrlmDashboard"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -177,6 +198,25 @@
 
         <activity
             android:name=".activity.tnsrlmmodule.AddNewPiaActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.tnsrlmmodule.MobilizationPlanActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".activity.tnsrlmmodule.ProfileActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".activity.tnsrlmmodule.TnsrlmStaffActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarLogin"

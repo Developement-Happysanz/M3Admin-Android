@@ -177,7 +177,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/task_layout"
+                android:id="@+id/graph_layout"
                 android:layout_width="match_parent"
                 android:layout_below="@+id/trade_layout"
                 android:layout_height="70dp"

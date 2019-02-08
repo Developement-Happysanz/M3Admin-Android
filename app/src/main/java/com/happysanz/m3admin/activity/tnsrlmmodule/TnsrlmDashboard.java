@@ -33,13 +33,13 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
         initializeNavigationDrawer();
         context = getApplicationContext();
-        pia = (RelativeLayout) findViewById(R.id.exp_view);
+        pia = (RelativeLayout) findViewById(R.id.pia_layout);
         pia.setOnClickListener(this);
-        mobilizationPlan = (RelativeLayout) findViewById(R.id.pros_layout);
+        mobilizationPlan = (RelativeLayout) findViewById(R.id.mobilization_layout);
         mobilizationPlan.setOnClickListener(this);
-        tnsrlmStaff = (RelativeLayout) findViewById(R.id.user_layout);
+        tnsrlmStaff = (RelativeLayout) findViewById(R.id.tnsrlm_layout);
         tnsrlmStaff.setOnClickListener(this);
-        profile = (RelativeLayout) findViewById(R.id.add_plan_layout);
+        profile = (RelativeLayout) findViewById(R.id.profile_layout);
         profile.setOnClickListener(this);
         dashBoard = (RelativeLayout) findViewById(R.id.dash_layout);
         dashBoard.setOnClickListener(this);
