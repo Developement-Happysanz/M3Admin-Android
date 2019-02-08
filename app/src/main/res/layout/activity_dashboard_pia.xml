@@ -72,17 +72,17 @@
                 <RelativeLayout
                     android:id="@+id/exp_view"
                     android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/dash_layout"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_height="wrap_content">
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp">
 
                     <RelativeLayout
                         android:id="@+id/master_layout"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
 
                         <ImageView
                             android:id="@+id/img_master"
@@ -117,7 +117,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/master_layout"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/txt_scheme"
@@ -359,7 +360,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="10dp"
-                            android:layout_marginBottom="20dp"
                             android:src="@drawable/ic_control_panel" />
 
                         <TextView
@@ -371,6 +371,34 @@
                             android:layout_toRightOf="@id/img_control_panel"
                             android:gravity="center_vertical"
                             android:text="Control Panel"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/logout_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/img_logout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="20dp"
+                            android:src="@drawable/ic_prospects" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/img_logout"
+                            android:layout_alignBottom="@id/img_logout"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@id/img_logout"
+                            android:gravity="center_vertical"
+                            android:text="Logout"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
