@@ -19,6 +19,7 @@ import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
 
 public class PiaDashboard extends AppCompatActivity implements View.OnClickListener {
+
     Toolbar toolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -27,6 +28,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
     TextView scheme, center, project, trade, batch, tradeAndBatch, time;
     LinearLayout subMenu;
     Boolean visib = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

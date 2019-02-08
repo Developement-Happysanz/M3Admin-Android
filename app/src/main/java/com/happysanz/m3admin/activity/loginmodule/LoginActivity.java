@@ -235,6 +235,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
+                } else {
+                    AlertDialogHelper.showSimpleAlertDialog(this, "Login as valid user");
                 }
 
             } catch (JSONException e) {
