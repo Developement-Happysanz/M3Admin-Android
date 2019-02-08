@@ -230,7 +230,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     finish();
 
                 } else if (findUser.equalsIgnoreCase("1")) {
-                    String checkUser = "";
+
+                    saveUserData(userData);
+
                     Intent intent = new Intent(this, TnsrlmDashboard.class);
 //                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
