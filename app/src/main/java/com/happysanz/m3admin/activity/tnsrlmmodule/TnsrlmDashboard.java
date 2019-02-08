@@ -2,8 +2,10 @@ package com.happysanz.m3admin.activity.tnsrlmmodule;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,13 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.happysanz.m3admin.R;
+import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
 
 public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickListener {
     Toolbar toolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     Context context;
-    RelativeLayout pia, mobilizationPlan, tnsrlmStaff, profile, dashBoard;
+    RelativeLayout pia, mobilizationPlan, tnsrlmStaff, profile, dashBoard, logout;
     Boolean visib = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,26 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
         dashBoard = (RelativeLayout) findViewById(R.id.dash_layout);
         dashBoard.setOnClickListener(this);
 
+        logout = (RelativeLayout) findViewById(R.id.logout_layout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doLogout();
+            }
+        });
+
+    }
+
+    public void doLogout() {
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().clear().commit();
+//        TwitterUtil.getInstance().resetTwitterRequestToken();
+
+        Intent homeIntent = new Intent(this, SplashScreenActivity.class);
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(homeIntent);
+        this.finish();
     }
 
     private void initializeNavigationDrawer() {

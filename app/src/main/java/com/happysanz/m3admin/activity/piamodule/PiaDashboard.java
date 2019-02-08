@@ -2,8 +2,10 @@ package com.happysanz.m3admin.activity.piamodule;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,13 +16,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.happysanz.m3admin.R;
+import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
 
 public class PiaDashboard extends AppCompatActivity implements View.OnClickListener {
     Toolbar toolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     Context context;
-    RelativeLayout prospect, user, addPlan, taskPortion, tracking, controlPanel, expView, dashBoard;
+    RelativeLayout prospect, user, addPlan, task, tracking, controlPanel, expView, dashBoard, logout;
     TextView scheme, center, project, trade, batch, tradeAndBatch, time;
     LinearLayout subMenu;
     Boolean visib = false;
@@ -42,8 +45,8 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
         user.setOnClickListener(this);
         addPlan = (RelativeLayout) findViewById(R.id.add_plan_layout);
         addPlan.setOnClickListener(this);
-        taskPortion = (RelativeLayout) findViewById(R.id.task_layout);
-        taskPortion.setOnClickListener(this);
+        task = (RelativeLayout) findViewById(R.id.task_layout);
+        task.setOnClickListener(this);
         tracking = (RelativeLayout) findViewById(R.id.tracking_layout);
         tracking.setOnClickListener(this);
         controlPanel = (RelativeLayout) findViewById(R.id.control_panel_layout);
@@ -66,6 +69,26 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
 
         dashBoard = (RelativeLayout) findViewById(R.id.dash_layout);
         dashBoard.setOnClickListener(this);
+
+        logout = (RelativeLayout) findViewById(R.id.logout_layout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doLogout();
+            }
+        });
+    }
+
+    public void doLogout() {
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().clear().commit();
+//        TwitterUtil.getInstance().resetTwitterRequestToken();
+
+        Intent homeIntent = new Intent(this, SplashScreenActivity.class);
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(homeIntent);
+        this.finish();
     }
 
     private void initializeNavigationDrawer() {
@@ -140,7 +163,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(getApplicationContext(), AddPlanActivity.class);
             startActivity(intent);
         }
-        if (view == taskPortion){
+        if (view == task){
             Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
             startActivity(intent);
         }
