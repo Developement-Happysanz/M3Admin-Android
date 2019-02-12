@@ -18,6 +18,14 @@ public class M3AdminConstants {
     public static final String USER_FORGOT_PASSWORD = "apimain/forgot_password/";
 
 
+    //    PIA
+//    MOBILIZER LIST
+    public static final String GET_MOBILIZER_LIST = "apimain/pia_mob_list";
+
+
+    //    MOBILIZER LIST
+    public static final String GET_CENTER_LIST = "apimain/pia_center_list";
+
     //    TNSRLM
 //    PIA Creation URL
     public static final String CREATE_PIA = "apimain/create_pia";
@@ -37,6 +45,7 @@ public class M3AdminConstants {
 
     // PIA Profile
     public static final String KEY_PIA_PROFILE_ID = "pia_profile_id";
+    public static final String KEY_PIA_ID = "pia_id";
     public static final String KEY_PIA_PRN_NUMBER = "pia_prn_number";
     public static final String KEY_PIA_NAME = "pia_name";
     public static final String KEY_PIA_ADDRESS = "pia_address";
