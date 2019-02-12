@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
+import com.happysanz.m3admin.activity.piamodule.MobilizerActivity;
+import com.happysanz.m3admin.activity.piamodule.StudentsActivity;
 
 public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickListener {
     Toolbar toolbar;
@@ -25,6 +27,7 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
     private DrawerLayout mDrawerLayout;
     Context context;
     RelativeLayout pia, mobilizationPlan, tnsrlmStaff, profile, dashBoard, logout;
+    LinearLayout piaTnsrlm, centerTnsrlm, mobilizerTnsrlm, studentsTnsrlm, graph;
     Boolean visib = false;
     boolean doubleBackToExitPressedOnce = false;
 
@@ -56,6 +59,17 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
                 doLogout();
             }
         });
+
+        piaTnsrlm = findViewById(R.id.tnsrlm_pia_layout);
+        piaTnsrlm.setOnClickListener(this);
+        centerTnsrlm = findViewById(R.id.tnsrlm_center_layout);
+        centerTnsrlm.setOnClickListener(this);
+        mobilizerTnsrlm = findViewById(R.id.tnsrlm_mobilizer_layout);
+        mobilizerTnsrlm.setOnClickListener(this);
+        studentsTnsrlm = findViewById(R.id.tnsrlm_student_layout);
+        studentsTnsrlm.setOnClickListener(this);
+        graph = findViewById(R.id.graph_layout);
+        graph.setOnClickListener(this);
 
     }
 
@@ -164,5 +178,26 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
             Intent intent = new Intent(getApplicationContext(), TnsrlmDashboard.class);
             startActivity(intent);
         }
+        if (view == piaTnsrlm){
+            Intent intent = new Intent(getApplicationContext(), PiaActivity.class);
+            startActivity(intent);
+        }
+        if (view == centerTnsrlm){
+            Intent intent = new Intent(getApplicationContext(), MobilizationPlanActivity.class);
+            startActivity(intent);
+        }
+        if (view == mobilizerTnsrlm){
+            Intent intent = new Intent(getApplicationContext(), MobilizerActivity.class);
+            startActivity(intent);
+        }
+        if (view == studentsTnsrlm){
+            Intent intent = new Intent(getApplicationContext(), StudentsActivity.class);
+            startActivity(intent);
+        }
+        if (view == graph){
+            Intent intent = new Intent(getApplicationContext(), GraphActivity.class);
+            startActivity(intent);
+        }
+
     }
 }

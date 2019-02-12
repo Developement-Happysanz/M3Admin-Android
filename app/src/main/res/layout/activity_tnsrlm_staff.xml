@@ -16,20 +16,20 @@
             android:minHeight="60dp" />
 
         <ImageView
-            android:id="@+id/side_menu"
+            android:id="@+id/back_btn"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:minHeight="60dp"
             android:paddingStart="13dp"
             android:paddingEnd="13dp"
-            android:src="@drawable/ic_menu_button" />
+            android:src="@drawable/ic_arrow_back_white_24dp" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/side_menu"
+            android:layout_toRightOf="@+id/back_btn"
             android:gravity="center_vertical|left"
             android:minHeight="60dp"
             android:padding="5dp"

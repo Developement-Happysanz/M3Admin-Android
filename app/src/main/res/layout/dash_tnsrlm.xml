@@ -4,52 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<RelativeLayout-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content">-->
-
-    <!--<android.support.v7.widget.Toolbar-->
-    <!--android:id="@+id/toolbar_result"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="@color/blue"-->
-    <!--android:minHeight="60dp" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/side_menu"-->
-    <!--android:layout_width="50dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentLeft="true"-->
-    <!--android:minHeight="60dp"-->
-    <!--android:paddingStart="13dp"-->
-    <!--android:paddingEnd="13dp"-->
-    <!--android:src="@drawable/ic_menu_button" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/title"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_toRightOf="@+id/side_menu"-->
-    <!--android:gravity="center_vertical|left"-->
-    <!--android:minHeight="60dp"-->
-    <!--android:padding="5dp"-->
-    <!--android:text="Dashboard"-->
-    <!--android:textColor="@color/white"-->
-    <!--android:textSize="16sp"-->
-    <!--android:textStyle="bold" />-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/notification"-->
-    <!--android:layout_width="50dp"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:minHeight="60dp"-->
-    <!--android:paddingStart="13dp"-->
-    <!--android:paddingEnd="13dp"-->
-    <!--android:src="@drawable/ic_notification_bell" />-->
-
-    <!--</RelativeLayout>-->
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -65,7 +19,7 @@
                 android:background="@color/blue" />
 
             <LinearLayout
-                android:id="@+id/mobilizer_layout"
+                android:id="@+id/tnsrlm_pia_layout"
                 android:layout_width="match_parent"
                 android:layout_alignTop="@+id/top_bg"
                 android:layout_height="70dp"
@@ -93,9 +47,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/student_layout"
+                android:id="@+id/tnsrlm_center_layout"
                 android:layout_width="match_parent"
-                android:layout_below="@+id/mobilizer_layout"
+                android:layout_below="@+id/tnsrlm_pia_layout"
                 android:layout_height="70dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -121,9 +75,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/center_layout"
+                android:id="@+id/tnsrlm_mobilizer_layout"
                 android:layout_width="match_parent"
-                android:layout_below="@+id/student_layout"
+                android:layout_below="@+id/tnsrlm_center_layout"
                 android:layout_height="70dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -149,9 +103,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/trade_layout"
+                android:id="@+id/tnsrlm_student_layout"
                 android:layout_width="match_parent"
-                android:layout_below="@+id/center_layout"
+                android:layout_below="@+id/tnsrlm_mobilizer_layout"
                 android:layout_height="70dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
@@ -179,7 +133,7 @@
             <LinearLayout
                 android:id="@+id/graph_layout"
                 android:layout_width="match_parent"
-                android:layout_below="@+id/trade_layout"
+                android:layout_below="@+id/tnsrlm_student_layout"
                 android:layout_height="70dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
