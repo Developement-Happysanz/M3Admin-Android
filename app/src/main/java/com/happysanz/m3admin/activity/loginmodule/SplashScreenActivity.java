@@ -10,6 +10,7 @@ import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.MainActivity;
 import com.happysanz.m3admin.activity.piamodule.PiaDashboard;
 import com.happysanz.m3admin.activity.tnsrlmmodule.PiaActivity;
+import com.happysanz.m3admin.activity.tnsrlmmodule.TnsrlmDashboard;
 import com.happysanz.m3admin.utils.AppValidator;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 
@@ -27,9 +28,16 @@ public class SplashScreenActivity extends Activity {
             public void run() {
 
                 if (PreferenceStorage.getUserName(getApplicationContext()) != null && AppValidator.checkNullString(PreferenceStorage.getUserName(getApplicationContext()))) {
-                    Intent i = new Intent(SplashScreenActivity.this, PiaDashboard.class);
-                    startActivity(i);
-                    finish();
+                    if (PreferenceStorage.getUserType(getApplicationContext()).equalsIgnoreCase("1")) {
+                        Intent i = new Intent(SplashScreenActivity.this, TnsrlmDashboard.class);
+                        startActivity(i);
+                        finish();
+                    } else if (PreferenceStorage.getUserType(getApplicationContext()).equalsIgnoreCase("3")) {
+                        Intent i = new Intent(SplashScreenActivity.this, PiaDashboard.class);
+                        startActivity(i);
+                        finish();
+                    }
+
                 } else {
                     Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
                     startActivity(i);
