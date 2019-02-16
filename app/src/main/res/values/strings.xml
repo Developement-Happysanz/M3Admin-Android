@@ -11,6 +11,8 @@
 
     <!--General-->
     <string name="progress_loading">Loading&#8230;</string>
+    <string name="err_entry">Entry Invalid</string>
+    <string name="err_min_uniq_length">Unique number must be exactly 13 characters&#8230;</string>
 
     <!--Sign In -->
     <string name="err_username">Enter valid username</string>

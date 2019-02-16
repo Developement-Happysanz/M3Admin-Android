@@ -25,4 +25,12 @@ public class M3Validator {
             return true;
         }
     }
+
+    public static boolean checkUniqueNumLength(String mobile) {
+        if (mobile.length() == 13) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

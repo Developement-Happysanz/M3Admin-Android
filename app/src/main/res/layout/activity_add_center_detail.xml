@@ -40,103 +40,118 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <RelativeLayout
-            android:id="@+id/upload_layout"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/rect_border">
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/upload_layout"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_margin="20dp"
+                android:background="@drawable/rect_border">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_photoo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload Photo for Logo"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/center_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/upload_layout"
+                android:layout_margin="20dp"
+                android:hint="Center Name" />
+
+            <EditText
+                android:id="@+id/center_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/center_name"
+                android:layout_margin="20dp"
+                android:hint="Center Detail" />
+
+            <EditText
+                android:id="@+id/center_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/center_detail"
+                android:layout_margin="20dp"
+                android:hint="Center Address" />
 
             <LinearLayout
+                android:id="@+id/gallery_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/center_address"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_photoo" />
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Upload Photo for Logo"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/rect_border"
+                    android:drawableLeft="@drawable/ic_photo"
+                    android:drawablePadding="10dp"
+                    android:padding="15dp"
+                    android:text="Photos"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/rect_border"
+                    android:drawableLeft="@drawable/ic_video"
+                    android:drawablePadding="10dp"
+                    android:padding="15dp"
+                    android:text="Videos"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
+            <Button
+                android:id="@+id/save_center"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gallery_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:background="@color/blue"
+                android:text="Save"
+                android:textColor="@color/white" />
+
         </RelativeLayout>
 
-        <EditText
-            android:id="@+id/center_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:hint="Center Name"
-            android:layout_below="@+id/upload_layout"/>
-        <EditText
-            android:id="@+id/center_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:hint="Center Detail"
-            android:layout_below="@+id/center_name"/>
-
-        <LinearLayout
-            android:id="@+id/gallery_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:layout_below="@id/center_detail"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rect_border"
-                android:text="Photos"
-                android:layout_marginLeft="10dp"
-                android:drawablePadding="10dp"
-                android:textColor="@color/black"
-                android:layout_marginRight="20dp"
-                android:drawableLeft="@drawable/ic_photo"
-                android:padding="15dp"
-                android:textSize="20sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rect_border"
-                android:text="Videos"
-                android:layout_marginLeft="10dp"
-                android:drawablePadding="10dp"
-                android:textColor="@color/black"
-                android:drawableLeft="@drawable/ic_video"
-                android:padding="15dp"
-                android:textSize="20sp"/>
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/save_center"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:background="@color/blue"
-            android:textColor="@color/white"
-            android:text="Save"
-            android:layout_below="@id/gallery_layout"/>
-
-    </RelativeLayout>
+    </ScrollView>
 
 
 </LinearLayout>

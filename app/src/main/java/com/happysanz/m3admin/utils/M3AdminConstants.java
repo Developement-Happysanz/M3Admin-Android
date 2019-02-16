@@ -23,12 +23,34 @@ public class M3AdminConstants {
     public static final String GET_MOBILIZER_LIST = "apimain/pia_mob_list";
 
 
-    //    MOBILIZER LIST
-    public static final String GET_CENTER_LIST = "apimain/pia_center_list";
+    //    CENTER LIST
+    public static final String GET_CENTER_LIST = "apipia/center_list";
+
+    //    CREATE CENTER
+    public static final String CREATE_CENTER = "apipia/create_center";
+
+
+    //    TASK LIST
+    public static final String TASK_LIST = "apipia/list_task";
+
+    //    SCHEME LIST
+    public static final String SCHEME_LIST = "apipia/list_scheme";
+
+
+    //    TRADE LIST
+    public static final String TRADE_LIST = "apipia/list_trade";
+
+
+    //    TRADE LIST
+    public static final String ALL_STUDENTS = "apipia/list_students";
 
     //    TNSRLM
+
 //    PIA Creation URL
     public static final String CREATE_PIA = "apimain/create_pia";
+
+//    PIA Creation URL
+    public static final String PIA_LIST = "apimain/pia_list";
 
 
     //    Service Params
@@ -76,5 +98,13 @@ public class M3AdminConstants {
     public static final String PARAMS_ADDRESS = "address";
     public static final String PARAMS_PHONE = "phone";
     public static final String PARAMS_EMAIL = "email";
+
+    //    Create Pia params
+    public static final String PARAMS_MOB_ID = "mob_id";
+
+    //    Create Center params
+    public static final String PARAMS_CENTER_NAME = "center_name";
+    public static final String PARAMS_CENTER_ADDRESS = "center_address";
+    public static final String PARAMS_CENTER_INFO = "center_info";
 
 }

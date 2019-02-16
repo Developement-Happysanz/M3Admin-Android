@@ -3,10 +3,31 @@ package com.happysanz.m3admin.activity.piamodule;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.happysanz.m3admin.R;
+import com.happysanz.m3admin.helper.AlertDialogHelper;
+import com.happysanz.m3admin.helper.ProgressDialogHelper;
+import com.happysanz.m3admin.interfaces.DialogClickListener;
+import com.happysanz.m3admin.servicehelpers.ServiceHelper;
+import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
+import com.happysanz.m3admin.utils.M3AdminConstants;
+import com.happysanz.m3admin.utils.PreferenceStorage;
 
-public class AddCenterDetailActivity extends AppCompatActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static android.util.Log.d;
+
+public class AddCenterDetailActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
+    private static final String TAG = "TradeFragment";
+
+    private ServiceHelper serviceHelper;
+    private ProgressDialogHelper progressDialogHelper;
+    EditText centerName, centerDetail, centerAddress;
+    Button savedetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +41,95 @@ public class AddCenterDetailActivity extends AppCompatActivity {
             }
         });
 
+        serviceHelper = new ServiceHelper(this);
+        serviceHelper.setServiceListener(this);
+        progressDialogHelper = new ProgressDialogHelper(this);
+
+        centerName = findViewById(R.id.center_name);
+        centerDetail = findViewById(R.id.center_detail);
+        centerAddress = findViewById(R.id.center_address);
+        savedetails = findViewById(R.id.save_center);
+        savedetails.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View view) {
+        if (view == savedetails) {
+            sendCenterDetails();
+        }
+    }
+
+    private void sendCenterDetails() {
+        String cName = centerName.getText().toString();
+        String cDetail = centerDetail.getText().toString();
+        String cAddress = centerAddress.getText().toString();
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(M3AdminConstants.PARAMS_CENTER_NAME, cName);
+            jsonObject.put(M3AdminConstants.PARAMS_CENTER_ADDRESS, cAddress);
+            jsonObject.put(M3AdminConstants.PARAMS_CENTER_INFO, cDetail);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.CREATE_CENTER;
+        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onAlertPositiveClicked(int tag) {
+
+    }
+
+    @Override
+    public void onAlertNegativeClicked(int tag) {
+
+    }
+
+    private boolean validateSignInResponse(JSONObject response) {
+        boolean signInSuccess = false;
+        if ((response != null)) {
+            try {
+                String status = response.getString("status");
+                String msg = response.getString(M3AdminConstants.PARAM_MESSAGE);
+                d(TAG, "status val" + status + "msg" + msg);
+
+                if ((status != null)) {
+                    if (((status.equalsIgnoreCase("activationError")) || (status.equalsIgnoreCase("alreadyRegistered")) ||
+                            (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
+                        signInSuccess = false;
+                        d(TAG, "Show error dialog");
+                        AlertDialogHelper.showSimpleAlertDialog(this, msg);
+
+                    } else {
+                        signInSuccess = true;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return signInSuccess;
+    }
+
+
+    @Override
+    public void onResponse(JSONObject response) {
+        if (validateSignInResponse(response)){
+            AlertDialogHelper.showSimpleAlertDialog(this, "Center Created Successfully");
+        }
+    }
+
+    @Override
+    public void onError(String error) {
+
+    }
 }
