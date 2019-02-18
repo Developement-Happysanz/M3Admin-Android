@@ -43,47 +43,36 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:orientation="vertical">
 
-        <Spinner
-            android:id="@+id/center_spinner"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/ti_trade_title"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:spinnerMode="dialog">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
-        </Spinner>
+            <EditText
+                android:id="@+id/trade_title"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="30dp"
+                android:hint="Title"
+                android:singleLine="true" />
 
-        <Spinner
-            android:id="@+id/trade_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:spinnerMode="dialog">
-
-        </Spinner>
-
-        <Spinner
-            android:id="@+id/status_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:spinnerMode="dialog">
-
-        </Spinner>
+        </android.support.design.widget.TextInputLayout>
 
         <Button
+            android:id="@+id/save_trade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/blue"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="45dp"
             android:text="ok"
+            android:layout_gravity="center"
             android:textColor="@color/white" />
 
     </LinearLayout>

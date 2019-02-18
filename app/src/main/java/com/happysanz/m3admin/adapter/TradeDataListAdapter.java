@@ -70,8 +70,8 @@ public class TradeDataListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.trade_list_item, parent, false);
 
             holder = new ViewHolder();
-            holder.txtTradeId = (TextView) convertView.findViewById(R.id.txtTradeId);
-            holder.txtTradeName = (TextView) convertView.findViewById(R.id.txtTradeName);
+            holder.txtTradeId = (TextView) convertView.findViewById(R.id.text_trade_status);
+            holder.txtTradeName = (TextView) convertView.findViewById(R.id.text_trade_name);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -82,7 +82,7 @@ public class TradeDataListAdapter extends BaseAdapter {
         } else {
             Log.d("Event List Adapter", "getview pos called" + position);
         }
-        holder.txtTradeId.setText(tradeData.get(position).getId());
+        holder.txtTradeId.setText(tradeData.get(position).getStatus());
         holder.txtTradeName.setText(tradeData.get(position).getTradeName());
 
         return convertView;

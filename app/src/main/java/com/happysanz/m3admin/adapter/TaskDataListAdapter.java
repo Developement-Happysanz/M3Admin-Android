@@ -13,6 +13,7 @@ import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.bean.pia.TaskData;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class TaskDataListAdapter extends BaseAdapter {
 
@@ -27,6 +28,7 @@ public class TaskDataListAdapter extends BaseAdapter {
     public TaskDataListAdapter(Context context, ArrayList<TaskData> taskData) {
         this.context = context;
         this.taskData = taskData;
+        Collections.reverse(taskData);
         mSearching = false;
     }
 

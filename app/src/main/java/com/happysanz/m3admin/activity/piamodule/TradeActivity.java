@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -41,7 +42,8 @@ public class TradeActivity extends AppCompatActivity implements View.OnClickList
     protected boolean isLoadingForFirstTime = true;
     Handler mHandler = new Handler();
     int pageNumber = 0, totalCount = 0;
-    
+    ImageView addNewTrade;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,12 +63,16 @@ public class TradeActivity extends AppCompatActivity implements View.OnClickList
         loadMoreListView.setOnItemClickListener(this);
         tradeDataArrayList = new ArrayList<>();
         loadTrades();
-        
+        addNewTrade = findViewById(R.id.add_trade);
+        addNewTrade.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-
+        if(v == addNewTrade) {
+            Intent intent = new Intent(this, AddTradeActivity.class);
+            startActivityForResult(intent, 0);
+        }
     }
 
     @Override

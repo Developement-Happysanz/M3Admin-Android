@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -28,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static android.util.Log.d;
 
@@ -42,7 +44,7 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
     protected boolean isLoadingForFirstTime = true;
     Handler mHandler = new Handler();
     int pageNumber = 0, totalCount = 0;
-    private FloatingActionButton fabAddTask;
+    ImageView addNewTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,15 +64,16 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         loadMoreListView = findViewById(R.id.listView_task);
         loadMoreListView.setOnItemClickListener(this);
         taskDataArrayList = new ArrayList<>();
-//        fabAddTask = findViewById(R.id.fab_add_task);
-//        fabAddTask.setOnClickListener(this);
+        addNewTask = findViewById(R.id.add_task);
+        addNewTask.setOnClickListener(this);
+
         loadTask();
     }
 
     private void loadTask() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(M3AdminConstants.PARAMS_MOB_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
 
 
         } catch (JSONException e) {
@@ -84,15 +87,15 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v == fabAddTask) {
+        if (v == addNewTask) {
 
             startPersonDetailsActivity(0);
         }
     }
 
     public void startPersonDetailsActivity(long id) {
-//        Intent intent = new Intent(this, AddTaskActivity.class);
-//        startActivityForResult(intent, 0);
+        Intent intent = new Intent(this, AddTaskActivity.class);
+        startActivityForResult(intent, 0);
     }
 
     @Override
@@ -121,9 +124,9 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             taskData = taskDataArrayList.get(position);
         }
-//        Intent intent = new Intent(getActivity(), UpdateTaskActivity.class);
-//        intent.putExtra("eventObj", taskData);
-//        startActivity(intent);
+        Intent intent = new Intent(this, UpdateTaskActivity.class);
+        intent.putExtra("taskObj", taskData);
+        startActivity(intent);
     }
 
     @Override

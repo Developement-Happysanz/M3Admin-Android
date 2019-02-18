@@ -69,8 +69,12 @@ public class MobilizerListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.mobilizer_list_item, parent, false);
 
             holder = new ViewHolder();
-            holder.txtClassTestTitle = (TextView) convertView.findViewById(R.id.txt_mobilizer_name);
-            holder.txtClassTestTitle.setText(mobilizers.get(position).getName());
+            holder.txtMobiliserName = (TextView) convertView.findViewById(R.id.txt_mobilizer_name);
+            holder.txtMobiliserName.setText(mobilizers.get(position).getName());
+            holder.txtTypeName = (TextView) convertView.findViewById(R.id.txt_user_type);
+            holder.txtTypeName.setText(mobilizers.get(position).getUser_type_name());
+            holder.txtStatus = (TextView) convertView.findViewById(R.id.txt_mobilizer_status);
+            holder.txtStatus.setText(mobilizers.get(position).getStatus());
 //          convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -113,7 +117,7 @@ public class MobilizerListAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
-        public TextView txtClassTestTitle, txtClassTestSubject, txtClassTestDate, txtClassTestType;
+        public TextView txtMobiliserName, txtStatus, txtTypeName;
     }
 
     public boolean ismSearching() {

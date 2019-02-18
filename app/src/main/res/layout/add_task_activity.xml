@@ -33,7 +33,7 @@
             android:gravity="center_vertical|left"
             android:minHeight="60dp"
             android:padding="5dp"
-            android:text="Plan"
+            android:text="Add Task"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -46,7 +46,7 @@
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/ti_plan_title"
+            android:id="@+id/ti_task_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
@@ -54,19 +54,19 @@
             android:paddingRight="10dp">
 
             <EditText
-                android:id="@+id/plan_title"
+                android:id="@+id/task_title"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="40dp"
-                android:layout_marginRight="30dp"
-                android:hint="Title"
+                android:layout_marginRight="10dp"
+                android:hint="Task Title"
                 android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/ti_plan_link"
+            android:id="@+id/ti_task_link"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
@@ -74,19 +74,44 @@
             android:paddingRight="10dp">
 
             <EditText
-                android:id="@+id/plan_link"
+                android:id="@+id/task_link"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:hint="Link"
-                android:inputType="textPassword"
-                android:singleLine="true" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="Task Details" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/spn_mobilizer"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/ti_task_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <EditText
+                android:id="@+id/task_date"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="Task Date" />
 
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/save_center"
+            android:id="@+id/save_task"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

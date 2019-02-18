@@ -19,6 +19,10 @@ public class TradeData implements Serializable {
     @Expose
     private String tradeName;
 
+    @SerializedName("status")
+    @Expose
+    private String status;
+
     /**
      * @return The id
      */
@@ -45,6 +49,20 @@ public class TradeData implements Serializable {
      */
     public void setTradeName(String tradeName) {
         this.tradeName = tradeName;
+    }
+
+    /**
+     * @return The status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status The status
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }

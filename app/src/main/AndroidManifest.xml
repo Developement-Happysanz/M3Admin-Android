@@ -225,6 +225,19 @@
             android:windowSoftInputMode="stateHidden"/>
 
         <activity
+            android:name=".activity.piamodule.AddTaskActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".activity.piamodule.UpdateTaskActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
             android:name=".activity.piamodule.TrackingActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
