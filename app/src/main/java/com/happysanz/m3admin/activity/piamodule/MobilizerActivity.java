@@ -1,5 +1,6 @@
 package com.happysanz.m3admin.activity.piamodule;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +42,7 @@ public class MobilizerActivity extends AppCompatActivity implements IServiceList
     ArrayList<Mobilizer> mobilizerArrayList;
     MobilizerListAdapter mobilizerListAdapter;
     ListView loadMoreListView;
+    Mobilizer pia;
 
 
     @Override
@@ -59,7 +61,15 @@ public class MobilizerActivity extends AppCompatActivity implements IServiceList
         mobilizerArrayList = new ArrayList<>();
         loadMoreListView = (ListView) findViewById(R.id.list_mobilizers);
         loadMoreListView.setOnItemClickListener(this);
-        callGetClassTestService();
+        Intent intent = getIntent();
+        if (intent.hasExtra("eventObj")) {
+            pia = (Mobilizer) intent.getSerializableExtra("eventObj");
+            PreferenceStorage.saveUserId(this, pia.getUser_id());
+            callGetClassTestService();
+        } else {
+            callGetClassTestService();
+        }
+
     }
 
     @Override

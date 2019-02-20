@@ -266,6 +266,27 @@
             android:windowSoftInputMode="stateHidden"/>
 
         <activity
+            android:name=".activity.tnsrlmmodule.PiaCenterActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.tnsrlmmodule.PiaMobilizerActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.tnsrlmmodule.PiaProspectsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
             android:name=".activity.tnsrlmmodule.AddNewPiaActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

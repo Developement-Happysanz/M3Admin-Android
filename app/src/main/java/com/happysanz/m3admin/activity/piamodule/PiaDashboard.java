@@ -189,7 +189,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             }
         }
         if (view == prospect){
-            Intent intent = new Intent(getApplicationContext(), ProspectsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), StudentsActivity.class);
             startActivity(intent);
         }
         if (view == user){

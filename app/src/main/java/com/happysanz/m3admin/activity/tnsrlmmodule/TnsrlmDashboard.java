@@ -18,8 +18,10 @@ import android.widget.Toast;
 
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
+import com.happysanz.m3admin.activity.piamodule.CenterActivity;
 import com.happysanz.m3admin.activity.piamodule.MobilizerActivity;
 import com.happysanz.m3admin.activity.piamodule.StudentsActivity;
+import com.happysanz.m3admin.activity.piamodule.UserActivity;
 
 public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickListener {
     Toolbar toolbar;
@@ -167,7 +169,7 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
             startActivity(intent);
         }
         if (view == tnsrlmStaff){
-            Intent intent = new Intent(getApplicationContext(), TnsrlmStaffActivity.class);
+            Intent intent = new Intent(getApplicationContext(), UserActivity.class);
             startActivity(intent);
         }
         if (view == profile){
@@ -183,15 +185,15 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
             startActivity(intent);
         }
         if (view == centerTnsrlm){
-            Intent intent = new Intent(getApplicationContext(), MobilizationPlanActivity.class);
+            Intent intent = new Intent(getApplicationContext(), PiaCenterActivity.class);
             startActivity(intent);
         }
         if (view == mobilizerTnsrlm){
-            Intent intent = new Intent(getApplicationContext(), MobilizerActivity.class);
+            Intent intent = new Intent(getApplicationContext(), PiaMobilizerActivity.class);
             startActivity(intent);
         }
         if (view == studentsTnsrlm){
-            Intent intent = new Intent(getApplicationContext(), StudentsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), PiaProspectsActivity.class);
             startActivity(intent);
         }
         if (view == graph){

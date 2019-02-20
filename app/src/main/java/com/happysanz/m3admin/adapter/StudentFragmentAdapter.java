@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.happysanz.m3admin.fragments.AllProspectsFragment;
 import com.happysanz.m3admin.fragments.ConfirmedProspectsFragment;
-import com.happysanz.m3admin.fragments.SelectedProspectsFragment;
+import com.happysanz.m3admin.fragments.RejectedProspectsFragment;
 
 public class StudentFragmentAdapter extends FragmentStatePagerAdapter {
 
@@ -20,9 +20,9 @@ public class StudentFragmentAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new AllProspectsFragment();
             case 1:
-                return new ConfirmedProspectsFragment();
+                return new RejectedProspectsFragment();
             case 2:
-                return new SelectedProspectsFragment();
+                return new ConfirmedProspectsFragment();
         }
         return null;
     }

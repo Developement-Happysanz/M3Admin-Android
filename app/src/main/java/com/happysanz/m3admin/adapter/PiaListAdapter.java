@@ -10,29 +10,28 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.happysanz.m3admin.R;
-import com.happysanz.m3admin.bean.pia.TaskData;
+import com.happysanz.m3admin.bean.pia.Mobilizer;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
-public class TaskDataListAdapter extends BaseAdapter {
+public class PiaListAdapter extends BaseAdapter {
 
     //    private final Transformation transformation;
     private Context context;
-    private ArrayList<TaskData> taskData;
+    private ArrayList<Mobilizer> mobilizers;
     private boolean mSearching = false;
     private boolean mAnimateSearch = false;
     private ArrayList<Integer> mValidSearchIndices = new ArrayList<Integer>();
 
-
-    public TaskDataListAdapter(Context context, ArrayList<TaskData> taskData) {
+    public PiaListAdapter(Context context, ArrayList<Mobilizer> mobilizers) {
         this.context = context;
-        this.taskData = taskData;
-        Collections.reverse(taskData);
+        this.mobilizers = mobilizers;
+        Collections.reverse(mobilizers);
+//        transformation = new RoundedTransformationBuilder()
+//                .cornerRadiusDp(0)
+//                .oval(false)
+//                .build();
         mSearching = false;
     }
 
@@ -43,18 +42,17 @@ public class TaskDataListAdapter extends BaseAdapter {
                 mAnimateSearch = true;
             }
             return mValidSearchIndices.size();
-
         } else {
-            return taskData.size();
+            return mobilizers.size();
         }
     }
 
     @Override
     public Object getItem(int position) {
         if (mSearching) {
-            return taskData.get(mValidSearchIndices.get(position));
+            return mobilizers.get(mValidSearchIndices.get(position));
         } else {
-            return taskData.get(position);
+            return mobilizers.get(position);
         }
     }
 
@@ -65,43 +63,27 @@ public class TaskDataListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-
+        PiaListAdapter.ViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            convertView = inflater.inflate(R.layout.task_list_item, parent, false);
+            convertView = inflater.inflate(R.layout.pia_list_item, parent, false);
 
-            holder = new ViewHolder();
-            holder.txtTaskId = (TextView) convertView.findViewById(R.id.text_task_id);
-            holder.txtTaskTitle = (TextView) convertView.findViewById(R.id.text_task_title);
-            holder.txtTaskDescription = (TextView) convertView.findViewById(R.id.text_task_description);
-            holder.txtTaskDate = (TextView) convertView.findViewById(R.id.task_date);
-            convertView.setTag(holder);
+            holder = new PiaListAdapter.ViewHolder();
+            holder.txtPiaName = (TextView) convertView.findViewById(R.id.txt_pia_name);
+            holder.txtPiaName.setText(mobilizers.get(position).getName());
+            holder.txtSNo = (TextView) convertView.findViewById(R.id.txt_user_id);
+            holder.txtSNo.setText(""+(position+1));
+
+//          convertView.setTag(holder);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            holder = (PiaListAdapter.ViewHolder) convertView.getTag();
         }
 
         if (mSearching) {
             position = mValidSearchIndices.get(position);
+
         } else {
             Log.d("Event List Adapter", "getview pos called" + position);
-        }
-        holder.txtTaskId.setText(taskData.get(position).getId());
-        holder.txtTaskTitle.setText(taskData.get(position).getTaskTitle());
-        holder.txtTaskDescription.setText(taskData.get(position).getTaskDescription());
-        String start = taskData.get(position).getCreated_at();
-        try {
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = formatter.parse(start);
-            SimpleDateFormat sent_date = new SimpleDateFormat("dd-MM-yyyy");
-            String sent_date_name = sent_date.format(date.getTime());
-            if (start != null) {
-                holder.txtTaskDate.setText(sent_date_name);
-            } else {
-                holder.txtTaskDate.setText("N/A");
-            }
-        } catch (final ParseException e) {
-            e.printStackTrace();
         }
 
         return convertView;
@@ -112,10 +94,10 @@ public class TaskDataListAdapter extends BaseAdapter {
         mAnimateSearch = false;
         Log.d("EventListAdapter", "serach for event" + eventName);
         mValidSearchIndices.clear();
-        for (int i = 0; i < taskData.size(); i++) {
-            String classStudent = taskData.get(i).getTaskTitle();
-            if ((classStudent != null) && !(classStudent.isEmpty())) {
-                if (classStudent.toLowerCase().contains(eventName.toLowerCase())) {
+        for (int i = 0; i < mobilizers.size(); i++) {
+            String homeWorkTitle = mobilizers.get(i).getName();
+            if ((homeWorkTitle != null) && !(homeWorkTitle.isEmpty())) {
+                if (homeWorkTitle.toLowerCase().contains(eventName.toLowerCase())) {
                     mValidSearchIndices.add(i);
                 }
             }
@@ -134,7 +116,7 @@ public class TaskDataListAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
-        public TextView txtTaskId, txtTaskTitle, txtTaskDescription, txtTaskDate;
+        public TextView txtPiaName, txtSNo;
     }
 
     public boolean ismSearching() {

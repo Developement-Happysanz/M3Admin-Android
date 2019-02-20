@@ -15,7 +15,7 @@ import com.squareup.picasso.Transformation;
 public class CenterDetailActivity extends AppCompatActivity {
 
     Centers centers;
-    ImageView centerBanner;
+    ImageView centerBanner, img1, img2, img3;
     TextView centerTitle, CenterInfo;
 
     @Override
@@ -31,6 +31,9 @@ public class CenterDetailActivity extends AppCompatActivity {
         });
         centers = (Centers) getIntent().getSerializableExtra("cent");
         centerBanner = findViewById(R.id.center_logo);
+        img1 = findViewById(R.id.img_one);
+        img2 = findViewById(R.id.img_two);
+        img3 = findViewById(R.id.img_three);
         CenterInfo = findViewById(R.id.center_detail);
         centerTitle = findViewById(R.id.center_title);
         centerTitle.setText(centers.getCenter_name());

@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-public class ConfirmedProspectsFragment extends Fragment implements AdapterView.OnItemClickListener, IServiceListener {
+public class RejectedProspectsFragment extends Fragment implements AdapterView.OnItemClickListener, IServiceListener {
     private View rootView;
     private static final String TAG = AllProspectsFragment.class.getName();
     protected ListView loadMoreListView;
@@ -49,7 +49,7 @@ public class ConfirmedProspectsFragment extends Fragment implements AdapterView.
     List<String> lsClassList = new ArrayList<String>();
     String set3, AM_PM = "0";
 
-    public ConfirmedProspectsFragment() {
+    public RejectedProspectsFragment() {
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ConfirmedProspectsFragment extends Fragment implements AdapterView.
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getActivity()));
-            jsonObject.put(M3AdminConstants.PARAMS_TASK_STATUS, "Confirmed");
+            jsonObject.put(M3AdminConstants.PARAMS_TASK_STATUS, "Rejected");
 
         } catch (JSONException e) {
             e.printStackTrace();

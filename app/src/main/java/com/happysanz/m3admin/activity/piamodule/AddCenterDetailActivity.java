@@ -3,6 +3,7 @@ package com.happysanz.m3admin.activity.piamodule;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +14,9 @@ import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
 import com.happysanz.m3admin.servicehelpers.ServiceHelper;
 import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
+import com.happysanz.m3admin.utils.CommonUtils;
 import com.happysanz.m3admin.utils.M3AdminConstants;
+import com.happysanz.m3admin.utils.M3Validator;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 
 import org.json.JSONException;
@@ -63,20 +66,51 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
         String cName = centerName.getText().toString();
         String cDetail = centerDetail.getText().toString();
         String cAddress = centerAddress.getText().toString();
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
-            jsonObject.put(M3AdminConstants.PARAMS_CENTER_NAME, cName);
-            jsonObject.put(M3AdminConstants.PARAMS_CENTER_ADDRESS, cAddress);
-            jsonObject.put(M3AdminConstants.PARAMS_CENTER_INFO, cDetail);
+        if (CommonUtils.isNetworkAvailable(getApplicationContext())) {
+            if (validateFields()) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+                    jsonObject.put(M3AdminConstants.PARAMS_CENTER_NAME, cName);
+                    jsonObject.put(M3AdminConstants.PARAMS_CENTER_ADDRESS, cAddress);
+                    jsonObject.put(M3AdminConstants.PARAMS_CENTER_INFO, cDetail);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+                String url = M3AdminConstants.BUILD_URL + M3AdminConstants.CREATE_CENTER;
+                serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+            }
+        } else {
+            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection available");
         }
 
-        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.CREATE_CENTER;
-        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+    }
+
+    private boolean validateFields() {
+        if (!M3Validator.checkNullString(this.centerName.getText().toString().trim())) {
+            centerName.setError(getString(R.string.empty_entry));
+            requestFocus(centerName);
+            return false;
+        } else if (!M3Validator.checkNullString(this.centerDetail.getText().toString().trim())) {
+            centerDetail.setError(getString(R.string.empty_entry));
+            requestFocus(centerDetail);
+            return false;
+        } else if (!M3Validator.checkNullString(this.centerAddress.getText().toString().trim())) {
+            centerAddress.setError(getString(R.string.empty_entry));
+            requestFocus(centerAddress);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
     }
 
     @Override
@@ -123,8 +157,11 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onResponse(JSONObject response) {
+        progressDialogHelper.hideProgressDialog();
         if (validateSignInResponse(response)){
             AlertDialogHelper.showSimpleAlertDialog(this, "Center Created Successfully");
+
+            finish();
         }
     }
 

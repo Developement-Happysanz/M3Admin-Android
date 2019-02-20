@@ -33,7 +33,7 @@
             android:gravity="center_vertical|left"
             android:minHeight="60dp"
             android:padding="5dp"
-            android:text="Project"
+            android:text="Project Time"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -42,6 +42,7 @@
 
 
     <DatePicker
+        android:id="@+id/start_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:calendarViewShown="false"
@@ -50,6 +51,7 @@
     </DatePicker>
 
     <DatePicker
+        android:id="@+id/end_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:calendarViewShown="false"

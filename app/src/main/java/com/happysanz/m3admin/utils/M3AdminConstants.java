@@ -44,8 +44,11 @@ public class M3AdminConstants {
     public static final String CREATE_TRADE= "apipia/create_trade";
 
 
-    //    TRADE LIST
+    //    PROSPECT LIST
     public static final String ALL_STUDENTS = "apipia/list_students";
+
+    //    PROSPECT LIST
+    public static final String STUDENTS_LIST_STATUS = "apipia/list_students_status";
 
 
     //    USER LIST
@@ -57,6 +60,9 @@ public class M3AdminConstants {
     //    TASK UPDATE
     public static final String TASK_UPDATE = "apipia/update_task";
 
+    //    TASK UPDATE
+    public static final String PROJECT_TIME = "apipia/project_period";
+
 
     //    Task add params
     public static final String PARAMS_TASK_TITLE = "task_title";
@@ -66,7 +72,7 @@ public class M3AdminConstants {
     public static final String PARAMS_TASK_STATUS = "status";
 
     //    Task add params
-    public static final String PARAMS_TRADE_TITLE = "trade_title";
+    public static final String PARAMS_TRADE_TITLE = "trade_name";
 
     //    TNSRLM
 

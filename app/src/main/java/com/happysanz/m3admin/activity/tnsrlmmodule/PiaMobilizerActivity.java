@@ -12,13 +12,10 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.piamodule.CenterActivity;
-import com.happysanz.m3admin.adapter.MobilizerListAdapter;
+import com.happysanz.m3admin.activity.piamodule.MobilizerActivity;
 import com.happysanz.m3admin.adapter.PiaListAdapter;
-import com.happysanz.m3admin.adapter.TradeDataListAdapter;
 import com.happysanz.m3admin.bean.pia.Mobilizer;
 import com.happysanz.m3admin.bean.pia.MobilizerList;
-import com.happysanz.m3admin.bean.pia.TradeData;
-import com.happysanz.m3admin.bean.pia.TradeDataList;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -34,7 +31,7 @@ import java.util.ArrayList;
 
 import static android.util.Log.d;
 
-public class PiaActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
+public class PiaMobilizerActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
 
     private static final String TAG = PiaActivity.class.getName();
 
@@ -183,9 +180,9 @@ public class PiaActivity extends AppCompatActivity implements View.OnClickListen
         } else {
             piaData = tradeDataArrayList.get(position);
         }
-//        Intent intent = new Intent(this, CenterActivity.class);
-//        intent.putExtra("eventObj", piaData);
-//        startActivity(intent);
+        Intent intent = new Intent(this, MobilizerActivity.class);
+        intent.putExtra("eventObj", piaData);
+        startActivity(intent);
     }
 
 }

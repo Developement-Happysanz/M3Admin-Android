@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -14,6 +15,7 @@ import com.happysanz.m3admin.adapter.PiaCenterListAdapter;
 import com.happysanz.m3admin.adapter.TradeDataListAdapter;
 import com.happysanz.m3admin.bean.pia.Centers;
 import com.happysanz.m3admin.bean.pia.CentersList;
+import com.happysanz.m3admin.bean.pia.Mobilizer;
 import com.happysanz.m3admin.bean.pia.TradeData;
 import com.happysanz.m3admin.bean.pia.TradeDataList;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
@@ -31,19 +33,21 @@ import java.util.ArrayList;
 
 import static android.util.Log.d;
 
-public class CenterActivity extends AppCompatActivity implements  IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
+public class CenterActivity extends AppCompatActivity implements  IServiceListener, DialogClickListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
 
     private static final String TAG = "TradeFragment";
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
     ListView loadMoreListView;
+    Mobilizer pia;
     PiaCenterListAdapter piaCenterListAdapter;
     ArrayList<Centers> centersArrayList;
     protected boolean isLoadingForFirstTime = true;
     Handler mHandler = new Handler();
     int pageNumber = 0, totalCount = 0;
-
+    ImageView add;
+    Boolean hasExtra = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,8 @@ public class CenterActivity extends AppCompatActivity implements  IServiceListen
                 finish();
             }
         });
+        add = findViewById(R.id.add_center_detail);
+        add.setOnClickListener(this);
 
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
@@ -63,8 +69,29 @@ public class CenterActivity extends AppCompatActivity implements  IServiceListen
         loadMoreListView = findViewById(R.id.center_list);
         loadMoreListView.setOnItemClickListener(this);
         centersArrayList = new ArrayList<>();
-        loadCenters();
 
+        Intent intent = getIntent();
+        if (intent.hasExtra("eventObj")) {
+            pia = (Mobilizer) intent.getSerializableExtra("eventObj");
+            loadCentersForPia();
+        } else {
+            loadCenters();
+        }
+
+    }
+
+    private void loadCentersForPia() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(M3AdminConstants.KEY_USER_ID, pia.getUser_id());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.GET_CENTER_LIST;
+        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 
     private void loadCenters() {
@@ -171,5 +198,13 @@ public class CenterActivity extends AppCompatActivity implements  IServiceListen
         Intent intent = new Intent(this, CenterDetailActivity.class);
         intent.putExtra("cent", centers);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view == add){
+            Intent intent = new Intent(this, AddCenterDetailActivity.class);
+            startActivity(intent);
+        }
     }
 }
