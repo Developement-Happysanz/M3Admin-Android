@@ -76,6 +76,7 @@ public class TaskDataListAdapter extends BaseAdapter {
             holder.txtTaskTitle = (TextView) convertView.findViewById(R.id.text_task_title);
             holder.txtTaskDescription = (TextView) convertView.findViewById(R.id.text_task_description);
             holder.txtTaskDate = (TextView) convertView.findViewById(R.id.task_date);
+            holder.txtTaskAssignedTo = (TextView) convertView.findViewById(R.id.text_task_assigned);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -89,9 +90,10 @@ public class TaskDataListAdapter extends BaseAdapter {
         holder.txtTaskId.setText(taskData.get(position).getId());
         holder.txtTaskTitle.setText(taskData.get(position).getTaskTitle());
         holder.txtTaskDescription.setText(taskData.get(position).getTaskDescription());
-        String start = taskData.get(position).getCreated_at();
+        holder.txtTaskAssignedTo.setText("Assigned To: "+taskData.get(position).getAssigned_to());
+        String start = taskData.get(position).getTaskDate();
         try {
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = formatter.parse(start);
             SimpleDateFormat sent_date = new SimpleDateFormat("dd-MM-yyyy");
             String sent_date_name = sent_date.format(date.getTime());
@@ -134,7 +136,7 @@ public class TaskDataListAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
-        public TextView txtTaskId, txtTaskTitle, txtTaskDescription, txtTaskDate;
+        public TextView txtTaskId, txtTaskTitle, txtTaskDescription, txtTaskDate, txtTaskAssignedTo;
     }
 
     public boolean ismSearching() {

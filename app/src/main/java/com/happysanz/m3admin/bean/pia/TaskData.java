@@ -35,21 +35,9 @@ public class TaskData implements Serializable {
     @Expose
     private String status;
 
-    @SerializedName("created_by")
+    @SerializedName("assigned_to")
     @Expose
-    private String created_by;
-
-    @SerializedName("created_at")
-    @Expose
-    private String created_at;
-
-    @SerializedName("updated_by")
-    @Expose
-    private String updated_by;
-
-    @SerializedName("updated_at")
-    @Expose
-    private String updated_at;
+    private String assigned_to;
 
     /**
      * @return The id
@@ -150,58 +138,17 @@ public class TaskData implements Serializable {
     }
 
     /**
-     * @return The created_at
+     * @return The assigned_to
      */
-    public String getCreated_at() {
-        return created_at;
+    public String getAssigned_to() {
+        return assigned_to;
     }
 
     /**
-     * @param created_at The created_at
+     * @param assigned_to The assigned_to
      */
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+    public void setAssigned_to(String assigned_to) {
+        this.assigned_to = assigned_to;
     }
 
-    /**
-     * @return The created_by
-     */
-    public String getCreated_by() {
-        return created_by;
-    }
-
-    /**
-     * @param created_by The created_by
-     */
-    public void setCreated_by(String created_by) {
-        this.created_by = created_by;
-    }
-
-    /**
-     * @return The updated_at
-     */
-    public String getUpdated_at() {
-        return updated_at;
-    }
-
-    /**
-     * @param updated_at The updated_at
-     */
-    public void setUpdated_at(String updated_at) {
-        this.updated_at = updated_at;
-    }
-
-    /**
-     * @return The updated_by
-     */
-    public String getUpdated_by() {
-        return updated_by;
-    }
-
-    /**
-     * @param updated_by The updated_by
-     */
-    public void setUpdated_by(String updated_by) {
-        this.updated_by = updated_by;
-    }
 }

@@ -1,12 +1,15 @@
 package com.happysanz.m3admin.activity.piamodule;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.happysanz.m3admin.R;
+import com.happysanz.m3admin.activity.tnsrlmmodule.AddNewPiaActivity;
 import com.happysanz.m3admin.adapter.StudentFragmentAdapter;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -19,12 +22,21 @@ public class StudentsActivity extends AppCompatActivity implements IServiceListe
 
     ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
+    ImageView addNewPia;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_students);
+        addNewPia = (ImageView) findViewById(R.id.add_prospect);
+        addNewPia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SelectAddCandidateMethod.class);
+                startActivity(intent);
+            }
+        });
 
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -40,6 +40,14 @@ public class M3AdminConstants {
     //    TRADE LIST
     public static final String TRADE_LIST = "apipia/list_trade";
 
+    //    CENTER GALLERY LIST
+    public static final String VIEW_GALLERY = "apipia/center_gallery";
+
+    public static final String ASSETS_URL_LOGO = "assets/center/logo/";
+
+
+    public static final String VIEW_VIDEO_GALLERY = "apipia/center_videos";
+
     //    TRADE LIST
     public static final String CREATE_TRADE= "apipia/create_trade";
 
@@ -54,6 +62,9 @@ public class M3AdminConstants {
     //    USER LIST
     public static final String USER_LIST = "apipia/user_list";
 
+    //    Staff LIST
+    public static final String TNSRLM_STAFF_LIST = "apimain/user_list";
+
     //    TASK ADD
     public static final String TASK_ADD = "apipia/add_task";
 
@@ -62,6 +73,9 @@ public class M3AdminConstants {
 
     //    TASK UPDATE
     public static final String PROJECT_TIME = "apipia/project_period";
+
+    //    TASK UPDATE
+    public static final String ADD_CANDIDATE = "apipia/add_student";
 
 
     //    Task add params
@@ -73,6 +87,9 @@ public class M3AdminConstants {
 
     //    Task add params
     public static final String PARAMS_TRADE_TITLE = "trade_name";
+
+    public static final String UPLOAD_CANDIDATE_PIC = "student_picupload/";
+
 
     //    TNSRLM
 
@@ -108,6 +125,12 @@ public class M3AdminConstants {
     public static final String KEY_FCM_ID = "fcm_id";
 
 
+    public static final String KEY_AADHAAR = "aadhaar_action";
+
+
+    public static final String PARAMS_CENTER_ID = "center_id";
+
+
     // Alert Dialog Constants
     public static String ALERT_DIALOG_TITLE = "alertDialogTitle";
     public static String ALERT_DIALOG_MESSAGE = "alertDialogMessage";
@@ -136,5 +159,41 @@ public class M3AdminConstants {
     public static final String PARAMS_CENTER_NAME = "center_name";
     public static final String PARAMS_CENTER_ADDRESS = "center_address";
     public static final String PARAMS_CENTER_INFO = "center_info";
+
+
+    //    Add candidate params
+    public static final String PARAMS_HAVE_AADHAAR_CARD = "have_aadhaar_card";
+    public static final String PARAMS_AADHAAR_CARD_NUMBER = "aadhaar_card_number";
+    public static final String PARAMS_SEX = "sex";
+    public static final String PARAMS_DOB = "dob";
+    public static final String PARAMS_AGE = "age";
+    public static final String PARAMS_NATIONALITY = "nationality";
+    public static final String PARAMS_RELIGION = "religion";
+    public static final String PARAMS_COMMUNITY_CLASS = "community_class";
+    public static final String PARAMS_COMMUNITY = "community";
+    public static final String PARAMS_FATHER_NAME = "father_name";
+    public static final String PARAMS_MOTHER_NAME = "mother_name";
+    public static final String PARAMS_MOBILE = "mobile";
+    public static final String PARAMS_SEC_MOBILE = "sec_mobile";
+    public static final String PARAMS_STATE = "state";
+    public static final String PARAMS_CITY = "city";
+    public static final String PARAMS_MOTHER_TONGUE = "mother_tongue";
+    public static final String PARAMS_DISABILITY = "disability";
+    public static final String PARAMS_BLOOD_GROUP = "blood_group";
+    public static final String PARAMS_ADMISSION_DATE = "admission_date";
+    public static final String PARAMS_ADMISSION_LOCATION = "admission_location";
+    public static final String PARAMS_ADMISSION_LATITUDE = "admission_latitude ";
+    public static final String PARAMS_ADMISSION_LONGITUDE = "admission_longitude";
+    public static final String PARAMS_PREFERRED_TRADE = "preferred_trade";
+    public static final String PARAMS_PREFERRED_TIMING = "preferred_timing";
+    public static final String PARAMS_LAST_INSTITUTE = "last_institute";
+    public static final String PARAMS_LAST_STUDIED = "last_studied";
+    public static final String PARAMS_QUALIFIED_PROMOTION = "qualified_promotion";
+    public static final String PARAMS_TRANSFER_CERTIFICATE = "transfer_certificate";
+    public static final String PARAMS_STATUS = "status";
+    public static final String PARAMS_CREATED_BY = "created_by";
+    public static final String PARAMS_CREATED_AT = "created_at";
+    public static final String PARAMS_PIA_ID = "pia_id";
+
 
 }

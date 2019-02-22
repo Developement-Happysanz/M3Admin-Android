@@ -245,6 +245,40 @@
             android:windowSoftInputMode="stateHidden"/>
 
         <activity
+            android:name=".activity.piamodule.AddCandidateActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".activity.piamodule.SelectAddCandidateMethod"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.ZoomImageActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.aadhaar.HomeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.piamodule.aadhaar.SavedAadhaarCardActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
             android:name=".activity.piamodule.UserActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -274,6 +308,13 @@
 
         <activity
             android:name=".activity.tnsrlmmodule.PiaMobilizerActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity
+            android:name=".activity.tnsrlmmodule.PiaDetailsActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarLogin"

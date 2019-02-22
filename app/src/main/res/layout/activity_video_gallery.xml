@@ -53,6 +53,8 @@
     <ListView
         android:id="@+id/video_list"
         android:layout_width="match_parent"
+        android:divider="@color/white"
+        android:dividerHeight="0dp"
         android:layout_height="match_parent">
 
     </ListView>

@@ -169,7 +169,7 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
             startActivity(intent);
         }
         if (view == tnsrlmStaff){
-            Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+            Intent intent = new Intent(getApplicationContext(), TnsrlmStaffActivity.class);
             startActivity(intent);
         }
         if (view == profile){

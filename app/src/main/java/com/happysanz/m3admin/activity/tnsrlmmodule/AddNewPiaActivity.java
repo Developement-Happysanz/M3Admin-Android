@@ -165,19 +165,27 @@ public class AddNewPiaActivity extends AppCompatActivity implements IServiceList
             requestFocus(uNumber);
             return false;
         } else if (!M3Validator.checkNullString(this.piaName.getText().toString().trim())) {
-            piaName.setError(getString(R.string.err_entry));
+            piaName.setError(getString(R.string.empty_entry));
             requestFocus(piaName);
             return false;
         }else if (!M3Validator.checkNullString(this.piaAddress.getText().toString().trim())) {
-            piaAddress.setError(getString(R.string.err_entry));
+            piaAddress.setError(getString(R.string.empty_entry));
             requestFocus(piaAddress);
             return false;
         }else if (!M3Validator.checkNullString(this.piaEmail.getText().toString().trim())) {
-            piaEmail.setError(getString(R.string.err_entry));
+            piaEmail.setError(getString(R.string.empty_entry));
             requestFocus(piaEmail);
             return false;
+        }else if (!M3Validator.isEmailValid(this.piaEmail.getText().toString().trim())) {
+            piaEmail.setError(getString(R.string.err_mail));
+            requestFocus(piaEmail);
+            return false;
+        }else if (!M3Validator.checkMobileNumLength(this.piaPhone.getText().toString().trim())) {
+            piaPhone.setError(getString(R.string.err_number));
+            requestFocus(piaPhone);
+            return false;
         }else if (!M3Validator.checkNullString(this.piaPhone.getText().toString().trim())) {
-            piaPhone.setError(getString(R.string.err_entry));
+            piaPhone.setError(getString(R.string.empty_entry));
             requestFocus(piaPhone);
             return false;
         } else if (!M3Validator.checkUniqueNumLength(this.uNumber.getText().toString().trim())) {

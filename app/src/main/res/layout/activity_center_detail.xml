@@ -50,7 +50,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/center_logo"
+                android:id="@+id/center_logo12331"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="20dp"

@@ -148,6 +148,24 @@ public class PreferenceStorage {
     }
     /*End*/
 
+    // PIA Profile Id
+    public static void saveCenterId(Context context, String userType) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.PARAMS_CENTER_ID, userType);
+        editor.apply();
+    }
+
+    public static String getCenterId(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String userType;
+        userType = sharedPreferences.getString(M3AdminConstants.PARAMS_CENTER_ID, "");
+        return userType;
+    }
+    /*End*/
+
     // PIA PRN Number
     public static void savePIAPRNNumber(Context context, String userType) {
         SharedPreferences sharedPreferences = PreferenceManager
@@ -237,5 +255,21 @@ public class PreferenceStorage {
         return userType;
     }
     /*End*/
+
+    public static void saveAadhaarAction(Context context, String staffQualification) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.KEY_AADHAAR, staffQualification);
+        editor.apply();
+    }
+
+    public static String getAadhaarAction(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String staffQualification;
+        staffQualification = sharedPreferences.getString(M3AdminConstants.KEY_AADHAAR, "");
+        return staffQualification;
+    }
 
 }

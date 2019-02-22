@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.piamodule.CenterActivity;
+import com.happysanz.m3admin.activity.piamodule.PiaDashboard;
 import com.happysanz.m3admin.adapter.MobilizerListAdapter;
 import com.happysanz.m3admin.adapter.PiaListAdapter;
 import com.happysanz.m3admin.adapter.TradeDataListAdapter;
@@ -183,9 +184,10 @@ public class PiaActivity extends AppCompatActivity implements View.OnClickListen
         } else {
             piaData = tradeDataArrayList.get(position);
         }
-//        Intent intent = new Intent(this, CenterActivity.class);
+        Intent intent = new Intent(this, PiaDetailsActivity.class);
+        PreferenceStorage.saveUserId(this,piaData.getUser_id());
 //        intent.putExtra("eventObj", piaData);
-//        startActivity(intent);
+        startActivity(intent);
     }
 
 }
