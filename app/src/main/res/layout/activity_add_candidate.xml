@@ -176,13 +176,11 @@
 
                     <EditText
                         android:id="@+id/et_candidate_blood_group"
-                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
 
                         android:hint="Blood group*"
-                        android:spinnerMode="dropdown"
                         android:textSize="14sp" />
                 </LinearLayout>
 

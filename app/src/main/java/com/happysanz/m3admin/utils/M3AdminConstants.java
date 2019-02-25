@@ -43,6 +43,10 @@ public class M3AdminConstants {
     //    CENTER GALLERY LIST
     public static final String VIEW_GALLERY = "apipia/center_gallery";
 
+    public static final String ADD_PHOTO = "apipia/add_center_photos/";
+
+    public static final String ADD_VIDEO = "apipia/add_center_videos/";
+
     public static final String ASSETS_URL_LOGO = "assets/center/logo/";
 
 
@@ -129,6 +133,7 @@ public class M3AdminConstants {
 
 
     public static final String PARAMS_CENTER_ID = "center_id";
+    public static final String PARAMS_CENTER_PHOTO = "center_photo";
 
 
     // Alert Dialog Constants

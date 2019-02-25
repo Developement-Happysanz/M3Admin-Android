@@ -19,6 +19,8 @@ public class AddPhotoActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
     }
 
 }

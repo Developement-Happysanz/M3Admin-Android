@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import com.happysanz.m3admin.interfaces.DialogClickListener;
 import com.happysanz.m3admin.servicehelpers.ServiceHelper;
 import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
 import com.happysanz.m3admin.utils.M3AdminConstants;
+import com.happysanz.m3admin.utils.M3Validator;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 
 import org.json.JSONArray;
@@ -70,9 +72,28 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         if (view == save) {
-            sendTaskValues();
+            if (validateFields()) {
+                sendTaskValues();
+            }
         }
     }
+
+    private boolean validateFields() {
+        if (!M3Validator.checkNullString(this.txtTitle.getText().toString().trim())) {
+            txtTitle.setError(getString(R.string.empty_entry));
+            requestFocus(txtTitle);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
 
     private void sendTaskValues() {
         res = "";

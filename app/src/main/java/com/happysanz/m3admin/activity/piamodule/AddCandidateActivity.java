@@ -273,8 +273,8 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     mLocationProgress.show();
                 }
             }
-        } else if (v == etCandidateBloodGroup) {
-            showBloodGroups();
+//        } else if (v == etCandidateBloodGroup) {
+//            showBloodGroups();
         } else if (v == etCandidatesPreferredTrade) {
             showTrades();
         } else if (v == etCandidatesPreferredTiming) {
@@ -377,31 +377,31 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         }
                     };
                 } else if (checkInternalState.equalsIgnoreCase("bloodGroup")) {
-                    JSONArray getData = response.getJSONArray("Bloodgroup");
-                    int getLength = getData.length();
-                    String bloodGroupId = "";
-                    String bloodGroupName = "";
-                    bloodGroupList = new ArrayList<>();
-
-                    for (int i = 0; i < getLength; i++) {
-                        bloodGroupId = getData.getJSONObject(i).getString("id");
-                        bloodGroupName = getData.getJSONObject(i).getString("blood_group_name");
-                        bloodGroupList.add(new StoreBloodGroup(bloodGroupId, bloodGroupName));
-                    }
-
-                    //fill data in spinner
-                    mBloodGroupAdapter = new ArrayAdapter<StoreBloodGroup>(getApplicationContext(), R.layout.gender_layout, R.id.gender_name, bloodGroupList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
-                        @Override
-                        public View getView(int position, View convertView, ViewGroup parent) {
-                            Log.d(TAG, "getview called" + position);
-                            View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
-                            TextView gendername = (TextView) view.findViewById(R.id.gender_name);
-                            gendername.setText(bloodGroupList.get(position).getBloodGroupName());
-
-                            // ... Fill in other views ...
-                            return view;
-                        }
-                    };
+//                    JSONArray getData = response.getJSONArray("Bloodgroup");
+//                    int getLength = getData.length();
+//                    String bloodGroupId = "";
+//                    String bloodGroupName = "";
+//                    bloodGroupList = new ArrayList<>();
+//
+//                    for (int i = 0; i < getLength; i++) {
+//                        bloodGroupId = getData.getJSONObject(i).getString("id");
+//                        bloodGroupName = getData.getJSONObject(i).getString("blood_group_name");
+//                        bloodGroupList.add(new StoreBloodGroup(bloodGroupId, bloodGroupName));
+//                    }
+//
+//                    //fill data in spinner
+//                    mBloodGroupAdapter = new ArrayAdapter<StoreBloodGroup>(getApplicationContext(), R.layout.gender_layout, R.id.gender_name, bloodGroupList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+//                        @Override
+//                        public View getView(int position, View convertView, ViewGroup parent) {
+//                            Log.d(TAG, "getview called" + position);
+//                            View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+//                            TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+//                            gendername.setText(bloodGroupList.get(position).getBloodGroupName());
+//
+//                            // ... Fill in other views ...
+//                            return view;
+//                        }
+//                    };
 
                     GetTrade();
                 } else if (checkInternalState.equalsIgnoreCase("addStudent")) {
@@ -484,8 +484,8 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         etCandidateCommunity = findViewById(R.id.et_candidate_community);
 
         etCandidateBloodGroup = findViewById(R.id.et_candidate_blood_group);
-        etCandidateBloodGroup.setOnClickListener(this);
-        etCandidateBloodGroup.setFocusable(false);
+//        etCandidateBloodGroup.setOnClickListener(this);
+//        etCandidateBloodGroup.setFocusable(false);
 
         etCandidateFatherName = findViewById(R.id.et_candidate_father_name);
 

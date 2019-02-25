@@ -56,4 +56,6 @@
     <string name="seek_to_hint">Seconds</string>
     <!---->
 
+    <string name="google_android_map_api_key"> AIzaSyBnThRouRVk61vH4GEmuRiMMH_VeI_WEzI </string>
+
 </resources>
