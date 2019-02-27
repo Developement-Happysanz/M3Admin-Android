@@ -40,6 +40,9 @@ public class M3AdminConstants {
     //    TRADE LIST
     public static final String TRADE_LIST = "apipia/list_trade";
 
+
+    public static final String PROJECT_PERIOD = "apipia/project_period";
+
     //    CENTER GALLERY LIST
     public static final String VIEW_GALLERY = "apipia/center_gallery";
 
@@ -134,6 +137,10 @@ public class M3AdminConstants {
 
     public static final String PARAMS_CENTER_ID = "center_id";
     public static final String PARAMS_CENTER_PHOTO = "center_photo";
+
+
+    public static final String PARAMS_START_DATE = "start_date";
+    public static final String PARAMS_END_DATE = "end_date";
 
 
     // Alert Dialog Constants

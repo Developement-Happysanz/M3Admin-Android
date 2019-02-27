@@ -102,7 +102,7 @@ dependencies {
     implementation 'com.mcxiaoke.volley:library:1.0.19'
     implementation 'com.android.support:multidex:1.0.2'
 
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+//    implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
     implementation 'com.google.zxing:core:3.0.1'
     implementation 'com.google.code.gson:gson:2.8.0'
@@ -126,6 +126,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.1'
     implementation 'com.google.firebase:firebase-messaging:11.0.4'
     implementation 'com.google.android.gms:play-services-maps:11.0.4'
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
 
 apply plugin: 'com.google.gms.google-services'

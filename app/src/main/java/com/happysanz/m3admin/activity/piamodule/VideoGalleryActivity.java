@@ -270,7 +270,7 @@ public class VideoGalleryActivity extends Activity implements YouTubePlayer.OnFu
             if (validateSignInResponse(response)) {
                 try {
 
-                    JSONArray getTimeTableArray = response.getJSONArray("Videos");
+                    JSONArray getTimeTableArray = response.getJSONArray("centerVideos");
                     List<VideoEntry> list = new ArrayList<VideoEntry>();
                     if (getTimeTableArray != null && getTimeTableArray.length() > 0) {
                         for (int i = 0; i < getTimeTableArray.length(); i++) {

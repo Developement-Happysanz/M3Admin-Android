@@ -200,7 +200,7 @@
                             android:gravity="center_vertical"
                             android:paddingTop="10dp"
                             android:paddingBottom="10dp"
-                            android:text="Time"
+                            android:text="Project Duration"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 

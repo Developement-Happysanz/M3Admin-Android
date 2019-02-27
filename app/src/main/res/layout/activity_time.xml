@@ -33,12 +33,41 @@
             android:gravity="center_vertical|left"
             android:minHeight="60dp"
             android:padding="5dp"
-            android:text="Time"
+            android:text="Project Duration"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
 
+
+    <DatePicker
+        android:id="@+id/start_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner">
+
+    </DatePicker>
+
+    <DatePicker
+        android:id="@+id/end_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner">
+
+    </DatePicker>
+
+
+    <Button
+        android:id="@+id/upload_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:text="Add"
+        android:background="@color/blue"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp" />
 
 </LinearLayout>

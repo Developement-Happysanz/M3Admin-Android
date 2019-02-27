@@ -1,15 +1,33 @@
 package com.happysanz.m3admin.activity.piamodule;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,36 +36,61 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.adapter.CenterPhotosListAdapter;
 import com.happysanz.m3admin.bean.pia.CenterPhotosData;
 import com.happysanz.m3admin.bean.pia.CenterPhotosList;
 import com.happysanz.m3admin.bean.pia.Centers;
-import com.happysanz.m3admin.dialogfragments.CompoundAlertDialogFragment;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
 import com.happysanz.m3admin.servicehelpers.ServiceHelper;
 import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
+import com.happysanz.m3admin.utils.AndroidMultiPartEntity;
 import com.happysanz.m3admin.utils.M3AdminConstants;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.DataOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import static android.util.Log.d;
 
 public class PhotoGalleryActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
 
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     private static final String TAG = PhotoGalleryActivity.class.getName();
     Centers centers;
     private ServiceHelper serviceHelper;
@@ -62,15 +105,15 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
     protected boolean isLoadingForFirstTime = true;
     String res;
     ImageView imageview;
+    private Uri outputFileUri;
 
-    private TextView messageText;
-//    private Button uploadButton, btnselectpic;
-//    private ImageView imageview;
-    private int serverResponseCode = 0;
-    private ProgressDialog dialog = null;
-
-    private String upLoadServerUri = "";
-    private String imagepath="";
+    static final int REQUEST_IMAGE_GET = 1;
+    static final int CROP_PIC = 2;
+    private String mActualFilePath = null;
+    private Uri mSelectedImageUri = null;
+    private Bitmap mCurrentUserImageBitmap = null;
+    private ProgressDialog mProgressDialog = null;
+    private String mUpdatedImageUrl = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,25 +136,8 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
         findViewById(R.id.add_photo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(PhotoGalleryActivity.this);
-                alertDialogBuilder.setTitle("Upload Image");
-                alertDialogBuilder.setMessage("Select Option");
-                alertDialogBuilder.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        openCameraForResult(0);
-                    }
-                });
-                alertDialogBuilder.setNegativeButton("Gallery", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(pickPhoto , 1);
-                    }
-                });
-                alertDialogBuilder.show();
+                checkPermission(getApplicationContext());
+                openImageIntent();
             }
         });
 
@@ -124,12 +150,272 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
         viewCenterPhotos();
     }
 
-    private void openCameraForResult(int requestCode){
-        Intent photo = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Uri uri  = Uri.parse("file:///sdcard/photo.jpg");
-        photo.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
-        startActivityForResult(photo,requestCode);
+    private void openImageIntent() {
+
+// Determine Uri of camera image to save.
+        final File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyDir");
+
+        if (!root.exists()) {
+            if (!root.mkdirs()) {
+                Log.d(TAG, "Failed to create directory for storing images");
+                return;
+            }
+        }
+
+        final String fname = PreferenceStorage.getUserId(this) + ".png";
+        final File sdImageMainDirectory = new File(root.getPath() + File.separator + fname);
+        outputFileUri = Uri.fromFile(sdImageMainDirectory);
+        Log.d(TAG, "camera output Uri" + outputFileUri);
+
+        // Camera.
+        final List<Intent> cameraIntents = new ArrayList<Intent>();
+        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        final PackageManager packageManager = getPackageManager();
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for (ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(packageName);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            cameraIntents.add(intent);
+        }
+
+        // Filesystem.
+        final Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.setAction(Intent.ACTION_PICK);
+
+        // Chooser of filesystem options.
+        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Profile Photo");
+
+        // Add the camera options.
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+
+        startActivityForResult(chooserIntent, REQUEST_IMAGE_GET);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == RESULT_OK) {
+
+            if (requestCode == REQUEST_IMAGE_GET) {
+                Log.d(TAG, "ONActivity Result");
+                final boolean isCamera;
+                if (data == null) {
+                    Log.d(TAG, "camera is true");
+                    isCamera = true;
+                } else {
+                    final String action = data.getAction();
+                    Log.d(TAG, "camera action is" + action);
+                    if (action == null) {
+                        isCamera = false;
+                    } else {
+                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    }
+                }
+
+
+                if (isCamera) {
+                    Log.d(TAG, "Add to gallery");
+                    mSelectedImageUri = outputFileUri;
+                    mActualFilePath = outputFileUri.getPath();
+                    galleryAddPic(mSelectedImageUri);
+                } else {
+//                    selectedImageUri = data == null ? null : data.getData();
+//                    mActualFilePath = getRealPathFromURI(this, selectedImageUri);
+//                    Log.d(TAG, "path to image is" + mActualFilePath);
+
+                    if (data != null && data.getData() != null) {
+                        try{
+                            mSelectedImageUri = data.getData();
+                            String[] filePathColumn = {MediaStore.Images.Media.DATA };
+                            Cursor cursor = getContentResolver().query(mSelectedImageUri,
+                                    filePathColumn, null, null, null);
+                            cursor.moveToFirst();
+                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                            mActualFilePath = getRealPathFromURI(this, mSelectedImageUri);
+                            cursor.close();
+
+                            //return Image Path to the Main Activity
+                            Intent returnFromGalleryIntent = new Intent();
+                            returnFromGalleryIntent.putExtra("picturePath",mActualFilePath);
+                            setResult(RESULT_OK,returnFromGalleryIntent);
+                        }catch(Exception e){
+                            e.printStackTrace();
+                            Intent returnFromGalleryIntent = new Intent();
+                            setResult(RESULT_CANCELED, returnFromGalleryIntent);
+                            finish();
+                        }
+                    }else{
+                        Log.i(TAG,"RESULT_CANCELED");
+                        Intent returnFromGalleryIntent = new Intent();
+                        setResult(RESULT_CANCELED, returnFromGalleryIntent);
+                        finish();
+                    }
+
+                }
+                Log.d(TAG, "image Uri is" + mSelectedImageUri);
+                if (mSelectedImageUri != null) {
+                    Log.d(TAG, "image URI is" + mSelectedImageUri);
+//                    performCrop();
+//                    setPic(mSelectedImageUri);
+                }
+            }  else if (requestCode == CROP_PIC) {
+                // get the returned data
+                Bundle extras = data.getExtras();
+                // get the cropped bitmap
+                Bitmap thePic = extras.getParcelable("data");
+//                mProfileImage.setImageBitmap(thePic);
+            }
+
+        }
+    }
+
+    private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
+        private static final String TAG = "UploadFileToServer";
+        private HttpClient httpclient;
+        HttpPost httppost;
+        public boolean isTaskAborted = false;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... progress) {
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return uploadFile();
+        }
+
+        @SuppressWarnings("deprecation")
+        private String uploadFile() {
+            String responseString = null;
+
+            httpclient = new DefaultHttpClient();
+            httppost = new HttpPost(String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.ADD_PHOTO + Integer.parseInt(PreferenceStorage.getUserId(PhotoGalleryActivity.this))+  Integer.parseInt(PreferenceStorage.getCenterId(PhotoGalleryActivity.this))));
+
+            try {
+                AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
+                        new AndroidMultiPartEntity.ProgressListener() {
+
+                            @Override
+                            public void transferred(long num) {
+
+                            }
+                        });
+                Log.d(TAG, "actual file path is" + mActualFilePath);
+                if (mActualFilePath != null) {
+
+                    File sourceFile = new File(mActualFilePath);
+
+                    // Adding file data to http body
+                    //fileToUpload
+                    entity.addPart("center_photo", new FileBody(sourceFile));
+
+                    // Extra parameters if you want to pass to server
+                    entity.addPart("user_id", new StringBody(PreferenceStorage.getUserId(PhotoGalleryActivity.this)));
+                    entity.addPart("center_id", new StringBody(PreferenceStorage.getCenterId(PhotoGalleryActivity.this)));
+//                    entity.addPart("user_type", new StringBody(PreferenceStorage.getUserType(PhotoGalleryActivity.this)));
+
+//                    totalSize = entity.getContentLength();
+                    httppost.setEntity(entity);
+
+                    // Making server call
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity r_entity = response.getEntity();
+
+                    int statusCode = response.getStatusLine().getStatusCode();
+                    if (statusCode == 200) {
+                        // Server response
+                        responseString = EntityUtils.toString(r_entity);
+                        try {
+                            JSONObject resp = new JSONObject(responseString);
+                            String successVal = resp.getString("status");
+
+                            mUpdatedImageUrl = resp.getString("picture_url");
+
+                            Log.d(TAG, "updated image url is" + mUpdatedImageUrl);
+                            if (successVal.equalsIgnoreCase("success")) {
+                                Log.d(TAG, "Updated image succesfully");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        responseString = "Error occurred! Http Status Code: "
+                                + statusCode;
+                    }
+                }
+
+            } catch (ClientProtocolException e) {
+                responseString = e.toString();
+            } catch (IOException e) {
+                responseString = e.toString();
+            }
+
+            return responseString;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.e(TAG, "Response from server: " + result);
+
+            super.onPostExecute(result);
+            if ((result == null) || (result.isEmpty()) || (result.contains("Error"))) {
+                Toast.makeText(PhotoGalleryActivity.this, "Unable to upload picture", Toast.LENGTH_SHORT).show();
+            } else {
+                if (mUpdatedImageUrl != null) {
+                    PreferenceStorage.saveUserPicture(PhotoGalleryActivity.this, mUpdatedImageUrl);
+                }
+            }
+//            saveProfileData();
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+    }
+
+    private void galleryAddPic(Uri urirequest) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f = new File(urirequest.getPath());
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        this.sendBroadcast(mediaScanIntent);
+    }
+
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        String result = null;
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            CursorLoader loader = new CursorLoader(context, contentUri, proj, null, null, null);
+
+            Cursor cursor = loader.loadInBackground();
+            if (cursor != null) {
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                result = cursor.getString(column_index);
+                cursor.close();
+            } else {
+                Log.d(TAG, "cursor is null");
+            }
+        } catch (Exception e) {
+            result = null;
+            Toast.makeText(this, "Was unable to save  image", Toast.LENGTH_SHORT).show();
+
+        } finally {
+            return result;
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -192,228 +478,6 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-//    public String getPath(Uri uri) {
-//        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-//        cursor.moveToFirst();
-//        String document_id = cursor.getString(0);
-//        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
-//        cursor.close();
-//
-//        cursor = getContentResolver().query(
-//                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
-//        cursor.moveToFirst();
-//        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-//        cursor.close();
-//
-//        return path;
-//    }
-
-    public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
-
-    public int uploadFile(String sourceFileUri) {
-
-
-        String fileName = sourceFileUri;
-
-        HttpURLConnection conn = null;
-        DataOutputStream dos = null;
-        String lineEnd = "\r\n";
-        String twoHyphens = "--";
-        String boundary = "*****";
-        int bytesRead, bytesAvailable, bufferSize;
-        byte[] buffer;
-        int maxBufferSize = 1 * 1024 * 1024;
-        File sourceFile = new File(sourceFileUri);
-
-        if (!sourceFile.isFile()) {
-
-            dialog.dismiss();
-
-            Log.e("uploadFile", "Source File not exist :"+imagepath);
-
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    messageText.setText("Source File not exist :"+ imagepath);
-                }
-            });
-
-            return 0;
-
-        }
-        else
-        {
-            try {
-
-                // open a URL connection to the Servlet
-                FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                upLoadServerUri = M3AdminConstants.BUILD_URL + M3AdminConstants.ADD_PHOTO;
-                URL url = new URL(upLoadServerUri);
-
-                // Open a HTTP  connection to  the URL
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setDoInput(true); // Allow Inputs
-                conn.setDoOutput(true); // Allow Outputs
-                conn.setUseCaches(false); // Don't use a Cached Copy
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Connection", "Keep-Alive");
-                conn.setRequestProperty("ENCTYPE", "multipart/form-data");
-                conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                conn.setRequestProperty("uploaded_file", fileName);
-
-                dos = new DataOutputStream(conn.getOutputStream());
-
-                dos.writeBytes(twoHyphens + boundary + lineEnd);
-                dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""
-                        + fileName + "\"" + lineEnd);
-
-                dos.writeBytes(lineEnd);
-
-                // create a buffer of  maximum size
-                bytesAvailable = fileInputStream.available();
-
-                bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                buffer = new byte[bufferSize];
-
-                // read file and write it into form...
-                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                while (bytesRead > 0) {
-
-                    dos.write(buffer, 0, bufferSize);
-                    bytesAvailable = fileInputStream.available();
-                    bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-
-                }
-
-                // send multipart form data necesssary after file data...
-                dos.writeBytes(lineEnd);
-                dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-
-                // Responses from the server (code and message)
-                serverResponseCode = conn.getResponseCode();
-                String serverResponseMessage = conn.getResponseMessage();
-
-                Log.i("uploadFile", "HTTP Response is : "
-                        + serverResponseMessage + ": " + serverResponseCode);
-
-                if(serverResponseCode == 200){
-
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            String msg = "File Upload Completed.\n\n See uploaded file here : \n\n"
-                                    +" F:/wamp/wamp/www/uploads";
-                            messageText.setText(msg);
-                            Toast.makeText(PhotoGalleryActivity.this, "File Upload Complete.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
-                //close the streams //
-                fileInputStream.close();
-                dos.flush();
-                dos.close();
-
-            } catch (MalformedURLException ex) {
-
-                dialog.dismiss();
-                ex.printStackTrace();
-
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        messageText.setText("MalformedURLException Exception : check script url.");
-                        Toast.makeText(PhotoGalleryActivity.this, "MalformedURLException", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
-            } catch (Exception e) {
-
-                dialog.dismiss();
-                e.printStackTrace();
-
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        messageText.setText("Got Exception : see logcat ");
-                        Toast.makeText(PhotoGalleryActivity.this, "Got Exception : see logcat ", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                Log.e("Upload file Exception", "Exception : "  + e.getMessage(), e);
-            }
-            dialog.dismiss();
-            return serverResponseCode;
-
-        } // End else block 
-    }
-    
-    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        switch(requestCode) {
-            case 0:
-                if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    String path = getPath(selectedImage);
-                    uploadFile(path);
-//                    imageview.setImageURI(selectedImage);
-
-                    res = "upload";
-//                    JSONObject jsonObject = new JSONObject();
-//                    String userId;
-//                    if(PreferenceStorage.getUserId(getApplicationContext()).equalsIgnoreCase("1")){
-//                        userId = PreferenceStorage.getPIAProfileId(getApplicationContext());
-//                    } else {
-//                        userId = PreferenceStorage.getUserId(getApplicationContext());
-//                    }
-//                    try {
-//                        jsonObject.put(M3AdminConstants.KEY_USER_ID, userId);
-//                        jsonObject.put(M3AdminConstants.PARAMS_CENTER_ID, centers.getid());
-//                        jsonObject.put(M3AdminConstants.PARAMS_CENTER_PHOTO, path);
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-//                    String url = M3AdminConstants.BUILD_URL + M3AdminConstants.ADD_PHOTO;
-//                    serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
-                }
-
-                break;
-            case 1:
-                if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    imageview.setImageURI(selectedImage);
-//                    JSONObject jsonObject = new JSONObject();
-//                    String userId;
-//                    if(PreferenceStorage.getUserId(getApplicationContext()).equalsIgnoreCase("1")){
-//                        userId = PreferenceStorage.getPIAProfileId(getApplicationContext());
-//                    } else {
-//                        userId = PreferenceStorage.getUserId(getApplicationContext());
-//                    }
-//                    try {
-//                        jsonObject.put(M3AdminConstants.KEY_USER_ID, userId);
-//                        jsonObject.put(M3AdminConstants.PARAMS_CENTER_ID, centers.getid());
-//                        jsonObject.put(M3AdminConstants.PARAMS_CENTER_PHOTO, selectedImage.toString());
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-//                    String url = M3AdminConstants.BUILD_URL + M3AdminConstants.ADD_PHOTO;
-//                    serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
-                }
-                break;
-        }
-    }
-
     @Override
     public void onError(String error) {
         progressDialogHelper.hideProgressDialog();
@@ -468,4 +532,39 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
         intent.putExtra("eventObj", taskData);
         startActivity(intent);
     }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public static boolean checkPermission(final Context context)
+    {
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if(currentAPIVersion>=android.os.Build.VERSION_CODES.M)
+        {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+                    alertBuilder.setCancelable(true);
+                    alertBuilder.setTitle("Permission necessary");
+                    alertBuilder.setMessage("External storage permission is necessary");
+                    alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                        }
+                    });
+                    AlertDialog alert = alertBuilder.create();
+                    alert.show();
+
+                } else {
+                    ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                }
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
+
 }

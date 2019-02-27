@@ -50,7 +50,7 @@ public class CenterDetailActivity extends AppCompatActivity implements View.OnCl
         String url = "";
         url = M3AdminConstants.BUILD_URL + M3AdminConstants.ASSETS_URL_LOGO + centers.getcenter_banner();
         if (((url != null) && !(url.isEmpty()))) {
-            Picasso.with(this).load(url).into(centerBanner);
+            Picasso.get().load(url).into(centerBanner);
         } else {
             centerBanner.setImageResource(R.drawable.ic_profile);
         }
