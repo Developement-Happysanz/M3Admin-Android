@@ -70,14 +70,14 @@ public class PiaListAdapter extends BaseAdapter {
 
             holder = new PiaListAdapter.ViewHolder();
             holder.txtPiaName = (TextView) convertView.findViewById(R.id.txt_pia_name);
-            holder.txtPiaName.setText(mobilizers.get(position).getName());
             holder.txtSNo = (TextView) convertView.findViewById(R.id.txt_user_id);
-            holder.txtSNo.setText(""+(position+1));
 
-//          convertView.setTag(holder);
+            convertView.setTag(holder);
         } else {
             holder = (PiaListAdapter.ViewHolder) convertView.getTag();
+
         }
+
 
         if (mSearching) {
             position = mValidSearchIndices.get(position);
@@ -86,6 +86,8 @@ public class PiaListAdapter extends BaseAdapter {
             Log.d("Event List Adapter", "getview pos called" + position);
         }
 
+        holder.txtPiaName.setText(mobilizers.get(position).getName());
+        holder.txtSNo.setText("" + (position + 1));
         return convertView;
     }
 

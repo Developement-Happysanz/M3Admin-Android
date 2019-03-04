@@ -56,6 +56,7 @@
                 android:background="@drawable/rect_border">
 
                 <LinearLayout
+                    android:id="@+id/before_select"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -77,6 +78,25 @@
                 </LinearLayout>
 
             </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/after_select"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_alignTop="@id/upload_layout"
+                android:visibility="invisible"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/new_logo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_photoo" />
+
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/center_name"
@@ -109,6 +129,7 @@
                 android:layout_below="@id/center_address"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <TextView

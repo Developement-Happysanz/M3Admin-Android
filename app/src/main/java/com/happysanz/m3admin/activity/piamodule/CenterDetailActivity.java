@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,20 +12,25 @@ import android.widget.TextView;
 import com.google.android.gms.vision.text.Line;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.bean.pia.Centers;
+import com.happysanz.m3admin.helper.ProgressDialogHelper;
+import com.happysanz.m3admin.servicehelpers.ServiceHelper;
+import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
 import com.happysanz.m3admin.utils.M3AdminConstants;
 import com.happysanz.m3admin.utils.M3Validator;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class CenterDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     Centers centers;
     ImageView centerBanner;
     TextView centerTitle, CenterInfo;
-    LinearLayout galleryLayout, videoLayout;
-
-
+    Button galleryLayout, videoLayout;
+    String res;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

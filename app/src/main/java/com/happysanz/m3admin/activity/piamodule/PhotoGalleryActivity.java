@@ -261,13 +261,10 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
                     Log.d(TAG, "image URI is" + mSelectedImageUri);
 //                    performCrop();
 //                    setPic(mSelectedImageUri);
+                    mUpdatedImageUrl = null;
+
+                    new UploadFileToServer().execute();
                 }
-            }  else if (requestCode == CROP_PIC) {
-                // get the returned data
-                Bundle extras = data.getExtras();
-                // get the cropped bitmap
-                Bitmap thePic = extras.getParcelable("data");
-//                mProfileImage.setImageBitmap(thePic);
             }
 
         }
@@ -344,6 +341,7 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
                             Log.d(TAG, "updated image url is" + mUpdatedImageUrl);
                             if (successVal.equalsIgnoreCase("success")) {
                                 Log.d(TAG, "Updated image succesfully");
+                                Toast.makeText(PhotoGalleryActivity.this, "Upload succesful", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

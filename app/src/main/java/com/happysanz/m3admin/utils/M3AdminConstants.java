@@ -48,6 +48,8 @@ public class M3AdminConstants {
 
     public static final String ADD_PHOTO = "apipia/add_center_photos/";
 
+    public static final String ADD_LOGO = "apipia/update_center_banner/";
+
     public static final String ADD_VIDEO = "apipia/add_center_videos/";
 
     public static final String ASSETS_URL_LOGO = "assets/center/logo/";
