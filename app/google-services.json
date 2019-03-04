@@ -31,6 +31,14 @@
           }
         },
         {
+          "client_id": "858503390200-k47mcrh0mbuqpj6862joor8ddll4ilpn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.happysanz.m3admin",
+            "certificate_hash": "d5f5f188ed8df203aa2b9b38dcb546e666af3623"
+          }
+        },
+        {
           "client_id": "858503390200-risdq74vi2sckusefj9pfe6hraltknch.apps.googleusercontent.com",
           "client_type": 3
         }
