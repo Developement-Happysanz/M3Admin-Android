@@ -8,8 +8,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.happysanz.m3admin.R;
+import com.happysanz.m3admin.activity.piamodule.AddCenterDetailActivity;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -143,6 +145,7 @@ public class AddNewPiaActivity extends AppCompatActivity implements IServiceList
 //
 //
                 Intent intent = new Intent(this, PiaActivity.class);
+                Toast.makeText(AddNewPiaActivity.this, "Pia created successfully", Toast.LENGTH_SHORT).show();
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();

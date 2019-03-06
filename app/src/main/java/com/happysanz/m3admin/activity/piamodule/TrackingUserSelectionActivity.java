@@ -7,12 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.adapter.TaskDataListAdapter;
+import com.happysanz.m3admin.bean.pia.StoreMobilizer;
 import com.happysanz.m3admin.bean.pia.TaskData;
 import com.happysanz.m3admin.bean.pia.TaskDataList;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
@@ -23,6 +27,7 @@ import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
 import com.happysanz.m3admin.utils.M3AdminConstants;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,7 +35,7 @@ import java.util.ArrayList;
 
 import static android.util.Log.d;
 
-public class TrackingUserSelectionActivity  extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
+public class TrackingUserSelectionActivity  extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener{
 
     private static final String TAG = "TaskFragment";
     private ServiceHelper serviceHelper;
@@ -39,9 +44,9 @@ public class TrackingUserSelectionActivity  extends AppCompatActivity implements
     TaskDataListAdapter taskDataListAdapter;
     ArrayList<TaskData> taskDataArrayList;
     protected boolean isLoadingForFirstTime = true;
-    Handler mHandler = new Handler();
-    int pageNumber = 0, totalCount = 0;
-    ImageView addNewTask;
+    Spinner spnMobilizer;
+    String storeMobilizerId ="", res;
+    Button live, distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,37 +60,53 @@ public class TrackingUserSelectionActivity  extends AppCompatActivity implements
             }
         });
 
+        live = findViewById(R.id.live_track);
+        live.setOnClickListener(this);
+        distance = findViewById(R.id.distance_track);
+        distance.setOnClickListener(this);
+
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
-        loadMoreListView = findViewById(R.id.listView_task);
-        loadMoreListView.setOnItemClickListener(this);
-        taskDataArrayList = new ArrayList<>();
-        addNewTask = findViewById(R.id.add_task);
-        addNewTask.setOnClickListener(this);
+        spnMobilizer = findViewById(R.id.spn_user_mob);
+        spnMobilizer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        loadTask();
+                StoreMobilizer classList = (StoreMobilizer) parent.getSelectedItem();
+
+                storeMobilizerId = classList.getMobilizerId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        loadMob();
     }
 
-    private void loadTask() {
+    private void loadMob() {
+        res = "spnMobilizer";
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
-
+            jsonObject.put(M3AdminConstants.KEY_PIA_ID, PreferenceStorage.getUserId(getApplicationContext()));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.TASK_LIST;
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.GET_MOBILIZER_LIST;
         serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == addNewTask) {
-
+        if (v == live) {
+            startPersonDetailsActivity(0);
+        }
+        if (v == distance) {
             startPersonDetailsActivity(0);
         }
     }
@@ -95,36 +116,6 @@ public class TrackingUserSelectionActivity  extends AppCompatActivity implements
         startActivityForResult(intent, 0);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-            if (taskDataArrayList != null) {
-                taskDataArrayList.clear();
-                taskDataListAdapter = new TaskDataListAdapter(this, this.taskDataArrayList);
-                loadMoreListView.setAdapter(taskDataListAdapter);
-                loadTask();
-            }
-        }
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.d(TAG, "onEvent list item click" + position);
-        TaskData taskData = null;
-        if ((taskDataListAdapter != null) && (taskDataListAdapter.ismSearching())) {
-            Log.d(TAG, "while searching");
-            int actualindex = taskDataListAdapter.getActualEventPos(position);
-            Log.d(TAG, "actual index" + actualindex);
-            taskData = taskDataArrayList.get(actualindex);
-        } else {
-            taskData = taskDataArrayList.get(position);
-        }
-        Intent intent = new Intent(this, UpdateTaskActivity.class);
-        intent.putExtra("taskObj", taskData);
-        startActivity(intent);
-    }
 
     @Override
     public void onAlertPositiveClicked(int tag) {
@@ -167,20 +158,32 @@ public class TrackingUserSelectionActivity  extends AppCompatActivity implements
         progressDialogHelper.hideProgressDialog();
 
         if (validateSignInResponse(response)) {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-//                    progressDialogHelper.hideProgressDialog();
+            try {
+                if (res.equalsIgnoreCase("spnMobilizer")) {
+                    JSONArray getData = response.getJSONArray("userList");
+                    int getLength = getData.length();
+                    String subjectName = null;
+                    Log.d(TAG, "userData dictionary" + getData.toString());
 
-                    Gson gson = new Gson();
-                    TaskDataList taskDataList = gson.fromJson(response.toString(), TaskDataList.class);
-                    if (taskDataList.getTaskData() != null && taskDataList.getTaskData().size() > 0) {
-                        totalCount = taskDataList.getCount();
-                        isLoadingForFirstTime = false;
-                        updateListAdapter(taskDataList.getTaskData());
+                    String classId = "";
+                    String className = "";
+                    ArrayList<StoreMobilizer> classesList = new ArrayList<>();
+
+                    for (int i = 0; i < getLength; i++) {
+
+                        classId = getData.getJSONObject(i).getString("user_id");
+                        className = getData.getJSONObject(i).getString("name");
+
+                        classesList.add(new StoreMobilizer(classId, className));
                     }
+
+                    //fill data in spinner
+                    ArrayAdapter<StoreMobilizer> adapter = new ArrayAdapter<StoreMobilizer>(getApplicationContext(), R.layout.spinner_item_ns, classesList);
+                    spnMobilizer.setAdapter(adapter);
                 }
-            });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -189,13 +192,4 @@ public class TrackingUserSelectionActivity  extends AppCompatActivity implements
 
     }
 
-    protected void updateListAdapter(ArrayList<TaskData> taskDataArrayList) {
-        this.taskDataArrayList.addAll(taskDataArrayList);
-//        if (taskDataListAdapter == null) {
-        taskDataListAdapter = new TaskDataListAdapter(this, this.taskDataArrayList);
-        loadMoreListView.setAdapter(taskDataListAdapter);
-//        } else {
-        taskDataListAdapter.notifyDataSetChanged();
-//        }
-    }
 }

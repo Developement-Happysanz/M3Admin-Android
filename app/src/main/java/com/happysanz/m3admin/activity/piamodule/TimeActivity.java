@@ -1,7 +1,9 @@
 package com.happysanz.m3admin.activity.piamodule;
 
 import android.os.Bundle;
+import android.os.ParcelFormatException;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,9 +22,13 @@ import com.happysanz.m3admin.utils.PreferenceStorage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static android.util.Log.d;
 
-public class TimeActivity extends AppCompatActivity implements IServiceListener , DialogClickListener {
+public class TimeActivity extends AppCompatActivity implements IServiceListener, DialogClickListener {
     private static final String TAG = TimeActivity.class.getName();
 
     DatePicker dateStart, dateEnd;
@@ -57,37 +63,58 @@ public class TimeActivity extends AppCompatActivity implements IServiceListener 
                 int day_start = dateStart.getDayOfMonth();
                 int month_start = dateStart.getMonth() + 1;
                 int year_start = dateStart.getYear();
-                start = ""+year_start+"-"+month_start+"-"+day_start;
+                start = "" + year_start + "-" + month_start + "-" + day_start;
                 int day_end = dateEnd.getDayOfMonth();
                 int month_end = dateEnd.getMonth() + 1;
                 int year_end = dateEnd.getYear();
-                end = ""+year_end+"-"+month_end+"-"+day_end;
+                end = "" + year_end + "-" + month_end + "-" + day_end;
                 uploadTime();
             }
         });
 
     }
 
-    private void uploadTime() {
-        JSONObject jsonObject = new JSONObject();
-        String userId;
-        if(PreferenceStorage.getUserId(getApplicationContext()).equalsIgnoreCase("1")){
-            userId = PreferenceStorage.getPIAProfileId(getApplicationContext());
-        } else {
-            userId = PreferenceStorage.getUserId(getApplicationContext());
-        }
+    private boolean checkTime() {
         try {
-            jsonObject.put(M3AdminConstants.KEY_USER_ID, userId);
-            jsonObject.put(M3AdminConstants.PARAMS_START_DATE, start);
-            jsonObject.put(M3AdminConstants.PARAMS_END_DATE, end);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = sdf.parse(dateStart.getYear() + "-" + (dateStart.getMonth() + 1) + "-" + dateStart.getDayOfMonth());
+            Date date2 = sdf.parse(dateEnd.getYear() + "-" + (dateEnd.getMonth() + 1) + "-" + dateEnd.getDayOfMonth());
+            if (date2.before(date1)) {
+                AlertDialogHelper.showSimpleAlertDialog(this, "End date cannot be before start date");
+                return false;
+            }
 
-        } catch (JSONException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
+            Log.i(TAG, "parce exception");
         }
+        return true;
 
-        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.PROJECT_PERIOD;
-        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+    }
+
+    private void uploadTime() {
+        if (checkTime()) {
+
+            JSONObject jsonObject = new JSONObject();
+            String userId;
+            if (PreferenceStorage.getUserId(getApplicationContext()).equalsIgnoreCase("1")) {
+                userId = PreferenceStorage.getPIAProfileId(getApplicationContext());
+            } else {
+                userId = PreferenceStorage.getUserId(getApplicationContext());
+            }
+            try {
+                jsonObject.put(M3AdminConstants.KEY_USER_ID, userId);
+                jsonObject.put(M3AdminConstants.PARAMS_START_DATE, start);
+                jsonObject.put(M3AdminConstants.PARAMS_END_DATE, end);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+            String url = M3AdminConstants.BUILD_URL + M3AdminConstants.PROJECT_PERIOD;
+            serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+        }
     }
 
     private boolean validateSignInResponse(JSONObject response) {

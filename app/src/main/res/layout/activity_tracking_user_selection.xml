@@ -50,15 +50,20 @@
             android:id="@+id/spn_user_mob"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            style="@style/Base.TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp" />
 
-        <Spinner
+        <TextView
             android:id="@+id/spn_date"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="20dp"
+            android:text="DD-MM-YYYY"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="16sp"
             android:layout_marginRight="40dp" />
 
         <LinearLayout

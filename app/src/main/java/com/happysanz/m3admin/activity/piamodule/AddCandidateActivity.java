@@ -189,6 +189,8 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
         setUpUI();
         setupUI(findViewById(R.id.scrollID));
+        GetTrade();
+
     }
 
     @Override
@@ -324,7 +326,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         try {
             if (validateSignInResponse(response)) {
                 if (checkInternalState.equalsIgnoreCase("trade")) {
-                    JSONArray getData = response.getJSONArray("Trades");
+                    JSONArray getData = response.getJSONArray("tradeList");
                     int getLength = getData.length();
                     String tradeId = "";
                     String tradeName = "";
