@@ -189,7 +189,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             }
         }
         if (view == prospect){
-            Intent intent = new Intent(getApplicationContext(), StudentsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ProspectsActivity.class);
             startActivity(intent);
         }
         if (view == user){
@@ -245,7 +245,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
         if (view == studentDash){
-            Intent intent = new Intent(getApplicationContext(), StudentsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ProspectsActivity.class);
             startActivity(intent);
         }
         if (view == centerInfoDash){

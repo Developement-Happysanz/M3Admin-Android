@@ -124,9 +124,9 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             taskData = taskDataArrayList.get(position);
         }
-        Intent intent = new Intent(this, UpdateTaskActivity.class);
-        intent.putExtra("taskObj", taskData);
-        startActivity(intent);
+//        Intent intent = new Intent(this, UpdateTaskActivity.class);
+//        intent.putExtra("taskObj", taskData);
+//        startActivity(intent);
     }
 
     @Override

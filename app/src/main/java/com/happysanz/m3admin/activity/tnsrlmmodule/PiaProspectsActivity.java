@@ -11,9 +11,7 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
-import com.happysanz.m3admin.activity.piamodule.CenterActivity;
 import com.happysanz.m3admin.activity.piamodule.ProspectsActivity;
-import com.happysanz.m3admin.activity.piamodule.StudentsActivity;
 import com.happysanz.m3admin.adapter.PiaListAdapter;
 import com.happysanz.m3admin.bean.pia.Mobilizer;
 import com.happysanz.m3admin.bean.pia.MobilizerList;
@@ -182,7 +180,7 @@ public class PiaProspectsActivity extends AppCompatActivity implements View.OnCl
             piaData = tradeDataArrayList.get(position);
         }
         PreferenceStorage.saveUserId(this, piaData.getUser_id());
-        Intent intent = new Intent(this, StudentsActivity.class);
+        Intent intent = new Intent(this, ProspectsActivity.class);
 //        intent.putExtra("eventObj", piaData);
         startActivity(intent);
     }

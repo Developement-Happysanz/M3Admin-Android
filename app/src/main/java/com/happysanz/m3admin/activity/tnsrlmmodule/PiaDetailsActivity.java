@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.piamodule.CenterActivity;
 import com.happysanz.m3admin.activity.piamodule.MobilizerActivity;
-import com.happysanz.m3admin.activity.piamodule.StudentsActivity;
+import com.happysanz.m3admin.activity.piamodule.ProspectsActivity;
 import com.happysanz.m3admin.activity.piamodule.TaskActivity;
 import com.happysanz.m3admin.activity.piamodule.TradeActivity;
 
@@ -49,7 +49,7 @@ public class PiaDetailsActivity extends AppCompatActivity implements View.OnClic
             startActivity(intent);
         }
         if (view == studentDash){
-            Intent intent = new Intent(getApplicationContext(), StudentsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ProspectsActivity.class);
             startActivity(intent);
         }
         if (view == centerInfoDash){

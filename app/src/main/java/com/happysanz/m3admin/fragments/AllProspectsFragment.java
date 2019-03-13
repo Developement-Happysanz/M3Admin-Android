@@ -1,5 +1,6 @@
 package com.happysanz.m3admin.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,14 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
 
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
+import com.happysanz.m3admin.activity.piamodule.AddCandidateActivity;
+import com.happysanz.m3admin.activity.piamodule.CenterDetailActivity;
 import com.happysanz.m3admin.adapter.AllProspectsListAdapter;
 import com.happysanz.m3admin.bean.pia.AllProspects;
 import com.happysanz.m3admin.bean.pia.AllProspectsList;
+import com.happysanz.m3admin.bean.pia.Centers;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.servicehelpers.ServiceHelper;
@@ -27,8 +29,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
+
+import static android.util.Log.d;
 
 public class AllProspectsFragment extends Fragment implements AdapterView.OnItemClickListener, IServiceListener {
     private View rootView;
@@ -40,14 +42,6 @@ public class AllProspectsFragment extends Fragment implements AdapterView.OnItem
     private ServiceHelper serviceHelper;
     protected boolean isLoadingForFirstTime = true;
     int pageNumber = 0, totalCount = 0;
-    String classId = "", sectionId = "", classSectionId = "", userType = "";
-
-    private Spinner spnClassList, spnSectionList, spnClassSecList;
-    RelativeLayout adminView, teacherView;
-    private String checkSpinner = "", storeClassId, storeSectionId, getClassSectionId;
-    Vector<String> vecClassList, vecClassSectionList;
-    List<String> lsClassList = new ArrayList<String>();
-    String set3, AM_PM = "0";
 
     public AllProspectsFragment() {
     }
@@ -57,6 +51,7 @@ public class AllProspectsFragment extends Fragment implements AdapterView.OnItem
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_all_prospects, container, false);
         loadMoreListView = rootView.findViewById(R.id.all_prospects_list);
+        loadMoreListView.setOnItemClickListener(this);
         initializeEventHelpers();
         getHolsList();
         return rootView;
@@ -116,9 +111,20 @@ public class AllProspectsFragment extends Fragment implements AdapterView.OnItem
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        d(TAG, "onEvent list item click" + position);
+         AllProspects centers = null;
+        if ((upcomingHolidayListAdapter != null) && (upcomingHolidayListAdapter.ismSearching())) {
+            d(TAG, "while searching");
+            int actualindex = upcomingHolidayListAdapter.getActualEventPos(position);
+            d(TAG, "actual index" + actualindex);
+            centers = upcomingHolidayArrayList.get(actualindex);
+        } else {
+            centers = upcomingHolidayArrayList.get(position);
+        }
+        Intent intent = new Intent(getActivity(), AddCandidateActivity.class);
+        intent.putExtra("pros", centers);
+        startActivity(intent);
     }
 
     private boolean validateSignInResponse(JSONObject response) {

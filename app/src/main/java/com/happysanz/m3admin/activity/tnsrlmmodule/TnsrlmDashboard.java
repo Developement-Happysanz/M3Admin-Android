@@ -18,10 +18,6 @@ import android.widget.Toast;
 
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
-import com.happysanz.m3admin.activity.piamodule.CenterActivity;
-import com.happysanz.m3admin.activity.piamodule.MobilizerActivity;
-import com.happysanz.m3admin.activity.piamodule.StudentsActivity;
-import com.happysanz.m3admin.activity.piamodule.UserActivity;
 
 public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickListener {
     Toolbar toolbar;

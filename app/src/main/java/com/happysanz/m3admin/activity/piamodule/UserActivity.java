@@ -1,5 +1,6 @@
 package com.happysanz.m3admin.activity.piamodule;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,6 +57,13 @@ public class UserActivity extends AppCompatActivity implements IServiceListener,
                 finish();
             }
         });
+        findViewById(R.id.add_user).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AddNewUserActivity.class);
+                startActivity(intent);
+            }
+        });
         mobilizerArrayList = new ArrayList<>();
         loadMoreListView = (ListView) findViewById(R.id.list_mobilizers);
         loadMoreListView.setOnItemClickListener(this);
@@ -88,8 +96,7 @@ public class UserActivity extends AppCompatActivity implements IServiceListener,
                         totalCount = mobilizerList.getCount();
                         isLoadingForFirstTime = false;
                         updateListAdapter(mobilizerList.getMobilizerArrayList());
-                    }
-                    else {
+                    } else {
                         if (mobilizerArrayList != null) {
                             mobilizerArrayList.clear();
                             updateListAdapter(mobilizerList.getMobilizerArrayList());

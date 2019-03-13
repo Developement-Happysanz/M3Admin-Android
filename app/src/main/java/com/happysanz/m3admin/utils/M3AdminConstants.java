@@ -64,8 +64,11 @@ public class M3AdminConstants {
     //    PROSPECT LIST
     public static final String ALL_STUDENTS = "apipia/list_students";
 
-    //    PROSPECT LIST
+    //    PROSPECT STATUS
     public static final String STUDENTS_LIST_STATUS = "apipia/list_students_status";
+
+    //    PROSPECT DETAIL
+    public static final String STUDENT_DETAIL = "apipia/view_student";
 
 
     //    USER LIST
@@ -80,11 +83,20 @@ public class M3AdminConstants {
     //    TASK UPDATE
     public static final String TASK_UPDATE = "apipia/update_task";
 
-    //    TASK UPDATE
+    //    PROJECT PERIOD
     public static final String PROJECT_TIME = "apipia/project_period";
 
-    //    TASK UPDATE
+    //    ADD CANDIDATE
     public static final String ADD_CANDIDATE = "apipia/add_student";
+
+    //    UPDATE CANDIDATE
+    public static final String UPDATE_CANDIDATE = "apipia/update_student";
+
+    //    CREATE USER
+    public static final String CREATE_USER = "apipia/create_user";
+
+    //    USER UPDATE
+    public static final String UPDATE_USER = "apipia/update_user";
 
 
     //    Task add params
@@ -116,6 +128,8 @@ public class M3AdminConstants {
     // User data
     public static final String KEY_USER_NAME = "user_name";
     public static final String KEY_USER_ID = "user_id";
+    public static final String KEY_STUDENT_ID = "student_id";
+    public static final String KEY_USER_MASTER_ID = "user_master_id";
     public static final String KEY_NAME = "name";
     public static final String KEY_USER_IMAGE = "user_pic";
     public static final String KEY_USER_TYPE = "user_type";
@@ -139,6 +153,8 @@ public class M3AdminConstants {
 
     public static final String PARAMS_CENTER_ID = "center_id";
     public static final String PARAMS_CENTER_PHOTO = "center_photo";
+    public static final String PARAMS_VIDEO_TITLE = "video_title";
+    public static final String PARAMS_VIDEO_LINK = "video_link";
 
 
     public static final String PARAMS_START_DATE = "start_date";
@@ -162,9 +178,12 @@ public class M3AdminConstants {
     public static final String PARAMS_USER_ID = "user_id";
     public static final String PARAMS_UNIQUE_NUMBER = "unique_number";
     public static final String PARAMS_NAME = "name";
+    public static final String PARAMS_ROLE = "select_role";
     public static final String PARAMS_ADDRESS = "address";
+    public static final String PARAMS_SEC_PHONE = "sec_phone";
     public static final String PARAMS_PHONE = "phone";
     public static final String PARAMS_EMAIL = "email";
+    public static final String PARAMS_SEC_EMAIL = "sec_email";
 
     //    Create Pia params
     public static final String PARAMS_MOB_ID = "mob_id";
@@ -179,6 +198,7 @@ public class M3AdminConstants {
     public static final String PARAMS_HAVE_AADHAAR_CARD = "have_aadhaar_card";
     public static final String PARAMS_AADHAAR_CARD_NUMBER = "aadhaar_card_number";
     public static final String PARAMS_SEX = "sex";
+    public static final String PARAMS_GENDER = "sex";
     public static final String PARAMS_DOB = "dob";
     public static final String PARAMS_AGE = "age";
     public static final String PARAMS_NATIONALITY = "nationality";
@@ -203,10 +223,13 @@ public class M3AdminConstants {
     public static final String PARAMS_LAST_INSTITUTE = "last_institute";
     public static final String PARAMS_LAST_STUDIED = "last_studied";
     public static final String PARAMS_QUALIFIED_PROMOTION = "qualified_promotion";
+    public static final String PARAMS_QUALIFICATION = "qualification";
     public static final String PARAMS_TRANSFER_CERTIFICATE = "transfer_certificate";
     public static final String PARAMS_STATUS = "status";
     public static final String PARAMS_CREATED_BY = "created_by";
     public static final String PARAMS_CREATED_AT = "created_at";
+    public static final String PARAMS_UPDATED_BY = "updated_by";
+    public static final String PARAMS_UPDATED_AT = "updated_at";
     public static final String PARAMS_PIA_ID = "pia_id";
 
 

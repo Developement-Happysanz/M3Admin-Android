@@ -84,12 +84,6 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
 
     private Uri outputFileUri;
     static final int REQUEST_IMAGE_GET = 1;
-    private String mActualFilePath = null;
-    private Uri mSelectedImageUri = null;
-    private Bitmap mCurrentUserImageBitmap = null;
-    private ProgressDialog mProgressDialog = null;
-    private String mUpdatedImageUrl = null;
-    long totalSize = 0;
 
     private TaskData taskData;
 

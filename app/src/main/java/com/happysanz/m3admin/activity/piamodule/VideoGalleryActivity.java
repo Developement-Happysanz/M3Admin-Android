@@ -3,6 +3,7 @@ package com.happysanz.m3admin.activity.piamodule;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -78,7 +79,19 @@ public class VideoGalleryActivity extends Activity implements YouTubePlayer.OnFu
 
         setContentView(R.layout.video_list_demo);
         centers = (Centers) getIntent().getSerializableExtra("cent");
-
+        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        findViewById(R.id.add_photo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AddVideoActivity.class);
+                startActivity(intent);
+            }
+        });
         centerVideoArrayList = new ArrayList<>();
         /*ivBack = findViewById(R.id.back_tic_his);
         ivBack.setOnClickListener(this);*/
