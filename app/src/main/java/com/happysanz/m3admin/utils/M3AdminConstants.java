@@ -98,6 +98,18 @@ public class M3AdminConstants {
     //    USER UPDATE
     public static final String UPDATE_USER = "apipia/update_user";
 
+    //    CREATE STAFF TNSRLM
+    public static final String CREATE_USER_TNSRLM = "apimain/createUser";
+
+    //    STAFF TNSRLM
+    public static final String GET_USER_TNSRLM = "apimain/user_details";
+
+    //    USER DETAIL
+    public static final String GET_USER = "apipia/user_details";
+
+    //    STAFF TNSRLM UPDATE
+    public static final String UPDATE_USER_TNSRLM = "apimain/update_user";
+
 
     //    Task add params
     public static final String PARAMS_TASK_TITLE = "task_title";

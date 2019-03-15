@@ -1,6 +1,8 @@
 package com.happysanz.m3admin.fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +43,7 @@ public class ConfirmedProspectsFragment extends Fragment implements AdapterView.
     protected boolean isLoadingForFirstTime = true;
     int pageNumber = 0, totalCount = 0;
     String classId = "", sectionId = "", classSectionId = "", userType = "";
+    Handler mHandler = new Handler();
 
     private Spinner spnClassList, spnSectionList, spnClassSecList;
     RelativeLayout adminView, teacherView;
@@ -51,6 +54,22 @@ public class ConfirmedProspectsFragment extends Fragment implements AdapterView.
 
     public ConfirmedProspectsFragment() {
     }
+    private boolean _hasLoadedOnce= false; // your boolean field
+
+    @Override
+    public void setUserVisibleHint(boolean isFragmentVisible_) {
+        super.setUserVisibleHint(true);
+
+
+        if (this.isVisible()) {
+            // we check that the fragment is becoming visible
+            if (!isFragmentVisible_ && !_hasLoadedOnce) {
+                //run your async task here since the user has just focused on your fragment
+                new HttpAsyncTask().execute("");
+                _hasLoadedOnce = true;
+            }
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,24 +77,51 @@ public class ConfirmedProspectsFragment extends Fragment implements AdapterView.
         rootView = inflater.inflate(R.layout.fragment_all_prospects, container, false);
         loadMoreListView = rootView.findViewById(R.id.all_prospects_list);
         initializeEventHelpers();
-        getHolsList();
+//        getHolsList();
         return rootView;
     }
 
-    public void getHolsList() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getActivity()));
-            jsonObject.put(M3AdminConstants.PARAMS_TASK_STATUS, "Confirmed");
+    private class HttpAsyncTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... urls) {
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getActivity()));
+                jsonObject.put(M3AdminConstants.PARAMS_TASK_STATUS, "Confirmed");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+            String url = M3AdminConstants.BUILD_URL + M3AdminConstants.STUDENTS_LIST_STATUS;
+            serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+
+            return null;
         }
 
-        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.STUDENTS_LIST_STATUS;
-        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(Void result) {
+            progressDialogHelper.cancelProgressDialog();
+        }
     }
+
+//    public void getHolsList() {
+//        JSONObject jsonObject = new JSONObject();
+//        try {
+//            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getActivity()));
+//            jsonObject.put(M3AdminConstants.PARAMS_TASK_STATUS, "Confirmed");
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+//        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.STUDENTS_LIST_STATUS;
+//        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+//    }
 
     protected void initializeEventHelpers() {
         serviceHelper = new ServiceHelper(getActivity());
@@ -135,7 +181,9 @@ public class ConfirmedProspectsFragment extends Fragment implements AdapterView.
                             (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
                         signInsuccess = false;
                         Log.d(TAG, "Show error dialog");
-                        AlertDialogHelper.showSimpleAlertDialog(getActivity(), msg);
+                        if (_hasLoadedOnce) {
+                            AlertDialogHelper.showSimpleAlertDialog(getActivity(), msg);
+                        }
                     } else {
                         signInsuccess = true;
                     }
@@ -148,13 +196,30 @@ public class ConfirmedProspectsFragment extends Fragment implements AdapterView.
     }
 
     @Override
-    public void onResponse(JSONObject response) {
-        progressDialogHelper.hideProgressDialog();
-
+    public void onResponse(final JSONObject response) {
         if (validateSignInResponse(response)) {
-            LoadListView(response);
+            Log.d("ajazFilterresponse : ", response.toString());
+
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    progressDialogHelper.hideProgressDialog();
+                    LoadListView(response);
+                }
+            });
+        } else {
+            Log.d(TAG, "Error while sign In");
         }
     }
+
+//    @Override
+//    public void onResponse(JSONObject response) {
+//        progressDialogHelper.hideProgressDialog();
+//
+//        if (validateSignInResponse(response)) {
+//            LoadListView(response);
+//        }
+//    }
 
     @Override
     public void onError(String error) {

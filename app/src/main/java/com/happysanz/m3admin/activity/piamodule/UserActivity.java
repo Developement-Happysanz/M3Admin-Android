@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
+import com.happysanz.m3admin.activity.tnsrlmmodule.UpdateTnsrlmStaffActivity;
 import com.happysanz.m3admin.adapter.MobilizerListAdapter;
 import com.happysanz.m3admin.bean.pia.Mobilizer;
 import com.happysanz.m3admin.bean.pia.MobilizerList;
@@ -127,8 +128,20 @@ public class UserActivity extends AppCompatActivity implements IServiceListener,
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.d(TAG, "onEvent list item click" + position);
+        Mobilizer userData = null;
+        if ((mobilizerListAdapter != null) && (mobilizerListAdapter.ismSearching())) {
+            Log.d(TAG, "while searching");
+            int actualindex = mobilizerListAdapter.getActualEventPos(position);
+            Log.d(TAG, "actual index" + actualindex);
+            userData = mobilizerArrayList.get(actualindex);
+        } else {
+            userData = mobilizerArrayList.get(position);
+        }
+        Intent intent = new Intent(this, UpdateUserActivity.class);
+        intent.putExtra("userObj", userData);
+        startActivity(intent);
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, Void> {

@@ -1,69 +1,52 @@
 package com.happysanz.m3admin.activity.piamodule;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AdapterView;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.happysanz.m3admin.R;
-import com.happysanz.m3admin.bean.pia.StoreMobilizer;
+import com.happysanz.m3admin.bean.pia.Mobilizer;
+import com.happysanz.m3admin.bean.pia.TaskData;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
 import com.happysanz.m3admin.servicehelpers.ServiceHelper;
 import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
-import com.happysanz.m3admin.utils.AndroidMultiPartEntity;
 import com.happysanz.m3admin.utils.AppValidator;
 import com.happysanz.m3admin.utils.CommonUtils;
 import com.happysanz.m3admin.utils.M3AdminConstants;
-import com.happysanz.m3admin.utils.M3Validator;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,7 +57,7 @@ import java.util.Locale;
 
 import static android.util.Log.d;
 
-public class AddNewUserActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, DatePickerDialog.OnDateSetListener{
+public class UpdateUserActivity  extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = AddTaskActivity.class.getName();
 
@@ -83,29 +66,39 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
     EditText spnMobilizer;
-    String storeMobilizerId ="", res;
+    String storeMobilizerId = "", res;
     Button save;
     EditText txtName, txtGender, txtDob, txtNationality, txtReligion, txtClass, txtCommunity, txtAddress, txtMail, txtSecMail, txtPhone, txtSecPhone, txtQualification;
     private List<String> mGenderList = new ArrayList<String>();
     private ArrayAdapter<String> mGenderAdapter = null;
     private List<String> mRoleList = new ArrayList<String>();
     private ArrayAdapter<String> mRoleAdapter = null;
+    Mobilizer user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_add_new_user);
+
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
+
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+        user = (Mobilizer) getIntent().getSerializableExtra("userObj");
+        TextView text1 = findViewById(R.id.title);
+        text1.setText("TNSRLM Staff");
+
         spnMobilizer = findViewById(R.id.spn_role);
         spnMobilizer.setFocusable(false);
+//        spnMobilizer.setVisibility(View.GONE);
         txtName = findViewById(R.id.user_name);
         txtGender = findViewById(R.id.gender);
         txtDob = findViewById(R.id.dob);
@@ -171,28 +164,8 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
                 return view;
             }
         };
+        getUserData();
 
-    }
-
-    private void showGenderList() {
-        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
-
-        builderSingle.setTitle("Select Gender");
-        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
-        TextView header = (TextView) view.findViewById(R.id.gender_header);
-        header.setText("Select Gender");
-        builderSingle.setCustomTitle(view);
-
-        builderSingle.setAdapter(mGenderAdapter
-                ,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String strName = mGenderList.get(which);
-                        txtGender.setText(strName);
-                    }
-                });
-        builderSingle.show();
     }
 
     private void showRoleList() {
@@ -216,6 +189,43 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         builderSingle.show();
     }
 
+    private void getUserData() {
+        res = "data";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(M3AdminConstants.KEY_USER_MASTER_ID, user.getUser_master_id());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.GET_USER;
+        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+    }
+
+    private void showGenderList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Gender");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Gender");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mGenderAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mGenderList.get(which);
+                        txtGender.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         Calendar newDate = Calendar.getInstance();
@@ -226,14 +236,16 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         if (view == save) {
-            sendTaskValues();
+            if (validateFields()) {
+                sendTaskValues();
+            }
         } else if (view == txtDob) {
             showBirthdayDate();
         }
     }
 
     private void sendTaskValues() {
-        res = "";
+        res = "send";
 
         String name = txtName.getText().toString();
         String roleName = spnMobilizer.getText().toString();
@@ -243,6 +255,7 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         } else if (roleName.equalsIgnoreCase("Mobiliser")) {
             role = "5";
         }
+
         String gender = txtGender.getText().toString();
         String religion = txtReligion.getText().toString();
         String nationality = txtNationality.getText().toString();
@@ -254,6 +267,7 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         String secphone = txtSecPhone.getText().toString();
         String mail = txtMail.getText().toString();
         String seccmail = txtSecMail.getText().toString();
+        String address = txtAddress.getText().toString();
         String serverFormatDate = "";
 
         if (dob != null && dob != "") {
@@ -273,7 +287,7 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
-            jsonObject.put(M3AdminConstants.KEY_USER_MASTER_ID, PreferenceStorage.getPIAProfileId(getApplicationContext()));
+            jsonObject.put(M3AdminConstants.KEY_USER_MASTER_ID, user.getUser_master_id());
             jsonObject.put(M3AdminConstants.PARAMS_NAME, name);
             jsonObject.put(M3AdminConstants.PARAMS_ROLE, role);
             jsonObject.put(M3AdminConstants.PARAMS_GENDER, gender);
@@ -287,13 +301,13 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
             jsonObject.put(M3AdminConstants.PARAMS_EMAIL, mail);
             jsonObject.put(M3AdminConstants.PARAMS_SEC_EMAIL, seccmail);
             jsonObject.put(M3AdminConstants.PARAMS_QUALIFICATION, qualification);
+            jsonObject.put(M3AdminConstants.PARAMS_ADDRESS, address);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.CREATE_USER;
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.UPDATE_USER;
         serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 
@@ -344,10 +358,36 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onResponse(JSONObject response) {
         progressDialogHelper.hideProgressDialog();
+
         if (validateSignInResponse(response)) {
 
-            Toast.makeText(this, "Added successfully...", Toast.LENGTH_SHORT).show();
-            finish();
+            if (res.equalsIgnoreCase("send")) {
+
+                Toast.makeText(this, "Updated successfully...", Toast.LENGTH_SHORT).show();
+                finish();
+
+            } else if (res.equalsIgnoreCase("data")) {
+                try {
+                    JSONArray getData = response.getJSONArray("userList");
+
+                    txtName.setText(getData.getJSONObject(0).getString("name"));
+                    txtGender.setText(getData.getJSONObject(0).getString("sex"));
+                    txtDob.setText(getData.getJSONObject(0).getString("dob"));
+                    txtNationality.setText(getData.getJSONObject(0).getString("nationality"));
+                    txtReligion.setText(getData.getJSONObject(0).getString("religion"));
+                    txtClass.setText(getData.getJSONObject(0).getString("community_class"));
+                    txtCommunity.setText(getData.getJSONObject(0).getString("community"));
+                    txtQualification.setText(getData.getJSONObject(0).getString("qualification"));
+                    txtPhone.setText(getData.getJSONObject(0).getString("phone"));
+                    txtSecPhone.setText(getData.getJSONObject(0).getString("sec_phone"));
+                    txtMail.setText(getData.getJSONObject(0).getString("email"));
+                    txtSecMail.setText(getData.getJSONObject(0).getString("sec_email"));
+                    txtAddress.setText(getData.getJSONObject(0).getString("address"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -417,7 +457,7 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         } else if (!AppValidator.checkNullString(this.txtMail.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid mobile number");
             return false;
-        }  else {
+        } else {
             return true;
         }
     }

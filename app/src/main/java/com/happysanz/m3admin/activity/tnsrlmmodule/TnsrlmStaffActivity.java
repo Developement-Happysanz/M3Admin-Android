@@ -1,5 +1,6 @@
 package com.happysanz.m3admin.activity.tnsrlmmodule;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -129,8 +130,20 @@ public class TnsrlmStaffActivity extends AppCompatActivity implements IServiceLi
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.d(TAG, "onEvent list item click" + position);
+        Mobilizer userData = null;
+        if ((mobilizerListAdapter != null) && (mobilizerListAdapter.ismSearching())) {
+            Log.d(TAG, "while searching");
+            int actualindex = mobilizerListAdapter.getActualEventPos(position);
+            Log.d(TAG, "actual index" + actualindex);
+            userData = mobilizerArrayList.get(actualindex);
+        } else {
+            userData = mobilizerArrayList.get(position);
+        }
+        Intent intent = new Intent(this, UpdateTnsrlmStaffActivity.class);
+        intent.putExtra("userObj", userData);
+        startActivity(intent);
     }
 
     private boolean validateSignInResponse(JSONObject response) {

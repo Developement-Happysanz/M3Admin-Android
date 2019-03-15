@@ -131,28 +131,11 @@ public class AddNewPiaActivity extends AppCompatActivity implements IServiceList
     public void onResponse(JSONObject response) {
         progressDialogHelper.hideProgressDialog();
         if (validateSignInResponse(response)) {
-            try {
-
-//                startService(new Intent(LoginActivity.this, LocationService.class));
-//                startService(new Intent(LoginActivity.this, GPSTracker.class));
-
-                JSONObject userData = response.getJSONObject("userData");
-//                JSONObject piaProfile = response.getJSONObject("piaProfile");
-////                JSONObject dashBoardData = response.getJSONObject("dashboardData");
-//
-////                saveUserData(userData);
-////                savePIAProfile(piaProfile);
-//
-//
-                Intent intent = new Intent(this, PiaActivity.class);
-                Toast.makeText(AddNewPiaActivity.this, "Pia created successfully", Toast.LENGTH_SHORT).show();
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+//            Intent intent = new Intent(this, PiaActivity.class);
+            Toast.makeText(AddNewPiaActivity.this, "Pia created successfully", Toast.LENGTH_SHORT).show();
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            startActivity(intent);
+            finish();
         }
     }
 

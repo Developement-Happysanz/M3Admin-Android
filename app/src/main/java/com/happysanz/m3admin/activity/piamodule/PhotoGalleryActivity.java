@@ -296,7 +296,7 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
             String responseString = null;
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost(String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.ADD_PHOTO + Integer.parseInt(PreferenceStorage.getUserId(PhotoGalleryActivity.this))+  Integer.parseInt(PreferenceStorage.getCenterId(PhotoGalleryActivity.this))));
+            httppost = new HttpPost(String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.ADD_PHOTO + Integer.parseInt(centers.getid())+"/" +Integer.parseInt(PreferenceStorage.getUserId(getApplicationContext()))+"/"));
 
             try {
                 AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
@@ -336,12 +336,10 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
                             JSONObject resp = new JSONObject(responseString);
                             String successVal = resp.getString("status");
 
-                            mUpdatedImageUrl = resp.getString("picture_url");
+//                            mUpdatedImageUrl = resp.getString("picture_url");
 
                             Log.d(TAG, "updated image url is" + mUpdatedImageUrl);
                             if (successVal.equalsIgnoreCase("success")) {
-                                Log.d(TAG, "Updated image succesfully");
-                                Toast.makeText(PhotoGalleryActivity.this, "Upload succesful", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -414,6 +412,10 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    private void sendSuccessMessage() {
+        Log.d(TAG, "Updated image succesfully");
+        Toast.makeText(getApplicationContext(), "Upload succesful", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void onClick(View v) {
