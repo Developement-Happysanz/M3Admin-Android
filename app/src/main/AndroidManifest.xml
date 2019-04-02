@@ -264,7 +264,14 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".activity.piamodule.TrackingActivity"
+            android:name=".activity.piamodule.TrackingLiveActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".activity.piamodule.TrackingDistanceActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarLogin"

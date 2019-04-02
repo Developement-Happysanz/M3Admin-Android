@@ -51,12 +51,14 @@ public class UpdateTnsrlmStaffActivity extends AppCompatActivity implements View
     EditText spnMobilizer;
     String storeMobilizerId = "", res;
     Button save;
-    EditText txtName, txtGender, txtDob, txtNationality, txtReligion, txtClass, txtCommunity, txtAddress, txtMail, txtSecMail, txtPhone, txtSecPhone, txtQualification;
+    EditText txtName, txtGender, txtDob, txtNationality, txtReligion, txtStatus, txtClass, txtCommunity, txtAddress, txtMail, txtSecMail, txtPhone, txtSecPhone, txtQualification;
     private List<String> mGenderList = new ArrayList<String>();
     private ArrayAdapter<String> mGenderAdapter = null;
     private List<String> mRoleList = new ArrayList<String>();
     private ArrayAdapter<String> mRoleAdapter = null;
     Mobilizer user;
+    private List<String> statuslist = new ArrayList<String>();
+    private ArrayAdapter<String> mStatusAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,14 @@ public class UpdateTnsrlmStaffActivity extends AppCompatActivity implements View
         spnMobilizer.setVisibility(View.GONE);
         txtName = findViewById(R.id.user_name);
         txtGender = findViewById(R.id.gender);
+        txtStatus = findViewById(R.id.status);
+        txtStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showStatusList();
+            }
+        });
+        txtStatus.setFocusable(false);
         txtDob = findViewById(R.id.dob);
         txtNationality = findViewById(R.id.nationality);
         txtReligion = findViewById(R.id.religion);
@@ -126,6 +136,23 @@ public class UpdateTnsrlmStaffActivity extends AppCompatActivity implements View
                 View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
                 TextView gendername = (TextView) view.findViewById(R.id.gender_name);
                 gendername.setText(mGenderList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+
+
+        statuslist.add("Active");
+        statuslist.add("Inactive");
+
+        mStatusAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, statuslist) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(statuslist.get(position));
 
                 // ... Fill in other views ...
                 return view;
@@ -187,6 +214,27 @@ public class UpdateTnsrlmStaffActivity extends AppCompatActivity implements View
         builderSingle.show();
     }
 
+    private void showStatusList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Status");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Status");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mStatusAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = statuslist.get(which);
+                        txtStatus.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         Calendar newDate = Calendar.getInstance();
@@ -222,6 +270,7 @@ public class UpdateTnsrlmStaffActivity extends AppCompatActivity implements View
         String mail = txtMail.getText().toString();
         String seccmail = txtSecMail.getText().toString();
         String address = txtAddress.getText().toString();
+        String status = txtStatus.getText().toString();
         String serverFormatDate = "";
 
         if (dob != null && dob != "") {
@@ -256,6 +305,7 @@ public class UpdateTnsrlmStaffActivity extends AppCompatActivity implements View
             jsonObject.put(M3AdminConstants.PARAMS_SEC_EMAIL, seccmail);
             jsonObject.put(M3AdminConstants.PARAMS_QUALIFICATION, qualification);
             jsonObject.put(M3AdminConstants.PARAMS_ADDRESS, address);
+            jsonObject.put(M3AdminConstants.PARAMS_TASK_STATUS, status);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -326,7 +376,8 @@ public class UpdateTnsrlmStaffActivity extends AppCompatActivity implements View
 
                     txtName.setText(getData.getJSONObject(0).getString("name"));
                     txtGender.setText(getData.getJSONObject(0).getString("sex"));
-                    txtDob.setText(getData.getJSONObject(0).getString("dob"));
+                    String db = (getData.getJSONObject(0).getString("dob"));
+                    String serverFormatDate = "";
                     txtNationality.setText(getData.getJSONObject(0).getString("nationality"));
                     txtReligion.setText(getData.getJSONObject(0).getString("religion"));
                     txtClass.setText(getData.getJSONObject(0).getString("community_class"));
@@ -337,7 +388,22 @@ public class UpdateTnsrlmStaffActivity extends AppCompatActivity implements View
                     txtMail.setText(getData.getJSONObject(0).getString("email"));
                     txtSecMail.setText(getData.getJSONObject(0).getString("sec_email"));
                     txtAddress.setText(getData.getJSONObject(0).getString("address"));
+                    txtStatus.setText(getData.getJSONObject(0).getString("status"));
+                    if (db != null && db != "") {
 
+                        String date = db;
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+                        Date testDate = null;
+                        try {
+                            testDate = sdf.parse(date);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
+                        serverFormatDate = formatter.format(testDate);
+                        System.out.println(".....Date..." + serverFormatDate);
+                    }
+                    txtDob.setText(serverFormatDate);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -56,6 +56,7 @@ public class PiaProspectsActivity extends AppCompatActivity implements View.OnCl
                 startActivity(intent);
             }
         });
+        addNewPia.setVisibility(View.GONE);
 
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,7 +180,7 @@ public class PiaProspectsActivity extends AppCompatActivity implements View.OnCl
         } else {
             piaData = tradeDataArrayList.get(position);
         }
-        PreferenceStorage.saveUserId(this, piaData.getUser_id());
+        PreferenceStorage.savePIAProfileId(this, piaData.getUser_id());
         Intent intent = new Intent(this, ProspectsActivity.class);
 //        intent.putExtra("eventObj", piaData);
         startActivity(intent);

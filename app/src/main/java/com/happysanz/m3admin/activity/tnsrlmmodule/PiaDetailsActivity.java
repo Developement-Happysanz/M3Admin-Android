@@ -39,6 +39,7 @@ public class PiaDetailsActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
+        taskDash.setVisibility(View.GONE);
     }
 
     @Override

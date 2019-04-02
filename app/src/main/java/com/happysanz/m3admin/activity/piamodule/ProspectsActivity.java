@@ -15,6 +15,7 @@ import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
 import com.happysanz.m3admin.servicehelpers.ServiceHelper;
 import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
+import com.happysanz.m3admin.utils.PreferenceStorage;
 
 import org.json.JSONObject;
 
@@ -37,7 +38,9 @@ public class ProspectsActivity extends AppCompatActivity implements IServiceList
                 startActivity(intent);
             }
         });
-
+        if (PreferenceStorage.getTnsrlmCheck(this)){
+            addNewPia.setVisibility(View.GONE);
+        }
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -59,8 +59,14 @@ public class AllProspectsFragment extends Fragment implements AdapterView.OnItem
 
     public void getHolsList() {
         JSONObject jsonObject = new JSONObject();
+        String id = "";
+        if (PreferenceStorage.getUserId(getActivity()).equalsIgnoreCase("1")) {
+            id = PreferenceStorage.getPIAProfileId(getActivity());
+        } else {
+            id = PreferenceStorage.getUserId(getActivity());
+        }
         try {
-            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getActivity()));
+            jsonObject.put(M3AdminConstants.KEY_USER_ID, id);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -122,9 +128,15 @@ public class AllProspectsFragment extends Fragment implements AdapterView.OnItem
         } else {
             centers = upcomingHolidayArrayList.get(position);
         }
-        Intent intent = new Intent(getActivity(), AddCandidateActivity.class);
-        intent.putExtra("pros", centers);
-        startActivity(intent);
+
+        if (!PreferenceStorage.getUserId(getActivity()).equalsIgnoreCase("1")) {
+            Intent intent = new Intent(getActivity(), AddCandidateActivity.class);
+            intent.putExtra("pros", centers);
+            startActivity(intent);
+        } else {
+
+        }
+
     }
 
     private boolean validateSignInResponse(JSONObject response) {

@@ -48,11 +48,20 @@
     <!--map:cameraTargetLat="16.29905101"-->
     <!--map:cameraTargetLng="78.3984375" />-->
 
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="AAAAAAA"
+        android:visibility="gone"
+        android:textColor="@color/black"/>
+
     <com.google.android.gms.maps.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        map:cameraTargetLat="16.29905101"
-        map:cameraTargetLng="78.3984375"/>
+        map:cameraTargetLat="11.127123"
+        map:cameraTargetLng="78.656891"/>
 
 </LinearLayout>

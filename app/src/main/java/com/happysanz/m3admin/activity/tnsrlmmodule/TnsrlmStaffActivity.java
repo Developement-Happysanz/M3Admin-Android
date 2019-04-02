@@ -8,10 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
+import com.happysanz.m3admin.activity.piamodule.AddNewUserActivity;
 import com.happysanz.m3admin.activity.piamodule.MobilizerActivity;
 import com.happysanz.m3admin.activity.piamodule.UserActivity;
 import com.happysanz.m3admin.adapter.MobilizerListAdapter;
@@ -44,6 +46,7 @@ public class TnsrlmStaffActivity extends AppCompatActivity implements IServiceLi
     ArrayList<Mobilizer> mobilizerArrayList;
     MobilizerListAdapter mobilizerListAdapter;
     ListView loadMoreListView;
+    ImageView addNewStaff;
 
 
     @Override
@@ -53,6 +56,16 @@ public class TnsrlmStaffActivity extends AppCompatActivity implements IServiceLi
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
+
+        addNewStaff = (ImageView) findViewById(R.id.add_pia);
+        addNewStaff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AddNewTnsrlmStaffActivity.class);
+                startActivity(intent);
+            }
+        });
+
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

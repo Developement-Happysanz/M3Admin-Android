@@ -110,6 +110,12 @@ public class M3AdminConstants {
     //    STAFF TNSRLM UPDATE
     public static final String UPDATE_USER_TNSRLM = "apimain/update_user";
 
+    //    LIVE TRACKING
+    public static final String LIVE_TRACKING = "apipia/user_tracking_current";
+
+    //    DISTANCE TRACKING
+    public static final String DISTANCE_TRACKING = "apipia/user_tracking";
+
 
     //    Task add params
     public static final String PARAMS_TASK_TITLE = "task_title";
@@ -243,6 +249,11 @@ public class M3AdminConstants {
     public static final String PARAMS_UPDATED_BY = "updated_by";
     public static final String PARAMS_UPDATED_AT = "updated_at";
     public static final String PARAMS_PIA_ID = "pia_id";
+
+
+    // Tracking
+    public static final String PARAMS_TRACK_DATE = "track_date";
+
 
 
 }

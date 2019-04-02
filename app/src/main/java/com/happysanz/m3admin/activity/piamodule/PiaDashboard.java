@@ -205,7 +205,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
         if (view == tracking){
-            Intent intent = new Intent(getApplicationContext(), TrackingActivity.class);
+            Intent intent = new Intent(getApplicationContext(), TrackingUserSelectionActivity.class);
             startActivity(intent);
         }
         if (view == controlPanel){

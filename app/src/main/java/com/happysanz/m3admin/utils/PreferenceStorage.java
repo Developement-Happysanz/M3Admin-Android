@@ -256,6 +256,24 @@ public class PreferenceStorage {
     }
     /*End*/
 
+    // TNSRLM
+    public static void saveTnsrlmCheck(Context context, Boolean check) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("tnsrl_check", check);
+        editor.apply();
+    }
+
+    public static Boolean getTnsrlmCheck(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        Boolean check = false;
+        check = sharedPreferences.getBoolean("tnsrl_check",check);
+        return check;
+    }
+    /*End*/
+
     public static void saveAadhaarAction(Context context, String staffQualification) {
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(context);

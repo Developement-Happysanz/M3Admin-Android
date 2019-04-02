@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -24,19 +25,15 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.adapter.CenterPhotosListAdapter;
@@ -64,33 +61,25 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import static android.util.Log.d;
 
 public class PhotoGalleryActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
 
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
+    public static final String DATE_FORMAT = "yyyyMMdd_HHmmss";
+    public static final String IMAGE_DIRECTORY = "ImageScalling";
     private static final String TAG = PhotoGalleryActivity.class.getName();
     Centers centers;
     private ServiceHelper serviceHelper;
@@ -106,7 +95,9 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
     String res;
     ImageView imageview;
     private Uri outputFileUri;
-
+    private File file;
+    private File sourceFile;
+    private File destFile;
     static final int REQUEST_IMAGE_GET = 1;
     static final int CROP_PIC = 2;
     private String mActualFilePath = null;
@@ -114,7 +105,7 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
     private Bitmap mCurrentUserImageBitmap = null;
     private ProgressDialog mProgressDialog = null;
     private String mUpdatedImageUrl = null;
-
+    private SimpleDateFormat dateFormatter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,7 +114,8 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
         imageview = findViewById(R.id.sample);
 
 //        taskData = (TaskData) getIntent().getSerializableExtra("eventObj");
-
+        dateFormatter = new SimpleDateFormat(
+                DATE_FORMAT, Locale.US);
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
@@ -141,6 +133,9 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
             }
         });
 
+        if (PreferenceStorage.getTnsrlmCheck(this)){
+            findViewById(R.id.add_photo).setVisibility(View.GONE);
+        }
 
         loadMoreListView = (ListView) findViewById(R.id.photo_list);
         loadMoreListView.setOnItemClickListener(this);
@@ -161,13 +156,25 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
                 return;
             }
         }
-
-        final String fname = PreferenceStorage.getUserId(this) + ".png";
+        Calendar newCalendar = Calendar.getInstance();
+        int month = newCalendar.get(Calendar.MONTH) + 1;
+        int day = newCalendar.get(Calendar.DAY_OF_MONTH);
+        int year = newCalendar.get(Calendar.YEAR);
+        int hours = newCalendar.get(Calendar.HOUR_OF_DAY);
+        int minutes = newCalendar.get(Calendar.MINUTE);
+        int seconds = newCalendar.get(Calendar.SECOND);
+        final String fname = PreferenceStorage.getUserId(this)+"_"+ day + "_"+ month +"_"+ year +"_"+ hours + "_"+ minutes + "_" + seconds + ".png";
         final File sdImageMainDirectory = new File(root.getPath() + File.separator + fname);
+        destFile = sdImageMainDirectory;
         outputFileUri = Uri.fromFile(sdImageMainDirectory);
         Log.d(TAG, "camera output Uri" + outputFileUri);
 
         // Camera.
+        file = new File(Environment.getExternalStorageDirectory()
+                + "/" + IMAGE_DIRECTORY);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
         final List<Intent> cameraIntents = new ArrayList<Intent>();
         final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         final PackageManager packageManager = getPackageManager();
@@ -237,7 +244,8 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
                             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                             mActualFilePath = getRealPathFromURI(this, mSelectedImageUri);
                             cursor.close();
-
+                            File f1 = new File(mActualFilePath);
+                            mCurrentUserImageBitmap = decodeFile(f1);
                             //return Image Path to the Main Activity
                             Intent returnFromGalleryIntent = new Intent();
                             returnFromGalleryIntent.putExtra("picturePath",mActualFilePath);
@@ -262,12 +270,67 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
 //                    performCrop();
 //                    setPic(mSelectedImageUri);
                     mUpdatedImageUrl = null;
-
+                    mCurrentUserImageBitmap = decodeFile(destFile);
                     new UploadFileToServer().execute();
                 }
             }
 
         }
+    }
+
+    private Bitmap decodeFile(File f) {
+        Bitmap b = null;
+
+        //Decode image size
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        o.inJustDecodeBounds = true;
+
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(f);
+            BitmapFactory.decodeStream(fis, null, o);
+            fis.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int IMAGE_MAX_SIZE = 1024;
+        int scale = 1;
+        if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
+            scale = (int) Math.pow(2, (int) Math.ceil(Math.log(IMAGE_MAX_SIZE /
+                    (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
+        }
+
+        //Decode with inSampleSize
+        BitmapFactory.Options o2 = new BitmapFactory.Options();
+        o2.inSampleSize = scale;
+        try {
+            fis = new FileInputStream(f);
+            b = BitmapFactory.decodeStream(fis, null, o2);
+            fis.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG, "Width :" + b.getWidth() + " Height :" + b.getHeight());
+
+        destFile = new File(file, "img_"
+                + dateFormatter.format(new Date()).toString() + ".png");
+        mActualFilePath = destFile.getPath();
+        try {
+            FileOutputStream out = new FileOutputStream(destFile);
+            b.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return b;
     }
 
     private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
@@ -279,6 +342,8 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+
         }
 
         @Override
@@ -362,14 +427,15 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
         @Override
         protected void onPostExecute(String result) {
             Log.e(TAG, "Response from server: " + result);
+            progressDialogHelper.hideProgressDialog();
 
             super.onPostExecute(result);
             if ((result == null) || (result.isEmpty()) || (result.contains("Error"))) {
                 Toast.makeText(PhotoGalleryActivity.this, "Unable to upload picture", Toast.LENGTH_SHORT).show();
             } else {
-                if (mUpdatedImageUrl != null) {
-                    PreferenceStorage.saveUserPicture(PhotoGalleryActivity.this, mUpdatedImageUrl);
-                }
+                Toast.makeText(PhotoGalleryActivity.this, "Uploaded successfully!", Toast.LENGTH_SHORT).show();
+                finish();
+                startActivity(getIntent());
             }
 //            saveProfileData();
         }
@@ -466,6 +532,7 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
                 AlertDialogHelper.showSimpleAlertDialog(this, "Uploaded Successfully");
 
                 finish();
+                startActivity(getIntent());
             } else {
                 Gson gson = new Gson();
                 CenterPhotosList taskPictureList = gson.fromJson(response.toString(), CenterPhotosList.class);

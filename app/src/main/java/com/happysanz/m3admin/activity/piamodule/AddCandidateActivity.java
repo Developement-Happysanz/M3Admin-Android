@@ -342,12 +342,17 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     int getLength = getData.length();
                     String tradeId = "";
                     String tradeName = "";
+                    String status = "";
                     tradeList = new ArrayList<>();
 
                     for (int i = 0; i < getLength; i++) {
                         tradeId = getData.getJSONObject(i).getString("id");
                         tradeName = getData.getJSONObject(i).getString("trade_name");
-                        tradeList.add(new StoreTrade(tradeId, tradeName));
+                        status = getData.getJSONObject(i).getString("status");
+
+                        if (status.equalsIgnoreCase("Active")) {
+                            tradeList.add(new StoreTrade(tradeId, tradeName));
+                        }
                     }
 
                     //fill data in spinner

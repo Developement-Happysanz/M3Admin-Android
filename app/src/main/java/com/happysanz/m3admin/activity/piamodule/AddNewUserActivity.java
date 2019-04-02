@@ -85,7 +85,7 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
     EditText spnMobilizer;
     String storeMobilizerId ="", res;
     Button save;
-    EditText txtName, txtGender, txtDob, txtNationality, txtReligion, txtClass, txtCommunity, txtAddress, txtMail, txtSecMail, txtPhone, txtSecPhone, txtQualification;
+    EditText txtName, txtGender, txtDob, txtNationality, txtReligion, txtStatus, txtClass, txtCommunity, txtAddress, txtMail, txtSecMail, txtPhone, txtSecPhone, txtQualification;
     private List<String> mGenderList = new ArrayList<String>();
     private ArrayAdapter<String> mGenderAdapter = null;
     private List<String> mRoleList = new ArrayList<String>();
@@ -108,6 +108,9 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         spnMobilizer.setFocusable(false);
         txtName = findViewById(R.id.user_name);
         txtGender = findViewById(R.id.gender);
+        txtStatus = findViewById(R.id.status);
+        txtStatus.setVisibility(View.GONE);
+
         txtDob = findViewById(R.id.dob);
         txtNationality = findViewById(R.id.nationality);
         txtReligion = findViewById(R.id.religion);
@@ -226,13 +229,15 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         if (view == save) {
-            sendTaskValues();
+            if (validateFields()) {
+                sendValues();
+            }
         } else if (view == txtDob) {
             showBirthdayDate();
         }
     }
 
-    private void sendTaskValues() {
+    private void sendValues() {
         res = "";
 
         String name = txtName.getText().toString();

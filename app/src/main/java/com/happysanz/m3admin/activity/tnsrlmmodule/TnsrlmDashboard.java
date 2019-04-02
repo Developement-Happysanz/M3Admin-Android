@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
+import com.happysanz.m3admin.utils.PreferenceStorage;
 
 public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickListener {
     Toolbar toolbar;
@@ -68,6 +69,7 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
         studentsTnsrlm.setOnClickListener(this);
         graph = findViewById(R.id.graph_layout);
         graph.setOnClickListener(this);
+        PreferenceStorage.saveTnsrlmCheck(this,true);
 
     }
 

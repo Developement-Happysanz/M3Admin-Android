@@ -37,7 +37,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, DatePickerDialog.OnDateSetListener{
+public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = AddTaskActivity.class.getName();
 
@@ -46,10 +46,11 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
     EditText spnMobilizer;
-    String storeMobilizerId ="", res;
+    String storeMobilizerId = "", res;
     Button save;
-    EditText txtName, txtGender, txtDob, txtNationality, txtReligion, txtClass, txtCommunity, txtAddress, txtMail, txtSecMail, txtPhone, txtSecPhone, txtQualification;
+    EditText txtName, txtGender, txtDob, txtNationality, txtReligion, txtClass, txtStatus, txtCommunity, txtAddress, txtMail, txtSecMail, txtPhone, txtSecPhone, txtQualification;
     private List<String> mGenderList = new ArrayList<String>();
+    private List<String> statuslist = new ArrayList<String>();
     private ArrayAdapter<String> mGenderAdapter = null;
     private List<String> mRoleList = new ArrayList<String>();
     private ArrayAdapter<String> mRoleAdapter = null;
@@ -72,6 +73,9 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
         spnMobilizer.setVisibility(View.GONE);
         txtName = findViewById(R.id.user_name);
         txtGender = findViewById(R.id.gender);
+        txtStatus = findViewById(R.id.status);
+        txtStatus.setFocusable(false);
+
         txtDob = findViewById(R.id.dob);
         txtNationality = findViewById(R.id.nationality);
         txtReligion = findViewById(R.id.religion);
@@ -97,6 +101,13 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
                 showGenderList();
             }
         });
+
+        txtStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showStatusList();
+            }
+        });
         txtGender.setFocusable(false);
         save = findViewById(R.id.save_user);
         save.setOnClickListener(this);
@@ -114,6 +125,22 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
                 View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
                 TextView gendername = (TextView) view.findViewById(R.id.gender_name);
                 gendername.setText(mGenderList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+
+        statuslist.add("Active");
+        statuslist.add("Inactive");
+
+        mGenderAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, statuslist) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(statuslist.get(position));
 
                 // ... Fill in other views ...
                 return view;
@@ -159,6 +186,27 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
         builderSingle.show();
     }
 
+    private void showStatusList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Status");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Status");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mGenderAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = statuslist.get(which);
+                        txtStatus.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         Calendar newDate = Calendar.getInstance();
@@ -169,13 +217,15 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
     @Override
     public void onClick(View view) {
         if (view == save) {
-            sendTaskValues();
+            if (validateFields()) {
+                sendValues();
+            }
         } else if (view == txtDob) {
             showBirthdayDate();
         }
     }
 
-    private void sendTaskValues() {
+    private void sendValues() {
         res = "";
 
         String name = txtName.getText().toString();
@@ -191,6 +241,7 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
         String secphone = txtSecPhone.getText().toString();
         String mail = txtMail.getText().toString();
         String seccmail = txtSecMail.getText().toString();
+        String status = txtStatus.getText().toString();
         String serverFormatDate = "";
 
         if (dob != null && dob != "") {
@@ -224,6 +275,7 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
             jsonObject.put(M3AdminConstants.PARAMS_EMAIL, mail);
             jsonObject.put(M3AdminConstants.PARAMS_SEC_EMAIL, seccmail);
             jsonObject.put(M3AdminConstants.PARAMS_QUALIFICATION, qualification);
+            jsonObject.put(M3AdminConstants.PARAMS_TASK_STATUS, status);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -354,7 +406,7 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
         } else if (!AppValidator.checkNullString(this.txtMail.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid mobile number");
             return false;
-        }  else {
+        } else {
             return true;
         }
     }

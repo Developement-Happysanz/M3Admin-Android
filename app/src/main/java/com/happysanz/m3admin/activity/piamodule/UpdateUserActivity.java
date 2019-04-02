@@ -68,11 +68,13 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
     EditText spnMobilizer;
     String storeMobilizerId = "", res;
     Button save;
-    EditText txtName, txtGender, txtDob, txtNationality, txtReligion, txtClass, txtCommunity, txtAddress, txtMail, txtSecMail, txtPhone, txtSecPhone, txtQualification;
+    EditText txtName, txtGender, txtDob, txtNationality, txtReligion, txtClass, txtStatus, txtCommunity, txtAddress, txtMail, txtSecMail, txtPhone, txtSecPhone, txtQualification;
     private List<String> mGenderList = new ArrayList<String>();
     private ArrayAdapter<String> mGenderAdapter = null;
     private List<String> mRoleList = new ArrayList<String>();
     private ArrayAdapter<String> mRoleAdapter = null;
+    private List<String> mStatusList = new ArrayList<String>();
+    private ArrayAdapter<String> mStatusAdapter = null;
     Mobilizer user;
 
     @Override
@@ -101,6 +103,13 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
 //        spnMobilizer.setVisibility(View.GONE);
         txtName = findViewById(R.id.user_name);
         txtGender = findViewById(R.id.gender);
+        txtStatus = findViewById(R.id.status);
+        txtStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showStatusList();
+            }
+        });
         txtDob = findViewById(R.id.dob);
         txtNationality = findViewById(R.id.nationality);
         txtReligion = findViewById(R.id.religion);
@@ -164,6 +173,22 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
                 return view;
             }
         };
+
+        mStatusList.add("Active");
+        mStatusList.add("Inactive");
+
+        mStatusAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mStatusList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mStatusList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
         getUserData();
 
     }
@@ -184,6 +209,27 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
                     public void onClick(DialogInterface dialog, int which) {
                         String strName = mRoleList.get(which);
                         spnMobilizer.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
+    private void showStatusList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Status");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Status");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mStatusAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mStatusList.get(which);
+                        txtStatus.setText(strName);
                     }
                 });
         builderSingle.show();
@@ -268,6 +314,7 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
         String mail = txtMail.getText().toString();
         String seccmail = txtSecMail.getText().toString();
         String address = txtAddress.getText().toString();
+        String status = txtStatus.getText().toString();
         String serverFormatDate = "";
 
         if (dob != null && dob != "") {
