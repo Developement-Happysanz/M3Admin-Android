@@ -1,6 +1,7 @@
 package com.happysanz.m3admin.activity.piamodule;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -57,6 +58,8 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -228,6 +231,8 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                     spnMobilizer.setAdapter(adapter);
                 } else {
                     Toast.makeText(this, "Added successfully...", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+                    startActivity(intent);
                     finish();
                 }
             } catch (JSONException e) {

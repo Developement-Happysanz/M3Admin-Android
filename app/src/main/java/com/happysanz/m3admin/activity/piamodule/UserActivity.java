@@ -63,6 +63,7 @@ public class UserActivity extends AppCompatActivity implements IServiceListener,
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AddNewUserActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         mobilizerArrayList = new ArrayList<>();
@@ -142,6 +143,7 @@ public class UserActivity extends AppCompatActivity implements IServiceListener,
         Intent intent = new Intent(this, UpdateUserActivity.class);
         intent.putExtra("userObj", userData);
         startActivity(intent);
+        finish();
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, Void> {

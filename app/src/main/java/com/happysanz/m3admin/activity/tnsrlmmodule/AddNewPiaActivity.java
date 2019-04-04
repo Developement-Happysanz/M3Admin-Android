@@ -131,10 +131,10 @@ public class AddNewPiaActivity extends AppCompatActivity implements IServiceList
     public void onResponse(JSONObject response) {
         progressDialogHelper.hideProgressDialog();
         if (validateSignInResponse(response)) {
-//            Intent intent = new Intent(this, PiaActivity.class);
+            Intent intent = new Intent(this, PiaActivity.class);
             Toast.makeText(AddNewPiaActivity.this, "Pia created successfully", Toast.LENGTH_SHORT).show();
 //            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            startActivity(intent);
+            startActivity(intent);
             finish();
         }
     }

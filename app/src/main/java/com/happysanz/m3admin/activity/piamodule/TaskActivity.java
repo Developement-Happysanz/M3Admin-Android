@@ -72,10 +72,14 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loadTask() {
         JSONObject jsonObject = new JSONObject();
+        String id = "";
+        if (PreferenceStorage.getUserId(this).equalsIgnoreCase("1")) {
+            id = PreferenceStorage.getPIAProfileId(this);
+        } else {
+            id = PreferenceStorage.getUserId(this);
+        }
         try {
-            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
-
-
+            jsonObject.put(M3AdminConstants.KEY_USER_ID, id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -88,14 +92,10 @@ public class TaskActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v == addNewTask) {
-
-            startPersonDetailsActivity(0);
+            Intent intent = new Intent(getApplicationContext(), AddTaskActivity.class);
+            startActivity(intent);
+            finish();
         }
-    }
-
-    public void startPersonDetailsActivity(long id) {
-        Intent intent = new Intent(this, AddTaskActivity.class);
-        startActivityForResult(intent, 0);
     }
 
     @Override

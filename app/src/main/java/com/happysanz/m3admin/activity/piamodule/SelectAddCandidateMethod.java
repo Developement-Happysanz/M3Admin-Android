@@ -29,7 +29,7 @@ public class SelectAddCandidateMethod extends AppCompatActivity  implements View
     private Button btnScanAadhaarCard;
     private Button btnAddCandidate;
     // variables to store extracted xml data
-    String uid,name,gender,yearOfBirth,careOf,villageTehsil,postOffice,district,state,postCode;
+    String uid, name, gender, yearOfBirth, careOf, villageTehsil, postOffice, district, state, postCode;
 
 
     @Override
@@ -54,13 +54,16 @@ public class SelectAddCandidateMethod extends AppCompatActivity  implements View
     @Override
     public void onClick(View v) {
         if (v == btnAddCandidate) {
-            Intent myIntent = new Intent(this, AddCandidateActivity.class);
-            startActivity(myIntent);
+            Intent intent = new Intent(this, AddCandidateActivity.class);
+            // Start Activity
+            startActivity(intent);
+            finish();
         }
         if (v == btnScanAadhaarCard) {
             //initiating the qr code scan
             Intent myIntent = new Intent(this, HomeActivity.class);
             startActivity(myIntent);
+            finish();
 
            /* IntentIntegrator integrator = new IntentIntegrator(this);
             integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);

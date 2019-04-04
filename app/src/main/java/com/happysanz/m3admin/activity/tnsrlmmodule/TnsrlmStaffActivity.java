@@ -63,6 +63,7 @@ public class TnsrlmStaffActivity extends AppCompatActivity implements IServiceLi
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AddNewTnsrlmStaffActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -157,6 +158,7 @@ public class TnsrlmStaffActivity extends AppCompatActivity implements IServiceLi
         Intent intent = new Intent(this, UpdateTnsrlmStaffActivity.class);
         intent.putExtra("userObj", userData);
         startActivity(intent);
+        finish();
     }
 
     private boolean validateSignInResponse(JSONObject response) {

@@ -259,7 +259,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     fetchCurrentLocation();
                     if (mLastLocation == null) {
                         // AlertDialogHelper.showSimpleAlertDialog(getActivity(), "Enable Location services in settings");
-                        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(getApplicationContext());
+                        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(AddCandidateActivity.this);
                         alertDialogBuilder.setMessage("Enable Location services in settings");
                         alertDialogBuilder.setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
@@ -281,7 +281,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     }
 
                 } else {
-                    mLocationProgress = new ProgressDialog(getApplicationContext());
+                    mLocationProgress = new ProgressDialog(AddCandidateActivity.this);
                     mLocationProgress.setIndeterminate(true);
                     mLocationProgress.setMessage("Loading");
                     mLocationProgress.show();
@@ -452,10 +452,14 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     } else {
 
                         Toast.makeText(getApplicationContext(), "Student profile successfully...", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), ProspectsActivity.class);
+                        startActivity(intent);
                         finish();
                     }
                 } else if (checkInternalState.equalsIgnoreCase("updateStudent")) {
                     Toast.makeText(getApplicationContext(), "Student profile update successfully...", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), ProspectsActivity.class);
+                    startActivity(intent);
                     finish();
                 }
             }

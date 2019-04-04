@@ -90,6 +90,8 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -411,6 +413,8 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
             if (res.equalsIgnoreCase("send")) {
 
                 Toast.makeText(this, "Updated successfully...", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+                startActivity(intent);
                 finish();
 
             } else if (res.equalsIgnoreCase("data")) {

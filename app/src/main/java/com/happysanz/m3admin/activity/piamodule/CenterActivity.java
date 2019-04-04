@@ -97,8 +97,14 @@ public class CenterActivity extends AppCompatActivity implements  IServiceListen
 
     private void loadCenters() {
         JSONObject jsonObject = new JSONObject();
+        String id = "";
+        if (PreferenceStorage.getUserId(this).equalsIgnoreCase("1")) {
+            id = PreferenceStorage.getPIAProfileId(this);
+        } else {
+            id = PreferenceStorage.getUserId(this);
+        }
         try {
-            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(M3AdminConstants.KEY_USER_ID, id);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -206,6 +212,7 @@ public class CenterActivity extends AppCompatActivity implements  IServiceListen
         if(view == add){
             Intent intent = new Intent(this, AddCenterDetailActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 }

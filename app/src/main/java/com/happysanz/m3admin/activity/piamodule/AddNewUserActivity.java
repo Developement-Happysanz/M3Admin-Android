@@ -101,6 +101,8 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -352,6 +354,8 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         if (validateSignInResponse(response)) {
 
             Toast.makeText(this, "Added successfully...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+            startActivity(intent);
             finish();
         }
     }

@@ -2,6 +2,7 @@ package com.happysanz.m3admin.activity.tnsrlmmodule;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +55,7 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
     private ArrayAdapter<String> mGenderAdapter = null;
     private List<String> mRoleList = new ArrayList<String>();
     private ArrayAdapter<String> mRoleAdapter = null;
+    private ArrayAdapter<String> mStatusAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,7 +136,7 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
         statuslist.add("Active");
         statuslist.add("Inactive");
 
-        mGenderAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, statuslist) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+        mStatusAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, statuslist) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 Log.d(TAG, "getview called" + position);
@@ -195,7 +197,7 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
         header.setText("Select Status");
         builderSingle.setCustomTitle(view);
 
-        builderSingle.setAdapter(mGenderAdapter
+        builderSingle.setAdapter(mStatusAdapter
                 ,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -336,6 +338,8 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
         if (validateSignInResponse(response)) {
 
             Toast.makeText(this, "Added successfully...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), TnsrlmStaffActivity.class);
+            startActivity(intent);
             finish();
         }
     }

@@ -50,7 +50,7 @@ public class PiaDetailsActivity extends AppCompatActivity implements View.OnClic
             startActivity(intent);
         }
         if (view == studentDash){
-            Intent intent = new Intent(getApplicationContext(), ProspectsActivity.class);
+            Intent intent = new Intent(getApplicationContext(), PiaProspectsActivity.class);
             startActivity(intent);
         }
         if (view == centerInfoDash){

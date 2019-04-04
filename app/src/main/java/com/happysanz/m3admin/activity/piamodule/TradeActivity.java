@@ -70,8 +70,9 @@ public class TradeActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if(v == addNewTrade) {
-            Intent intent = new Intent(this, AddTradeActivity.class);
-            startActivityForResult(intent, 0);
+            Intent intent = new Intent(getApplicationContext(), AddTradeActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -152,8 +153,14 @@ public class TradeActivity extends AppCompatActivity implements View.OnClickList
 
     private void loadTrades() {
         JSONObject jsonObject = new JSONObject();
+        String id = "";
+        if (PreferenceStorage.getUserId(this).equalsIgnoreCase("1")) {
+            id = PreferenceStorage.getPIAProfileId(this);
+        } else {
+            id = PreferenceStorage.getUserId(this);
+        }
         try {
-            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(M3AdminConstants.KEY_USER_ID, id);
 
         } catch (JSONException e) {
             e.printStackTrace();

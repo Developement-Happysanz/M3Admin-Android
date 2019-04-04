@@ -88,6 +88,8 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CenterActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -228,8 +230,13 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
                 e.printStackTrace();
             }
             mUpdatedImageUrl = null;
-
-            new UploadFileToServer().execute();
+            if (!mActualFilePath.isEmpty()) {
+                new UploadFileToServer().execute();
+            } else {
+                Intent intent = new Intent(getApplicationContext(), CenterActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 
@@ -464,6 +471,9 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
             } else {
                 if (mUpdatedImageUrl != null) {
                     PreferenceStorage.saveUserPicture(AddCenterDetailActivity.this, mUpdatedImageUrl);
+                    Intent intent = new Intent(getApplicationContext(), CenterActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
 //            saveProfileData();

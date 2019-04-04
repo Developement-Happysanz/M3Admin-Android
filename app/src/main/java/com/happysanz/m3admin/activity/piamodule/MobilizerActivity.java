@@ -123,7 +123,7 @@ public class MobilizerActivity extends AppCompatActivity implements IServiceList
 
         if (CommonUtils.isNetworkAvailable(this)) {
             progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-            new HttpAsyncTask().execute("");
+            loadMob();
         } else {
             AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection");
         }
@@ -134,30 +134,24 @@ public class MobilizerActivity extends AppCompatActivity implements IServiceList
 
     }
 
-    private class HttpAsyncTask extends AsyncTask<String, Void, Void> {
-        @Override
-        protected Void doInBackground(String... urls) {
+    private void loadMob() {
+        JSONObject jsonObject = new JSONObject();
+        String id = "";
+        if (PreferenceStorage.getUserId(getApplicationContext()).equalsIgnoreCase("1")) {
+            id = PreferenceStorage.getPIAProfileId(getApplicationContext());
+        } else {
+            id = PreferenceStorage.getUserId(getApplicationContext());
+        }
+        try {
+            jsonObject.put(M3AdminConstants.KEY_PIA_ID, id);
 
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put(M3AdminConstants.KEY_PIA_ID, PreferenceStorage.getUserId(getApplicationContext()));
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-            String url = M3AdminConstants.BUILD_URL + M3AdminConstants.GET_MOBILIZER_LIST;
-            serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
-
-            return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        // onPostExecute displays the results of the AsyncTask.
-        @Override
-        protected void onPostExecute(Void result) {
-            progressDialogHelper.cancelProgressDialog();
-        }
+//        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.GET_MOBILIZER_LIST;
+        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 
 

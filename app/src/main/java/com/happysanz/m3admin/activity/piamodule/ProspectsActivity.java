@@ -36,6 +36,7 @@ public class ProspectsActivity extends AppCompatActivity implements IServiceList
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SelectAddCandidateMethod.class);
                 startActivity(intent);
+                finish();
             }
         });
         if (PreferenceStorage.getTnsrlmCheck(this)){

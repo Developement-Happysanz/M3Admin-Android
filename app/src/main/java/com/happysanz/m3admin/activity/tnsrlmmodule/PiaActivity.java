@@ -59,6 +59,7 @@ public class PiaActivity extends AppCompatActivity implements View.OnClickListen
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AddNewPiaActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -185,7 +186,7 @@ public class PiaActivity extends AppCompatActivity implements View.OnClickListen
             piaData = tradeDataArrayList.get(position);
         }
         Intent intent = new Intent(this, PiaDetailsActivity.class);
-        PreferenceStorage.saveUserId(this,piaData.getUser_id());
+        PreferenceStorage.savePIAProfileId(this,piaData.getUser_id());
 //        intent.putExtra("eventObj", piaData);
         startActivity(intent);
     }

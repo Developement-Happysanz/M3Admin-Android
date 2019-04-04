@@ -1,6 +1,7 @@
 package com.happysanz.m3admin.activity.piamodule;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -59,6 +60,8 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TradeActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -129,6 +132,8 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
         progressDialogHelper.hideProgressDialog();
         if (validateSignInResponse(response)) {
             Toast.makeText(this, "Added successfully...", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), TradeActivity.class);
+            startActivity(intent);
             finish();
         }
     }

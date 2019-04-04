@@ -99,7 +99,7 @@ public class M3AdminConstants {
     public static final String UPDATE_USER = "apipia/update_user";
 
     //    CREATE STAFF TNSRLM
-    public static final String CREATE_USER_TNSRLM = "apimain/createUser";
+    public static final String CREATE_USER_TNSRLM = "apimain/create_user";
 
     //    STAFF TNSRLM
     public static final String GET_USER_TNSRLM = "apimain/user_details";
