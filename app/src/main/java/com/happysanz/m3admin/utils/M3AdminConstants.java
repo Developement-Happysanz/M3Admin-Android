@@ -58,7 +58,7 @@ public class M3AdminConstants {
     public static final String VIEW_VIDEO_GALLERY = "apipia/center_videos";
 
     //    TRADE LIST
-    public static final String CREATE_TRADE= "apipia/create_trade";
+    public static final String CREATE_TRADE = "apipia/create_trade";
 
 
     //    PROSPECT LIST
@@ -116,6 +116,12 @@ public class M3AdminConstants {
     //    DISTANCE TRACKING
     public static final String DISTANCE_TRACKING = "apipia/user_tracking";
 
+    //    MOBILISATION PLAN VIEW
+    public static final String MOBILIZATION_PLAN_LIST = "apipia/mobilization_plan_list";
+
+    //    PROJECT PERIOD VIEW
+    public static final String PROJECT_PERIOD_LIST = "apipia/project_period_list";
+
 
     //    Task add params
     public static final String PARAMS_TASK_TITLE = "task_title";
@@ -129,13 +135,17 @@ public class M3AdminConstants {
 
     public static final String UPLOAD_CANDIDATE_PIC = "student_picupload/";
 
+    //Mobilizer URL
+    private static final String MOBILIZER_API = "http://happysanz.net/m3test/apimobilizer/";
+    public static final String BLOOD_GROUP_LIST = MOBILIZER_API + "select_bloodgroup/";
+
 
     //    TNSRLM
 
-//    PIA Creation URL
+    //    PIA Creation URL
     public static final String CREATE_PIA = "apimain/create_pia";
 
-//    PIA Creation URL
+    //    PIA Creation URL
     public static final String PIA_LIST = "apimain/pia_list";
 
 
@@ -253,7 +263,6 @@ public class M3AdminConstants {
 
     // Tracking
     public static final String PARAMS_TRACK_DATE = "track_date";
-
 
 
 }

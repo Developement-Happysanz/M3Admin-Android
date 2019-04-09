@@ -192,12 +192,6 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         setUpUI();
         setupUI(findViewById(R.id.scrollID));
         GetTrade();
-        if (allProspects == null) {
-            Log.d(TAG, "null" );
-        } else {
-            getProspectdata();
-        }
-
 
     }
 
@@ -287,8 +281,8 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     mLocationProgress.show();
                 }
             }
-//        } else if (v == etCandidateBloodGroup) {
-//            showBloodGroups();
+        } else if (v == etCandidateBloodGroup) {
+            showBloodGroups();
         } else if (v == etCandidatesPreferredTrade) {
             showTrades();
         } else if (v == etCandidatesPreferredTiming) {
@@ -368,8 +362,38 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                             return view;
                         }
                     };
-//                    getProspectdata();
+                    GetBloodGroup();
+                }else if (checkInternalState.equalsIgnoreCase("bloodGroup")) {
+                    JSONArray getData = response.getJSONArray("Bloodgroup");
+                    int getLength = getData.length();
+                    String bloodGroupId = "";
+                    String bloodGroupName = "";
+                    bloodGroupList = new ArrayList<>();
 
+                    for (int i = 0; i < getLength; i++) {
+                        bloodGroupId = getData.getJSONObject(i).getString("id");
+                        bloodGroupName = getData.getJSONObject(i).getString("blood_group_name");
+                        bloodGroupList.add(new StoreBloodGroup(bloodGroupId, bloodGroupName));
+                    }
+
+                    //fill data in spinner
+                    mBloodGroupAdapter = new ArrayAdapter<StoreBloodGroup>(getApplicationContext(), R.layout.gender_layout, R.id.gender_name, bloodGroupList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent) {
+                            Log.d(TAG, "getview called" + position);
+                            View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                            TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                            gendername.setText(bloodGroupList.get(position).getBloodGroupName());
+
+                            // ... Fill in other views ...
+                            return view;
+                        }
+                    };
+                    if (allProspects == null) {
+                        Log.d(TAG, "null" );
+                    } else {
+                        getProspectdata();
+                    }
                 } else if (checkInternalState.equalsIgnoreCase("timings")) {
                     JSONArray getData = response.getJSONArray("Timings");
                     int getLength = getData.length();
@@ -431,7 +455,9 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         etCandidatesAadhaarNo.setText(getData.getJSONObject(0).getString("aadhaar_card_number"));
                     }
 //                    etCandidateDisabilityReason.setText(getData.getJSONObject(0).getString("name"));
-                    etCandidatesPreferredTrade.setText(getData.getJSONObject(0).getString("preferred_trade"));
+//                    etCandidatesPreferredTrade.setText(getData.getJSONObject(0).getString("preferred_trade"));
+                    tradeId = getData.getJSONObject(0).getString("preferred_trade");
+                    selectTradeById(tradeId);
                     etCandidatesPreferredTiming.setText(getData.getJSONObject(0).getString("preferred_timing"));
                     etCandidatesQualification.setText(getData.getJSONObject(0).getString("last_studied"));
                     etCandidatesLastInstitute.setText(getData.getJSONObject(0).getString("last_institute"));
@@ -525,8 +551,8 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         etCandidateCommunity = findViewById(R.id.et_candidate_community);
 
         etCandidateBloodGroup = findViewById(R.id.et_candidate_blood_group);
-//        etCandidateBloodGroup.setOnClickListener(this);
-//        etCandidateBloodGroup.setFocusable(false);
+        etCandidateBloodGroup.setOnClickListener(this);
+        etCandidateBloodGroup.setFocusable(false);
 
         etCandidateFatherName = findViewById(R.id.et_candidate_father_name);
 
@@ -697,9 +723,9 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     if (gender.equalsIgnoreCase("M")) {
                         etCandidateSex.setText("Male");
                     } else if (gender.equalsIgnoreCase("F")) {
-                        etCandidateDOB.setText("Female");
+                        etCandidateSex.setText("Female");
                     } else {
-                        etCandidateDOB.setText("Others");
+                        etCandidateSex.setText("Others");
                     }
                     etCandidateAddressLine1.setText(house + " " + street + " " + location);
                     etCandidateCity.setText(postOffice);
@@ -912,20 +938,21 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         if (etCandidateDOB.getText().toString() != null && etCandidateDOB.getText().toString() != "") {
 
             String date = etCandidateDOB.getText().toString();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             Date testDate = null;
             try {
                 testDate = sdf.parse(date);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             serverFormatDate = formatter.format(testDate);
             System.out.println(".....Date..." + serverFormatDate);
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-        String currentDateandTime = sdf.format(new Date());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentTime = Calendar.getInstance().getTime();
+        String currentDateandTime = sdf.format(currentTime);
 
         locationAddressResult = getCompleteAddressString(currentLatitude, currentLongitude);
 
@@ -1033,20 +1060,21 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         if (etCandidateDOB.getText().toString() != null && etCandidateDOB.getText().toString() != "") {
 
             String date = etCandidateDOB.getText().toString();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             Date testDate = null;
             try {
                 testDate = sdf.parse(date);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             serverFormatDate = formatter.format(testDate);
             System.out.println(".....Date..." + serverFormatDate);
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
-        String currentDateandTime = sdf.format(new Date());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentTime = Calendar.getInstance().getTime();
+        String currentDateandTime = sdf.format(currentTime);
 
         locationAddressResult = getCompleteAddressString(currentLatitude, currentLongitude);
 
@@ -1077,7 +1105,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             jsonObject.put(M3AdminConstants.PARAMS_ADMISSION_LOCATION, locationAddressResult);
             jsonObject.put(M3AdminConstants.PARAMS_ADMISSION_LATITUDE, "" + currentLatitude);
             jsonObject.put(M3AdminConstants.PARAMS_ADMISSION_LONGITUDE, "" + currentLongitude);
-            jsonObject.put(M3AdminConstants.PARAMS_PREFERRED_TRADE, CandidatesPreferredTrade);
+            jsonObject.put(M3AdminConstants.PARAMS_PREFERRED_TRADE, tradeId);
             jsonObject.put(M3AdminConstants.PARAMS_PREFERRED_TIMING, CandidatesPreferredTiming);
             jsonObject.put(M3AdminConstants.PARAMS_LAST_INSTITUTE, CandidatesLastInstitute);
             jsonObject.put(M3AdminConstants.PARAMS_LAST_STUDIED, CandidatesQualification);
@@ -1475,26 +1503,26 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
     private void GetBloodGroup() {
 
-//        checkInternalState = "bloodGroup";
-//
-//        if (CommonUtils.isNetworkAvailable(this)) {
-//
-//            JSONObject jsonObject = new JSONObject();
-//            try {
-//                jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//            progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-//            String url = M3AdminConstants.BUILD_URL + M3AdminConstants.BLOOD_GROUP_LIST;
-//            serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
-//
-//
-//        } else {
-//            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection");
-//        }
+        checkInternalState = "bloodGroup";
+
+        if (CommonUtils.isNetworkAvailable(this)) {
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+            String url = M3AdminConstants.BLOOD_GROUP_LIST;
+            serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+
+
+        } else {
+            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection");
+        }
     }
 
     private void showBloodGroups() {
@@ -1516,6 +1544,20 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     }
                 });
         builderSingle.show();
+    }
+
+    private void selectTradeById(String id) {
+        if (!tradeList.isEmpty()){
+            String test = "";
+            for (int ss = 0; ss < tradeList.size(); ss++){
+                if (tradeList.get(ss).getTradeId().equalsIgnoreCase(id)) {
+                    test = tradeList.get(ss).getTradeName();
+                }
+            }
+            etCandidatesPreferredTrade.setText(test);
+        } else {
+            etCandidatesPreferredTrade.setText("");
+        }
     }
 
     private void GetTrade() {

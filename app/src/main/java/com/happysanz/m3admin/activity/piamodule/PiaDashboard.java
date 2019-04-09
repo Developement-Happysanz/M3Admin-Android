@@ -237,7 +237,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
         if (view == time){
-            Intent intent = new Intent(getApplicationContext(), TimeActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ProjectPeriodActivity.class);
             startActivity(intent);
         }
         if (view == mobilizerDash){

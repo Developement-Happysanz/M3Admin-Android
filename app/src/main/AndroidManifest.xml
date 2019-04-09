@@ -195,7 +195,7 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".activity.piamodule.TimeActivity"
+            android:name=".activity.piamodule.ProjectPeriodActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarLogin"
@@ -424,6 +424,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarLogin"
             android:windowSoftInputMode="stateHidden"  />
+
+        <activity android:name=".activity.piamodule.AddProjectPeriodActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden"/>
 
     </application>
 
