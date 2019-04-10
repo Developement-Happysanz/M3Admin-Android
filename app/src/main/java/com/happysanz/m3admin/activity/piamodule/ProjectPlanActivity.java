@@ -66,7 +66,7 @@ public class ProjectPlanActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
+        setContentView(R.layout.activity_project_plan);
 
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,8 +81,8 @@ public class ProjectPlanActivity extends AppCompatActivity implements View.OnCli
         loadMoreListView = findViewById(R.id.listView_task);
         loadMoreListView.setOnItemClickListener(this);
         taskDataArrayList = new ArrayList<>();
-//        addNewTask = findViewById(R.id.add_task);
-//        addNewTask.setOnClickListener(this);
+        addNewTask = findViewById(R.id.add_plan);
+        addNewTask.setOnClickListener(this);
 
         loadMobPlan();
     }
@@ -108,11 +108,11 @@ public class ProjectPlanActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-//        if (v == addNewTask) {
-//            Intent intent = new Intent(getApplicationContext(), AddTaskActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
+        if (v == addNewTask) {
+            Intent intent = new Intent(getApplicationContext(), ProjectPlanActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override

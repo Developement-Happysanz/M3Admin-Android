@@ -144,17 +144,17 @@
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
-                        <TextView
-                            android:id="@+id/txt_project"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="40dp"
-                            android:gravity="center_vertical"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            android:text="Project"
-                            android:textColor="@color/black"
-                            android:textSize="16sp" />
+                        <!--<TextView-->
+                            <!--android:id="@+id/txt_project"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginLeft="40dp"-->
+                            <!--android:gravity="center_vertical"-->
+                            <!--android:paddingTop="10dp"-->
+                            <!--android:paddingBottom="10dp"-->
+                            <!--android:text="Project"-->
+                            <!--android:textColor="@color/black"-->
+                            <!--android:textSize="16sp" />-->
 
                         <TextView
                             android:id="@+id/txt_trade"
@@ -289,7 +289,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_toRightOf="@id/img_add_plan"
                             android:gravity="center_vertical"
-                            android:text="Add Plan"
+                            android:text="Mobilization Plan"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 

@@ -59,8 +59,8 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
 
         scheme = (TextView) findViewById(R.id.txt_scheme);
         scheme.setOnClickListener(this);
-        project = (TextView) findViewById(R.id.txt_project);
-        project.setOnClickListener(this);
+//        project = (TextView) findViewById(R.id.txt_project);
+//        project.setOnClickListener(this);
         center = (TextView) findViewById(R.id.txt_center);
         center.setOnClickListener(this);
         trade = (TextView) findViewById(R.id.txt_trade);
@@ -197,7 +197,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
         if (view == addPlan){
-            Intent intent = new Intent(getApplicationContext(), AddPlanActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ProjectPlanActivity.class);
             startActivity(intent);
         }
         if (view == task){
@@ -220,10 +220,10 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(getApplicationContext(), CenterActivity.class);
             startActivity(intent);
         }
-        if (view == project){
-            Intent intent = new Intent(getApplicationContext(), ProjectPlanActivity.class);
-            startActivity(intent);
-        }
+//        if (view == project){
+//            Intent intent = new Intent(getApplicationContext(), ProjectPlanActivity.class);
+//            startActivity(intent);
+//        }
         if (view == trade){
             Intent intent = new Intent(getApplicationContext(), TradeActivity.class);
             startActivity(intent);

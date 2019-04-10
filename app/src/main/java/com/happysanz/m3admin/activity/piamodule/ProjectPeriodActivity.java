@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
@@ -64,7 +65,8 @@ public class ProjectPeriodActivity extends AppCompatActivity implements View.OnC
                 finish();
             }
         });
-
+        TextView title = findViewById(R.id.title);
+        title.setText("Project Duration");
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
