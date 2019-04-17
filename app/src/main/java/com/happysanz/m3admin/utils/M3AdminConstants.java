@@ -118,6 +118,7 @@ public class M3AdminConstants {
 
     //    MOBILISATION PLAN VIEW
     public static final String MOBILIZATION_PLAN_LIST = "apipia/mobilization_plan_list";
+    public static final String MOBILIZATION_PLAN_FILE_UPLOAD = "apipia/mobilization_plan_upload/";
 
     //    PROJECT PERIOD VIEW
     public static final String PROJECT_PERIOD_LIST = "apipia/project_period_list";
