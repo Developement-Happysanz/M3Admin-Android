@@ -10,8 +10,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.happysanz.m3admin.R;
+import com.happysanz.m3admin.activity.piamodule.AddPlanActivity;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -142,12 +144,14 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         progressDialogHelper.hideProgressDialog();
 
         if (validateSignInResponse(response)) {
+            Toast.makeText(ForgotPasswordActivity.this, "Password reset successfully!", Toast.LENGTH_SHORT).show();
             try {
                 JSONObject userData = response.getJSONObject("userData");
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            finish();
         }
     }
 

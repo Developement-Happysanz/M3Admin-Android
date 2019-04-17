@@ -20,7 +20,7 @@
     <!--Sign In -->
     <string name="err_username">Enter valid username</string>
     <string name="err_empty_password">Enter valid password</string>
-    <string name="err_min_pass_length">Short passwords are easy to guess! Try one with at least 6 characters&#8230;</string>
+    <string name="err_min_pass_length">Short passwords are easy to guess! Try one with at least 4 characters&#8230;</string>
 
 
     <!--live-->

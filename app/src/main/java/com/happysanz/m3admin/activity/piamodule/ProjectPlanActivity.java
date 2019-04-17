@@ -111,7 +111,7 @@ public class ProjectPlanActivity extends AppCompatActivity implements View.OnCli
         if (v == addNewTask) {
             Intent intent = new Intent(getApplicationContext(), AddPlanActivity.class);
             startActivity(intent);
-//            finish();
+            finish();
         }
     }
 

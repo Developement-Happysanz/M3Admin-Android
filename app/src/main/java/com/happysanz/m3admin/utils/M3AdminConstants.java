@@ -118,6 +118,7 @@ public class M3AdminConstants {
 
     //    MOBILISATION PLAN VIEW
     public static final String MOBILIZATION_PLAN_LIST = "apipia/mobilization_plan_list";
+    public static final String MOBILIZATION_PLAN_FILE_ID = "apipia/mobilization_plan";
     public static final String MOBILIZATION_PLAN_FILE_UPLOAD = "apipia/mobilization_plan_upload/";
 
     //    PROJECT PERIOD VIEW
@@ -222,6 +223,10 @@ public class M3AdminConstants {
     public static final String PARAMS_CENTER_ADDRESS = "center_address";
     public static final String PARAMS_CENTER_INFO = "center_info";
 
+
+    //    Upload File
+    public static final String PARAMS_DOC_NAME = "doc_name";
+    public static final String PARAMS_DOC_TIME = "doc_month_year";
 
     //    Add candidate params
     public static final String PARAMS_HAVE_AADHAAR_CARD = "have_aadhaar_card";

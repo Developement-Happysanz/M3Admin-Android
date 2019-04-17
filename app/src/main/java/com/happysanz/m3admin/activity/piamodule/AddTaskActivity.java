@@ -21,6 +21,7 @@ import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
 import com.happysanz.m3admin.servicehelpers.ServiceHelper;
 import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
+import com.happysanz.m3admin.utils.AppValidator;
 import com.happysanz.m3admin.utils.M3AdminConstants;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 
@@ -114,9 +115,26 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if (view == save) {
-            sendTaskValues();
+            if (validateFields()) {
+                sendTaskValues();
+            }
         } else if (view == txtDate) {
             showBirthdayDate();
+        }
+    }
+
+    private boolean validateFields() {
+        if (!AppValidator.checkNullString(this.txtTitle.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid title");
+            return false;
+        } else if (!AppValidator.checkNullString(this.txtDetails.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid task details");
+            return false;
+        } else if (!AppValidator.checkNullString(this.txtDate.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid date");
+            return false;
+        } else {
+            return true;
         }
     }
 
