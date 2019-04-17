@@ -57,7 +57,6 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
     String planID = "";
     private static final int PICK_FILE_REQUEST = 1;
     private String selectedFilePath;
-    private String SERVER_URL = String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.MOBILIZATION_PLAN_FILE_UPLOAD + planID);
 //    ImageView ivAttachment;
     Button bUpload;
 //    TextView tvFileName;
@@ -224,6 +223,7 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
             }else{
                 try{
                     FileInputStream fileInputStream = new FileInputStream(selectedFile);
+                    String SERVER_URL = String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.MOBILIZATION_PLAN_FILE_UPLOAD + planID);
                     URL url = new URL(SERVER_URL);
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);//Allow Inputs
