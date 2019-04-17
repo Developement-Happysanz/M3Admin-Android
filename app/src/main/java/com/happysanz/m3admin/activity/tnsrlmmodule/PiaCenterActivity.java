@@ -56,6 +56,7 @@ public class PiaCenterActivity extends AppCompatActivity implements View.OnClick
                 startActivity(intent);
             }
         });
+        addNewPia.setVisibility(View.GONE);
 
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override

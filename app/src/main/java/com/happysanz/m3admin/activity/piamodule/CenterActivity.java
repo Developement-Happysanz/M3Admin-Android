@@ -74,6 +74,7 @@ public class CenterActivity extends AppCompatActivity implements  IServiceListen
         if (intent.hasExtra("eventObj")) {
             pia = (Mobilizer) intent.getSerializableExtra("eventObj");
             PreferenceStorage.savePIAProfileId(this, pia.getUser_id());
+            add.setVisibility(View.GONE);
             loadCentersForPia();
         } else {
             loadCenters();

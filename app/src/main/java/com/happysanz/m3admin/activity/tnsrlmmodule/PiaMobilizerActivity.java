@@ -57,7 +57,7 @@ public class PiaMobilizerActivity extends AppCompatActivity implements View.OnCl
                 startActivity(intent);
             }
         });
-
+        addNewPia.setVisibility(View.GONE);
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
