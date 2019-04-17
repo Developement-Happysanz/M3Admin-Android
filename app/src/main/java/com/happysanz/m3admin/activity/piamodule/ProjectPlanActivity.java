@@ -109,9 +109,9 @@ public class ProjectPlanActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if (v == addNewTask) {
-            Intent intent = new Intent(getApplicationContext(), ProjectPlanActivity.class);
+            Intent intent = new Intent(getApplicationContext(), AddPlanActivity.class);
             startActivity(intent);
-            finish();
+//            finish();
         }
     }
 
