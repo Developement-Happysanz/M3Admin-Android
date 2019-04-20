@@ -104,13 +104,23 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/upload_file"
+            android:id="@+id/choose_file"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:background="@color/blue"
             android:text="Choose File"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/upload_file"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:background="@color/blue"
+            android:text="Upload File"
             android:textColor="@color/white" />
 
     </LinearLayout>

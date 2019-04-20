@@ -58,11 +58,11 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
     private static final int PICK_FILE_REQUEST = 1;
     private String selectedFilePath;
 //    ImageView ivAttachment;
-    Button bUpload;
+    Button bUpload, bChoose;
 //    TextView tvFileName;
     ProgressDialog dialog;
     EditText fileName;
-
+    File sizeCge;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,14 +73,18 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
         progressDialogHelper = new ProgressDialogHelper(this);
 
 //        ivAttachment = (ImageView) findViewById(R.id.ivAttachment);
+        bChoose = (Button) findViewById(R.id.choose_file);
         bUpload = (Button) findViewById(R.id.upload_file);
 //        tvFileName = (TextView) findViewById(R.id.tv_file_name);
 //        ivAttachment.setOnClickListener(this);
         bUpload.setOnClickListener(this);
-
+        bChoose.setOnClickListener(this);
+        bUpload.setVisibility(View.GONE);
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ProjectPlanActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -111,16 +115,17 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
                 Log.i(TAG,"Selected File Path:" + selectedFilePath);
 
                 if(selectedFilePath != null && !selectedFilePath.equals("")){
-                    dialog = ProgressDialog.show(AddPlanActivity.this,"","Uploading File...",true);
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //creating new thread to handle Http Operations
-//                        uploadFile(selectedFilePath);
-                            new PostDataAsyncTask().execute();
-                        }
-                    }).start();
+                    Toast.makeText(this,"File ready to Upload",Toast.LENGTH_SHORT).show();
+//                    dialog = ProgressDialog.show(AddPlanActivity.this,"","Uploading File...",true);
+//
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            //creating new thread to handle Http Operations
+////                        uploadFile(selectedFilePath);
+//                            new PostDataAsyncTask().execute();
+//                        }
+//                    }).start();
                 }else{
                     Toast.makeText(this,"Cannot upload file to server",Toast.LENGTH_SHORT).show();
                 }
@@ -136,13 +141,26 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
                 getPlanID();
             }
         }
+        if ( v == bChoose){
+            showFileChooser();
+            bUpload.setVisibility(View.VISIBLE);
+        }
     }
 
     private boolean validateFields() {
         if (!AppValidator.checkNullString(this.fileName.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid title");
             return false;
-        } else {
+        }
+        if (!selectedFilePath.isEmpty()){
+            sizeCge = new File (selectedFilePath);
+            if (sizeCge.length() >= 2500000)  {
+                AlertDialogHelper.showSimpleAlertDialog(this, "File size too large");
+                return false;
+            }
+            return false;
+        }
+         else {
             return true;
         }
     }
@@ -205,7 +223,7 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
             byte[] buffer;
             int maxBufferSize = 1 * 1024 * 1024;
             File selectedFile = new File(selectedFilePath);
-
+            double len = selectedFile.length();
 
             String[] parts = selectedFilePath.split("/");
             final String fileName = parts[parts.length-1];
@@ -217,6 +235,17 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
                     @Override
                     public void run() {
 //                        tvFileName.setText("Source File Doesn't Exist: " + selectedFilePath);
+                    }
+                });
+                return "";
+            }else if (len >= 2500000){
+                dialog.dismiss();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(AddPlanActivity.this,"File size is too large",Toast.LENGTH_SHORT).show();
+                        showFileChooser();
                     }
                 });
                 return "";
@@ -360,10 +389,19 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
         if (validateSignInResponse(response)) {
             try {
                 planID = response.getString("plan_id");
+                dialog = ProgressDialog.show(AddPlanActivity.this,"","Uploading File...",true);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //creating new thread to handle Http Operations
+//                        uploadFile(selectedFilePath);
+                        new PostDataAsyncTask().execute();
+                    }
+                }).start();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            showFileChooser();
         }
     }
 
