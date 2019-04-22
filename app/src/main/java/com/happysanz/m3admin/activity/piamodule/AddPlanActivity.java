@@ -152,14 +152,14 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid title");
             return false;
         }
-        if (!selectedFilePath.isEmpty()){
-            sizeCge = new File (selectedFilePath);
-            if (sizeCge.length() >= 2500000)  {
-                AlertDialogHelper.showSimpleAlertDialog(this, "File size too large");
-                return false;
-            }
-            return false;
-        }
+//        if (!selectedFilePath.isEmpty()){
+//            sizeCge = new File (selectedFilePath);
+//            if (sizeCge.length() >= 2500000)  {
+//                AlertDialogHelper.showSimpleAlertDialog(this, "File size too large");
+//                return false;
+//            }
+//            return false;
+//        }
          else {
             return true;
         }

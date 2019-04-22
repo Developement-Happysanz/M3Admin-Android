@@ -6,7 +6,7 @@ android {
         config {
             keyAlias 'm3admin_alias'
             keyPassword 'M3admin@123'
-            storeFile file('m3admin.jks')
+            storeFile file('F:\\StudioProjects\\M3Admin\\app\\m3admin.jks')
             storePassword 'M3admin@123'
             flavorDimensions "default"
         }
@@ -19,8 +19,8 @@ android {
         applicationId "com.happysanz.m3admin"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
