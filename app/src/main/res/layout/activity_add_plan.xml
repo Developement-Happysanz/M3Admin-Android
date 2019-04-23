@@ -103,6 +103,13 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <DatePicker
+            android:id="@+id/plan_month"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"/>
+
         <Button
             android:id="@+id/choose_file"
             android:layout_width="150dp"

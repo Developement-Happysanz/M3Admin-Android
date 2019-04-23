@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -62,7 +63,9 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
 //    TextView tvFileName;
     ProgressDialog dialog;
     EditText fileName;
-    File sizeCge;
+
+    DatePicker planDate;
+    String start;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +75,7 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
 
+        planDate = findViewById(R.id.plan_month);
 //        ivAttachment = (ImageView) findViewById(R.id.ivAttachment);
         bChoose = (Button) findViewById(R.id.choose_file);
         bUpload = (Button) findViewById(R.id.upload_file);
@@ -137,8 +141,34 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
     public void onClick(View v) {
 
         if ( v == bUpload){
+            int day_start = planDate.getDayOfMonth();
+            int month_start = planDate.getMonth() + 1;
+            int year_start = planDate.getYear();
+
+            String formattedMonth = "" + month_start;
+            String formattedDayOfMonth = "" + day_start;
+
+            if(month_start < 10){
+
+                formattedMonth = "0" + month_start;
+            }
+            if(day_start < 10){
+
+                formattedDayOfMonth  = "0" + day_start;
+            }
+
+            start = "" + year_start + "-" + formattedMonth + "-" + formattedDayOfMonth;
             if (validateFields()) {
-                getPlanID();
+                dialog = ProgressDialog.show(AddPlanActivity.this,"","Uploading File...",true);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //creating new thread to handle Http Operations
+//                        uploadFile(selectedFilePath);
+                        new PostDataAsyncTask().execute();
+                    }
+                }).start();
             }
         }
         if ( v == bChoose){
@@ -150,6 +180,9 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
     private boolean validateFields() {
         if (!AppValidator.checkNullString(this.fileName.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid title");
+            return false;
+        } else if (!AppValidator.checkNullString(start.trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select Date");
             return false;
         }
 //        if (!selectedFilePath.isEmpty()){
@@ -163,30 +196,6 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
          else {
             return true;
         }
-    }
-
-    private void getPlanID() {
-        JSONObject jsonObject = new JSONObject();
-        String id = "";
-        if (PreferenceStorage.getUserId(this).equalsIgnoreCase("1")) {
-            id = PreferenceStorage.getPIAProfileId(this);
-        } else {
-            id = PreferenceStorage.getUserId(this);
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date currentTime = Calendar.getInstance().getTime();
-        String date = sdf.format(currentTime);
-        try {
-            jsonObject.put(M3AdminConstants.KEY_USER_ID, id);
-            jsonObject.put(M3AdminConstants.PARAMS_DOC_NAME, fileName.getText());
-            jsonObject.put(M3AdminConstants.PARAMS_DOC_TIME, date);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.MOBILIZATION_PLAN_FILE_ID;
-        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 
     private class PostDataAsyncTask extends AsyncTask<Void, Integer, String> {
@@ -217,7 +226,7 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
             String lineEnd = "\r\n";
             String twoHyphens = "--";
             String boundary = "*****";
-
+            String title = fileName.getText().toString();
 
             int bytesRead,bytesAvailable,bufferSize;
             byte[] buffer;
@@ -238,21 +247,16 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
                     }
                 });
                 return "";
-            }else if (len >= 2500000){
-                dialog.dismiss();
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(AddPlanActivity.this,"File size is too large",Toast.LENGTH_SHORT).show();
-                        showFileChooser();
-                    }
-                });
-                return "";
-            }else{
+            } else{
                 try{
+                    String id = "";
+                    if (PreferenceStorage.getUserId(AddPlanActivity.this).equalsIgnoreCase("1")) {
+                        id = PreferenceStorage.getPIAProfileId(AddPlanActivity.this);
+                    } else {
+                        id = PreferenceStorage.getUserId(AddPlanActivity.this);
+                    }
                     FileInputStream fileInputStream = new FileInputStream(selectedFile);
-                    String SERVER_URL = String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.MOBILIZATION_PLAN_FILE_UPLOAD + planID);
+                    String SERVER_URL = String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.MOBILIZATION_PLAN_FILE_ID + "" + id +"/"+title+"/"+start+"/");
                     URL url = new URL(SERVER_URL);
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);//Allow Inputs
@@ -263,6 +267,9 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
                     connection.setRequestProperty("ENCTYPE", "multipart/form-data");
                     connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
                     connection.setRequestProperty("doc_file",selectedFilePath);
+//                    connection.setRequestProperty("user_id", id);
+//                    connection.setRequestProperty("doc_name", title);
+//                    connection.setRequestProperty("doc_month_year", start);
 
                     //creating new dataoutputstream
                     dataOutputStream = new DataOutputStream(connection.getOutputStream());
@@ -385,50 +392,6 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
 
     @Override
     public void onResponse(JSONObject response) {
-        progressDialogHelper.hideProgressDialog();
-        if (validateSignInResponse(response)) {
-            try {
-                planID = response.getString("plan_id");
-                dialog = ProgressDialog.show(AddPlanActivity.this,"","Uploading File...",true);
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //creating new thread to handle Http Operations
-//                        uploadFile(selectedFilePath);
-                        new PostDataAsyncTask().execute();
-                    }
-                }).start();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private boolean validateSignInResponse(JSONObject response) {
-        boolean signInSuccess = false;
-        if ((response != null)) {
-            try {
-                String status = response.getString("status");
-                String msg = response.getString(M3AdminConstants.PARAM_MESSAGE);
-                d(TAG, "status val" + status + "msg" + msg);
-
-                if ((status != null)) {
-                    if (((status.equalsIgnoreCase("activationError")) || (status.equalsIgnoreCase("alreadyRegistered")) ||
-                            (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
-                        signInSuccess = false;
-                        d(TAG, "Show error dialog");
-                        AlertDialogHelper.showSimpleAlertDialog(this, msg);
-
-                    } else {
-                        signInSuccess = true;
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return signInSuccess;
     }
 
     @Override
