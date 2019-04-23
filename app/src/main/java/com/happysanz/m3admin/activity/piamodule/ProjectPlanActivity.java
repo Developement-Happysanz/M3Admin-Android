@@ -83,7 +83,9 @@ public class ProjectPlanActivity extends AppCompatActivity implements View.OnCli
         taskDataArrayList = new ArrayList<>();
         addNewTask = findViewById(R.id.add_plan);
         addNewTask.setOnClickListener(this);
-
+        if (PreferenceStorage.getUserId(this).equalsIgnoreCase("1")) {
+            addNewTask.setVisibility(View.GONE);
+        }
         loadMobPlan();
     }
 
