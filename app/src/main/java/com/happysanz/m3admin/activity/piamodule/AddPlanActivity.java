@@ -38,6 +38,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -63,9 +65,10 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
 //    TextView tvFileName;
     ProgressDialog dialog;
     EditText fileName;
-
+    File sizeCge;
     DatePicker planDate;
     String start;
+    String title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,17 +122,13 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
                 Log.i(TAG,"Selected File Path:" + selectedFilePath);
 
                 if(selectedFilePath != null && !selectedFilePath.equals("")){
-                    Toast.makeText(this,"File ready to Upload",Toast.LENGTH_SHORT).show();
-//                    dialog = ProgressDialog.show(AddPlanActivity.this,"","Uploading File...",true);
-//
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            //creating new thread to handle Http Operations
-////                        uploadFile(selectedFilePath);
-//                            new PostDataAsyncTask().execute();
-//                        }
-//                    }).start();
+                    sizeCge = new File (selectedFilePath);
+                    if (sizeCge.length() >= 9000000)  {
+                        AlertDialogHelper.showSimpleAlertDialog(this, "File size too large");
+                        selectedFilePath = null;
+                    } else {
+                        Toast.makeText(this,"File ready to Upload",Toast.LENGTH_SHORT).show();
+                    }
                 }else{
                     Toast.makeText(this,"Cannot upload file to server",Toast.LENGTH_SHORT).show();
                 }
@@ -141,6 +140,8 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
     public void onClick(View v) {
 
         if ( v == bUpload){
+            title = fileName.getText().toString();
+
             int day_start = planDate.getDayOfMonth();
             int month_start = planDate.getMonth() + 1;
             int year_start = planDate.getYear();
@@ -181,19 +182,13 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
         if (!AppValidator.checkNullString(this.fileName.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid title");
             return false;
-        } else if (!AppValidator.checkNullString(start.trim())) {
+        } if (!AppValidator.checkNullString(start.trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Select Date");
             return false;
-        }
-//        if (!selectedFilePath.isEmpty()){
-//            sizeCge = new File (selectedFilePath);
-//            if (sizeCge.length() >= 2500000)  {
-//                AlertDialogHelper.showSimpleAlertDialog(this, "File size too large");
-//                return false;
-//            }
-//            return false;
-//        }
-         else {
+        } if (selectedFilePath == null || selectedFilePath.equals("")){
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select File to upload");
+            return false;
+        } else {
             return true;
         }
     }
@@ -226,7 +221,6 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
             String lineEnd = "\r\n";
             String twoHyphens = "--";
             String boundary = "*****";
-            String title = fileName.getText().toString();
 
             int bytesRead,bytesAvailable,bufferSize;
             byte[] buffer;
@@ -256,8 +250,10 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
                         id = PreferenceStorage.getUserId(AddPlanActivity.this);
                     }
                     FileInputStream fileInputStream = new FileInputStream(selectedFile);
-                    String SERVER_URL = String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.MOBILIZATION_PLAN_FILE_ID + "" + id +"/"+title+"/"+start+"/");
-                    URL url = new URL(SERVER_URL);
+                    String SERVER_URL = M3AdminConstants.BUILD_URL + M3AdminConstants.MOBILIZATION_PLAN_FILE_ID + "" + id +"/"+title+"/"+start+"/";
+                    URI uri = new URI(SERVER_URL.replace(" ", "%20"));
+                    String baseURL = uri.toString();
+                    URL url = new URL(baseURL);
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);//Allow Inputs
                     connection.setDoOutput(true);//Allow Outputs
@@ -266,7 +262,7 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
                     connection.setRequestProperty("Connection", "Keep-Alive");
                     connection.setRequestProperty("ENCTYPE", "multipart/form-data");
                     connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                    connection.setRequestProperty("doc_file",selectedFilePath);
+                    connection.setRequestProperty("doc_file", selectedFilePath);
 //                    connection.setRequestProperty("user_id", id);
 //                    connection.setRequestProperty("doc_name", title);
 //                    connection.setRequestProperty("doc_month_year", start);
@@ -341,6 +337,8 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
                 } catch (IOException e) {
                     e.printStackTrace();
                     Toast.makeText(AddPlanActivity.this, "Cannot Read/Write File!", Toast.LENGTH_SHORT).show();
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
                 }
                 dialog.dismiss();
                 return serverResponseMessage;
@@ -354,13 +352,13 @@ public class AddPlanActivity extends AppCompatActivity implements IServiceListen
             progressDialogHelper.hideProgressDialog();
 
             super.onPostExecute(result);
-            if ((result == null) || (result.isEmpty()) || (result.contains("Error"))) {
-                Toast.makeText(AddPlanActivity.this, "Unable to upload file", Toast.LENGTH_SHORT).show();
-            } else {
+            if ((result.contains("OK"))) {
                 Toast.makeText(AddPlanActivity.this, "Uploaded successfully!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), ProjectPlanActivity.class);
                 startActivity(intent);
                 finish();
+            } else {
+                Toast.makeText(AddPlanActivity.this, "Unable to upload file", Toast.LENGTH_SHORT).show();
             }
         }
 
