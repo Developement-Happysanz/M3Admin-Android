@@ -49,8 +49,8 @@
 
                     <ImageView
                         android:id="@+id/img_dash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/ic_dashboard" />
@@ -112,7 +112,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="13dp"
                             android:src="@drawable/ic_mobilization_plan_sidemenu" />
 
                         <TextView
@@ -139,7 +139,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="13dp"
                             android:src="@drawable/ic_tnsrlm_staff_sidemenu" />
 
                         <TextView
@@ -166,7 +166,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="13dp"
                             android:src="@drawable/ic_prospects" />
 
                         <TextView
@@ -190,11 +190,11 @@
 
                         <ImageView
                             android:id="@+id/img_logout"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/ic_prospects" />
+                            android:layout_marginTop="13dp"
+                            android:src="@drawable/ic_logout" />
 
                         <TextView
                             android:layout_width="wrap_content"

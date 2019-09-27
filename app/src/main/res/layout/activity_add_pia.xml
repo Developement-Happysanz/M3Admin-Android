@@ -62,7 +62,7 @@
                 android:layout_marginTop="40dp"
                 android:inputType="number"
                 android:layout_marginRight="30dp"
-                android:hint="Unique ID"
+                android:hint="PRN"
                 android:singleLine="true" />
 
         </android.support.design.widget.TextInputLayout>

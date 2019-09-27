@@ -139,7 +139,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void sendTaskValues() {
-        res = "";
+        res = "addval";
 
         String title = txtTitle.getText().toString();
         String details = txtDetails.getText().toString();

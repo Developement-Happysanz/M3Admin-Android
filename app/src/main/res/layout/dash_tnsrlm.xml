@@ -33,7 +33,7 @@
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:padding="20dp"
-                    android:src="@drawable/ic_mobilizer" />
+                    android:src="@drawable/ic_pia" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:padding="20dp"
-                    android:src="@drawable/ic_student" />
+                    android:src="@drawable/ic_centre_information" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:padding="20dp"
-                    android:src="@drawable/ic_centre_information" />
+                    android:src="@drawable/ic_mobilizer" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -117,7 +117,7 @@
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:padding="20dp"
-                    android:src="@drawable/ic_trade" />
+                    android:src="@drawable/ic_student" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -146,7 +146,7 @@
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:padding="20dp"
-                    android:src="@drawable/ic_task" />
+                    android:src="@drawable/ic_graph" />
 
                 <TextView
                     android:layout_width="wrap_content"

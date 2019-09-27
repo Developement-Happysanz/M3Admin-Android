@@ -49,10 +49,10 @@
 
                     <ImageView
                         android:id="@+id/img_dash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="13dp"
                         android:src="@drawable/ic_dashboard" />
 
                     <TextView
@@ -75,14 +75,13 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/dash_layout"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginRight="20dp">
 
                     <RelativeLayout
                         android:id="@+id/master_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp">
+                        android:layout_marginTop="13dp">
 
                         <ImageView
                             android:id="@+id/img_master"
@@ -175,6 +174,7 @@
                             android:layout_marginLeft="40dp"
                             android:gravity="center_vertical"
                             android:paddingTop="10dp"
+                            android:visibility="gone"
                             android:paddingBottom="10dp"
                             android:text="Batch"
                             android:textColor="@color/black"
@@ -189,6 +189,7 @@
                             android:paddingTop="10dp"
                             android:paddingBottom="10dp"
                             android:text="Trade and Batch"
+                            android:visibility="gone"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
@@ -200,6 +201,7 @@
                             android:gravity="center_vertical"
                             android:paddingTop="10dp"
                             android:paddingBottom="10dp"
+                            android:visibility="gone"
                             android:text="Project Duration"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
@@ -222,10 +224,10 @@
 
                         <ImageView
                             android:id="@+id/img_pros"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:layout_marginLeft="15dp"
-                            android:src="@drawable/ic_prospects" />
+                            android:src="@drawable/ic_prospects_sidemenu" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -251,7 +253,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="13dp"
                             android:src="@drawable/ic_prospects" />
 
                         <TextView
@@ -278,7 +280,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="13dp"
                             android:src="@drawable/ic_add_task" />
 
                         <TextView
@@ -305,7 +307,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="13dp"
                             android:src="@drawable/ic_task_menu" />
 
                         <TextView
@@ -329,11 +331,11 @@
 
                         <ImageView
                             android:id="@+id/img_tracking"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/ic_prospects" />
+                            android:layout_marginTop="13dp"
+                            android:src="@drawable/ic_tracking" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -352,6 +354,7 @@
                     <RelativeLayout
                         android:id="@+id/control_panel_layout"
                         android:layout_width="match_parent"
+                        android:visibility="gone"
                         android:layout_height="wrap_content">
 
                         <ImageView
@@ -359,7 +362,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="13dp"
                             android:src="@drawable/ic_control_panel" />
 
                         <TextView
@@ -383,12 +386,12 @@
 
                         <ImageView
                             android:id="@+id/img_logout"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
                             android:layout_marginLeft="15dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="13dp"
                             android:layout_marginBottom="20dp"
-                            android:src="@drawable/ic_prospects" />
+                            android:src="@drawable/ic_logout" />
 
                         <TextView
                             android:layout_width="wrap_content"

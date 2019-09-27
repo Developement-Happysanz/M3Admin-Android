@@ -5,13 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="40dp"
-        android:text="M3"
-        android:textColor="@color/blue"
+        android:src="@drawable/ic_red_logo"
         android:textSize="30dp"
         android:textStyle="bold" />
 

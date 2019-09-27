@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
+import com.happysanz.m3admin.utils.PreferenceStorage;
 
 public class PiaDashboard extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,7 +28,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout mDrawerLayout;
     Context context;
     RelativeLayout prospect, user, addPlan, task, tracking, controlPanel, expView, dashBoard, logout;
-    TextView scheme, center, project, trade, batch, tradeAndBatch, time;
+    TextView scheme, center, project, trade, batch, tradeAndBatch, time, userName;
     LinearLayout subMenu, mobilizerDash, studentDash, centerInfoDash, tradeDash, taskDash;
     Boolean visib = false;
     boolean doubleBackToExitPressedOnce = false;
@@ -56,7 +57,8 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
         tracking.setOnClickListener(this);
         controlPanel = (RelativeLayout) findViewById(R.id.control_panel_layout);
         controlPanel.setOnClickListener(this);
-
+        userName = findViewById(R.id.user_profile_name);
+        userName.setText(PreferenceStorage.getPIAName(this));
         scheme = (TextView) findViewById(R.id.txt_scheme);
         scheme.setOnClickListener(this);
 //        project = (TextView) findViewById(R.id.txt_project);

@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.happysanz.m3admin.R;
@@ -29,7 +30,7 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
     LinearLayout piaTnsrlm, centerTnsrlm, mobilizerTnsrlm, studentsTnsrlm, graph;
     Boolean visib = false;
     boolean doubleBackToExitPressedOnce = false;
-
+    TextView userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,11 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
         studentsTnsrlm.setOnClickListener(this);
         graph = findViewById(R.id.graph_layout);
         graph.setOnClickListener(this);
+
+
+        userName = findViewById(R.id.user_profile_name);
+        userName.setText(PreferenceStorage.getUserName(this));
+
         PreferenceStorage.saveTnsrlmCheck(this,true);
 
     }

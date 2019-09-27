@@ -15,11 +15,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="autoMirrored" value="true" />
-                            <entry key="height" value="23" />
-                            <entry key="outputName" value="ic_tnsrlm_staff_sidemenu" />
-                            <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Admin\Dropbox\M3-TNSRLM\TNSRLM Module\Icons\Android\sidemenu\TNSRLM_staff.svg" />
-                            <entry key="width" value="23" />
+                            <entry key="outputName" value="ic_tracking" />
+                            <entry key="sourceFile" value="C:\Users\Admin\Dropbox\M3-TNSRLM\Mobile Screen icons(Aug 2019)\Android\Admin\PIA\tracking.svg" />
                           </map>
                         </option>
                       </PersistentState>

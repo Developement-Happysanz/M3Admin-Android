@@ -4,11 +4,13 @@ public class M3AdminConstants {
 
     //URL'S
     //BASE URL
-    private static final String BASE_URL = "http://happysanz.net/";
+//    private static final String BASE_URL = "https://happysanz.net/";
+    private static final String BASE_URL = "https://iyerandrao.com/";
 
     //BUILD URL
 //    public static final String BUILD_URL = BASE_URL + "M3TNSRLM/";
-    public static final String BUILD_URL = BASE_URL + "m3test/";
+//    public static final String BUILD_URL = BASE_URL + "m3test/";
+    public static final String BUILD_URL = BASE_URL + "application/";
 
     //GENERAL URL
     //Users URL
