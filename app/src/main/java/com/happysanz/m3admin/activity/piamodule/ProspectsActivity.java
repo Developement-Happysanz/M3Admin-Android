@@ -1,13 +1,15 @@
 package com.happysanz.m3admin.activity.piamodule;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.tnsrlmmodule.AddNewPiaActivity;
 import com.happysanz.m3admin.adapter.StudentFragmentAdapter;
@@ -52,8 +54,8 @@ public class ProspectsActivity extends AppCompatActivity implements IServiceList
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         tabLayout.addTab(tabLayout.newTab().setText("All Prospects"));
-        tabLayout.addTab(tabLayout.newTab().setText("Rejected"));
         tabLayout.addTab(tabLayout.newTab().setText("Confirmed"));
+        tabLayout.addTab(tabLayout.newTab().setText("Rejected"));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -62,9 +64,11 @@ public class ProspectsActivity extends AppCompatActivity implements IServiceList
         final StudentFragmentAdapter adapter = new StudentFragmentAdapter
                 (getSupportFragmentManager());
 
+
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -72,7 +76,6 @@ public class ProspectsActivity extends AppCompatActivity implements IServiceList
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override

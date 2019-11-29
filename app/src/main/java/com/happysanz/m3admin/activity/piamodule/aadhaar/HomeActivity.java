@@ -2,13 +2,14 @@ package com.happysanz.m3admin.activity.piamodule.aadhaar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -102,6 +103,7 @@ public class HomeActivity extends AppCompatActivity {
      */
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //retrieve scan result
+        super.onActivityResult(requestCode, resultCode, intent);
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
         if (scanningResult != null) {

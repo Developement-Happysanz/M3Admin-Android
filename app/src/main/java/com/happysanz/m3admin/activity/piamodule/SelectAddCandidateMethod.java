@@ -2,8 +2,8 @@ package com.happysanz.m3admin.activity.piamodule;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,6 +92,7 @@ public class SelectAddCandidateMethod extends AppCompatActivity  implements View
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //retrieve scan result
+        super.onActivityResult(requestCode, resultCode, intent);
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
         if (scanningResult != null) {
@@ -100,15 +101,15 @@ public class SelectAddCandidateMethod extends AppCompatActivity  implements View
             String scanFormat = scanningResult.getFormatName();
 
             // process received data
-            if(scanContent != null && !scanContent.isEmpty()){
+            if (scanContent != null && !scanContent.isEmpty()) {
                 processScannedData(scanContent);
-            }else{
-                Toast toast = Toast.makeText(this,"Scan Cancelled", Toast.LENGTH_SHORT);
+            } else {
+                Toast toast = Toast.makeText(this, "Scan Cancelled", Toast.LENGTH_SHORT);
                 toast.show();
             }
 
-        }else{
-            Toast toast = Toast.makeText(this,"No scan data received!", Toast.LENGTH_SHORT);
+        } else {
+            Toast toast = Toast.makeText(this, "No scan data received!", Toast.LENGTH_SHORT);
             toast.show();
         }
     }

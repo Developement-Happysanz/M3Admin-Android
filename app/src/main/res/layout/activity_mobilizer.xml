@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,6 +68,7 @@
             android:layout_weight="0.5"
             android:text="Type"
             android:gravity="center"
+            android:visibility="gone"
             android:background="@color/white"
             android:layout_margin="1dp"
             android:textStyle="bold"
@@ -78,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="3dp"
-            android:layout_weight="0.55"
+            android:layout_weight="0.85"
             android:text="Status"
             android:gravity="center"
             android:background="@color/white"

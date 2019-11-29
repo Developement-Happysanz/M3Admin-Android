@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,6 +25,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
@@ -120,7 +121,7 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
             after.setVisibility(View.VISIBLE);
             openImageIntent();
         }
-        if ( view == logo) {
+        if (view == logo) {
             openImageIntent();
         }
     }
@@ -148,7 +149,7 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
                 serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
             }
         } else {
-            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection available");
+            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
         }
 
     }
@@ -222,10 +223,10 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
     @Override
     public void onResponse(JSONObject response) {
         progressDialogHelper.hideProgressDialog();
-        if (validateSignInResponse(response)){
+        if (validateSignInResponse(response)) {
             try {
                 String id = response.getString(M3AdminConstants.PARAMS_CENTER_ID);
-                PreferenceStorage.saveCenterId(this,id);
+                PreferenceStorage.saveCenterId(this, id);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -293,27 +294,28 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
 
             if (requestCode == REQUEST_IMAGE_GET) {
-                Log.d(TAG, "ONActivity Result");
+                d(TAG, "ONActivity Result");
                 final boolean isCamera;
                 if (data == null) {
-                    Log.d(TAG, "camera is true");
+                    d(TAG, "camera is true");
                     isCamera = true;
                 } else {
                     final String action = data.getAction();
-                    Log.d(TAG, "camera action is" + action);
+                    d(TAG, "camera action is" + action);
                     if (action == null) {
                         isCamera = false;
                     } else {
-                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                        isCamera = action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
                     }
                 }
 
 
                 if (isCamera) {
-                    Log.d(TAG, "Add to gallery");
+                    d(TAG, "Add to gallery");
                     mSelectedImageUri = outputFileUri;
                     mActualFilePath = outputFileUri.getPath();
                     galleryAddPic(mSelectedImageUri);
@@ -323,9 +325,9 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
 //                    Log.d(TAG, "path to image is" + mActualFilePath);
 
                     if (data != null && data.getData() != null) {
-                        try{
+                        try {
                             mSelectedImageUri = data.getData();
-                            String[] filePathColumn = {MediaStore.Images.Media.DATA };
+                            String[] filePathColumn = {MediaStore.Images.Media.DATA};
                             Cursor cursor = getContentResolver().query(mSelectedImageUri,
                                     filePathColumn, null, null, null);
                             cursor.moveToFirst();
@@ -335,29 +337,29 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
 
                             //return Image Path to the Main Activity
                             Intent returnFromGalleryIntent = new Intent();
-                            returnFromGalleryIntent.putExtra("picturePath",mActualFilePath);
-                            setResult(RESULT_OK,returnFromGalleryIntent);
-                        }catch(Exception e){
+                            returnFromGalleryIntent.putExtra("picturePath", mActualFilePath);
+                            setResult(RESULT_OK, returnFromGalleryIntent);
+                        } catch (Exception e) {
                             e.printStackTrace();
                             Intent returnFromGalleryIntent = new Intent();
                             setResult(RESULT_CANCELED, returnFromGalleryIntent);
                             finish();
                         }
-                    }else{
-                        Log.i(TAG,"RESULT_CANCELED");
+                    } else {
+                        Log.i(TAG, "RESULT_CANCELED");
                         Intent returnFromGalleryIntent = new Intent();
                         setResult(RESULT_CANCELED, returnFromGalleryIntent);
                         finish();
                     }
 
                 }
-                Log.d(TAG, "image Uri is" + mSelectedImageUri);
+                d(TAG, "image Uri is" + mSelectedImageUri);
                 if (mSelectedImageUri != null) {
-                    Log.d(TAG, "image URI is" + mSelectedImageUri);
+                    d(TAG, "image URI is" + mSelectedImageUri);
 //                    performCrop();
                     setPic(mSelectedImageUri);
                 }
-            }  
+            }
 //            else if (requestCode == CROP_PIC) {
 //                // get the returned data
 //                Bundle extras = data.getExtras();
@@ -395,7 +397,7 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
             String responseString = null;
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost(String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.ADD_LOGO+ Integer.parseInt(PreferenceStorage.getCenterId(AddCenterDetailActivity.this))));
+            httppost = new HttpPost(String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.ADD_LOGO + Integer.parseInt(PreferenceStorage.getCenterId(AddCenterDetailActivity.this))));
 
             try {
                 AndroidMultiPartEntity entity = new AndroidMultiPartEntity(

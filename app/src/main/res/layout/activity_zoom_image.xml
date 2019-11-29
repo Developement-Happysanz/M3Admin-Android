@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,10 +35,11 @@
         android:textColor="@color/white"
         android:textSize="20sp"/>
 
-    <com.happysanz.m3admin.customview.TouchImageView
+    <ImageView
         android:id="@+id/zoom_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
         android:layout_centerInParent="true" />
 
 </RelativeLayout>

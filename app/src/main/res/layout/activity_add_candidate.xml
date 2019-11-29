@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -395,10 +395,10 @@
                     android:id="@+id/cb_candidate_have_aadhaar_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:checked="true"
                     android:enabled="false"
-                    android:text="Have aadhaar card ?" />
+                    android:text="Have aadhaar card ?"
+                    android:visibility="gone" />
 
                 <EditText
                     android:id="@+id/et_candidate_aadhaar_card_number"

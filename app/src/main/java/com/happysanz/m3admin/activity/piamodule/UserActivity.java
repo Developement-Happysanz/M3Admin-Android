@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -84,13 +84,13 @@ public class UserActivity extends AppCompatActivity implements IServiceListener,
 
     @Override
     public void onResponse(final JSONObject response) {
+        progressDialogHelper.hideProgressDialog();
         if (validateSignInResponse(response)) {
             Log.d("ajazFilterresponse : ", response.toString());
 
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    progressDialogHelper.hideProgressDialog();
 
                     Gson gson = new Gson();
                     MobilizerList mobilizerList = gson.fromJson(response.toString(), MobilizerList.class);
@@ -124,7 +124,7 @@ public class UserActivity extends AppCompatActivity implements IServiceListener,
             progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
             new HttpAsyncTask().execute("");
         } else {
-            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection");
+            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
         }
     }
 

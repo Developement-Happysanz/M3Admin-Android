@@ -16,6 +16,7 @@
     <string name="err_number">Enter vaild phone number</string>
     <string name="empty_entry">Field cannot be empty</string>
     <string name="err_min_uniq_length">Unique number must be exactly 13 characters&#8230;</string>
+    <string name="error_no_net">No internet access. Please check your connection and try again.</string>
 
     <!--Sign In -->
     <string name="err_username">Enter valid username</string>

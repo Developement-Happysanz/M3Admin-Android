@@ -26,12 +26,6 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,6 +40,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -1293,17 +1294,18 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
 
             if (requestCode == REQUEST_IMAGE_GET) {
-                Log.d(TAG, "ONActivity Result");
+                d(TAG, "ONActivity Result");
                 final boolean isCamera;
                 if (data == null) {
-                    Log.d(TAG, "camera is true");
+                    d(TAG, "camera is true");
                     isCamera = true;
                 } else {
                     final String action = data.getAction();
-                    Log.d(TAG, "camera action is" + action);
+                    d(TAG, "camera action is" + action);
                     if (action == null) {
                         isCamera = false;
                     } else {
@@ -1314,19 +1316,19 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                 Uri selectedImageUri;
 
                 if (isCamera) {
-                    Log.d(TAG, "Add to gallery");
+                    d(TAG, "Add to gallery");
                     selectedImageUri = outputFileUri;
                     mActualFilePath = outputFileUri.getPath();
                     galleryAddPic(selectedImageUri);
                 } else {
                     selectedImageUri = data == null ? null : data.getData();
                     mActualFilePath = getRealPathFromURI(this, selectedImageUri);
-                    Log.d(TAG, "path to image is" + mActualFilePath);
+                    d(TAG, "path to image is" + mActualFilePath);
 
                 }
-                Log.d(TAG, "image Uri is" + selectedImageUri);
+                d(TAG, "image Uri is" + selectedImageUri);
                 if (selectedImageUri != null) {
-                    Log.d(TAG, "image URI is" + selectedImageUri);
+                    d(TAG, "image URI is" + selectedImageUri);
                     setPic(selectedImageUri);
                 }
             }
@@ -1521,7 +1523,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
 
         } else {
-            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection");
+            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
         }
     }
 
@@ -1580,7 +1582,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
 
         } else {
-            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection");
+            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
         }
     }
 
@@ -1604,7 +1606,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
 
         } else {
-            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection");
+            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
         }
     }
 
@@ -1648,7 +1650,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 //            serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
 //
 //        } else {
-//            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection");
+//            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
 //        }
 //    }
 

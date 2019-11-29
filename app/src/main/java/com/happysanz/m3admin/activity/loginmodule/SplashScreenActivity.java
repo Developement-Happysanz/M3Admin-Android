@@ -4,8 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
+import android.util.Log;
 
+import androidx.annotation.Nullable;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.MainActivity;
 import com.happysanz.m3admin.activity.piamodule.PiaDashboard;
@@ -40,6 +45,14 @@ public class SplashScreenActivity extends Activity {
 
                 } else {
                     Intent i = new Intent(SplashScreenActivity.this, LoginActivity.class);
+                    FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(SplashScreenActivity.this, new OnSuccessListener<InstanceIdResult>() {
+                        @Override
+                        public void onSuccess(InstanceIdResult instanceIdResult) {
+                            String newToken = instanceIdResult.getToken();
+                            Log.e("newToken", newToken);
+                            PreferenceStorage.saveGCM(getApplicationContext(), newToken);
+                        }
+                    });
                     startActivity(i);
                     finish();
                 }

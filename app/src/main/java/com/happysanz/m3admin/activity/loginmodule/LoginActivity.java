@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +13,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.MainActivity;
@@ -136,7 +137,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(i);
             }
         } else {
-            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection available");
+            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
         }
     }
 

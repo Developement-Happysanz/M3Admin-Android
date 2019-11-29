@@ -259,7 +259,7 @@ public class VideoGalleryActivity extends Activity implements YouTubePlayer.OnFu
         public void onDestroyView() {
             super.onDestroyView();
 
-            adapter.releaseLoaders();
+//            adapter.releaseLoaders();
         }
 
         public void setLabelVisibility(boolean visible) {

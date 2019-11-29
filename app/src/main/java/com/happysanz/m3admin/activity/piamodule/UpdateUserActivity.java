@@ -10,12 +10,10 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Parcelable;
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -98,7 +96,7 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
 
         user = (Mobilizer) getIntent().getSerializableExtra("userObj");
         TextView text1 = findViewById(R.id.title);
-        text1.setText("TNSRLM Staff");
+//        text1.setText("TNSRLM Staff");
 
         spnMobilizer = findViewById(R.id.spn_role);
         spnMobilizer.setFocusable(false);

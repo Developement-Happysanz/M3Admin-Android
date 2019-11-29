@@ -22,11 +22,10 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -72,6 +71,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import static android.util.Log.d;
 
@@ -205,27 +207,28 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
 
             if (requestCode == REQUEST_IMAGE_GET) {
-                Log.d(TAG, "ONActivity Result");
+                d(TAG, "ONActivity Result");
                 final boolean isCamera;
                 if (data == null) {
-                    Log.d(TAG, "camera is true");
+                    d(TAG, "camera is true");
                     isCamera = true;
                 } else {
                     final String action = data.getAction();
-                    Log.d(TAG, "camera action is" + action);
+                    d(TAG, "camera action is" + action);
                     if (action == null) {
                         isCamera = false;
                     } else {
-                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                        isCamera = action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
                     }
                 }
 
 
                 if (isCamera) {
-                    Log.d(TAG, "Add to gallery");
+                    d(TAG, "Add to gallery");
                     mSelectedImageUri = outputFileUri;
                     mActualFilePath = outputFileUri.getPath();
                     galleryAddPic(mSelectedImageUri);
@@ -235,9 +238,9 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
 //                    Log.d(TAG, "path to image is" + mActualFilePath);
 
                     if (data != null && data.getData() != null) {
-                        try{
+                        try {
                             mSelectedImageUri = data.getData();
-                            String[] filePathColumn = {MediaStore.Images.Media.DATA };
+                            String[] filePathColumn = {MediaStore.Images.Media.DATA};
                             Cursor cursor = getContentResolver().query(mSelectedImageUri,
                                     filePathColumn, null, null, null);
                             cursor.moveToFirst();
@@ -248,25 +251,25 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
                             mCurrentUserImageBitmap = decodeFile(f1);
                             //return Image Path to the Main Activity
                             Intent returnFromGalleryIntent = new Intent();
-                            returnFromGalleryIntent.putExtra("picturePath",mActualFilePath);
-                            setResult(RESULT_OK,returnFromGalleryIntent);
-                        }catch(Exception e){
+                            returnFromGalleryIntent.putExtra("picturePath", mActualFilePath);
+                            setResult(RESULT_OK, returnFromGalleryIntent);
+                        } catch (Exception e) {
                             e.printStackTrace();
                             Intent returnFromGalleryIntent = new Intent();
                             setResult(RESULT_CANCELED, returnFromGalleryIntent);
                             finish();
                         }
-                    }else{
-                        Log.i(TAG,"RESULT_CANCELED");
+                    } else {
+                        Log.i(TAG, "RESULT_CANCELED");
                         Intent returnFromGalleryIntent = new Intent();
                         setResult(RESULT_CANCELED, returnFromGalleryIntent);
                         finish();
                     }
 
                 }
-                Log.d(TAG, "image Uri is" + mSelectedImageUri);
+                d(TAG, "image Uri is" + mSelectedImageUri);
                 if (mSelectedImageUri != null) {
-                    Log.d(TAG, "image URI is" + mSelectedImageUri);
+                    d(TAG, "image URI is" + mSelectedImageUri);
 //                    performCrop();
 //                    setPic(mSelectedImageUri);
                     mUpdatedImageUrl = null;
@@ -595,8 +598,9 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
         } else {
             taskData = centerPhotosDataArrayList.get(position);
         }
+        String url = taskData.getCenterPhotos();
         Intent intent = new Intent(getApplicationContext(), ZoomImageActivity.class);
-        intent.putExtra("eventObj", taskData);
+        intent.putExtra("eventObj", url);
         startActivity(intent);
     }
 

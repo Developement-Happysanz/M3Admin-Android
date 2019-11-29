@@ -17,8 +17,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -313,7 +313,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
             serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
 
         } else {
-            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection available");
+            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
         }
     }
 

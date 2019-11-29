@@ -17,8 +17,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +31,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.bean.pia.StoreMobilizer;
@@ -74,7 +75,7 @@ import java.util.Locale;
 
 import static android.util.Log.d;
 
-public class AddNewUserActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, DatePickerDialog.OnDateSetListener{
+public class AddNewUserActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = AddTaskActivity.class.getName();
 
@@ -83,7 +84,7 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
     EditText spnMobilizer;
-    String storeMobilizerId ="", res;
+    String storeMobilizerId = "", res;
     Button save;
     EditText txtName, txtGender, txtDob, txtNationality, txtReligion, txtStatus, txtClass, txtCommunity, txtAddress, txtMail, txtSecMail, txtPhone, txtSecPhone, txtQualification;
     private List<String> mGenderList = new ArrayList<String>();
@@ -426,7 +427,7 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         } else if (!AppValidator.checkNullString(this.txtMail.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid mobile number");
             return false;
-        }  else {
+        } else {
             return true;
         }
     }

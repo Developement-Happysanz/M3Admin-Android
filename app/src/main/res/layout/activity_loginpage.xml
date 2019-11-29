@@ -52,7 +52,7 @@
         <!--android:singleLine="true"-->
         <!--android:passwordToggleEnabled="true" />-->
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ti_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,13 +66,14 @@
             android:layout_height="50dp"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="40dp"
+            android:maxLength="13"
             android:layout_marginRight="30dp"
             android:hint="Username"
             android:singleLine="true" />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ti_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,7 +92,7 @@
             android:inputType="textPassword"
             android:singleLine="true" />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/forgot"

@@ -1,9 +1,8 @@
 package com.happysanz.m3admin.activity.loginmodule;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -12,8 +11,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.piamodule.AddPlanActivity;
+import com.happysanz.m3admin.activity.piamodule.CenterActivity;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -48,7 +51,12 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         etUsername = findViewById(R.id.edxUsername);
         btSubmit = findViewById(R.id.btnSubmit);
         btSubmit.setOnClickListener(this);
-
+        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -79,7 +87,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                     serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
 
                 } else {
-                    AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection available");
+                    AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
                 }
 
             }

@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +52,6 @@
                 android:id="@+id/after_select"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignTop="@id/upload_layout"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="invisible">
@@ -79,7 +78,7 @@
 
 
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -98,9 +97,9 @@
                     android:hint="Name"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,9 +118,9 @@
                     android:hint="Gender"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_dob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -140,9 +139,9 @@
                     android:hint="Date of Birth"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_nationality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -161,9 +160,9 @@
                     android:hint="Nationality"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_community_class"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -182,9 +181,9 @@
                     android:hint="Class"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_religion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -203,9 +202,9 @@
                     android:hint="Religion"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_community"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -224,9 +223,9 @@
                     android:hint="Community"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -245,9 +244,9 @@
                     android:hint="Address"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -266,9 +265,9 @@
                     android:hint="Mail"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_secondary_mail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -287,9 +286,9 @@
                     android:hint="Seconday Mail"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -308,9 +307,9 @@
                     android:hint="Phone"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_seconday_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -329,9 +328,9 @@
                     android:hint="Secondary Phone"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_qualification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -350,9 +349,9 @@
                     android:hint="Qualification"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -371,7 +370,7 @@
                     android:hint="Status"
                     android:singleLine="true" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
             <Button

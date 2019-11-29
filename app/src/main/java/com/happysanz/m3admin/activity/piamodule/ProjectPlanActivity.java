@@ -2,18 +2,21 @@ package com.happysanz.m3admin.activity.piamodule;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
@@ -130,7 +133,22 @@ public class ProjectPlanActivity extends AppCompatActivity implements View.OnCli
             taskData = taskDataArrayList.get(position);
         }
         url = taskData.getDocUrl();
-        new DownloadFile().execute(url);
+        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Download");
+        alertDialogBuilder.setMessage("Do you want to download this file name " + taskData.getDocName() + "?");
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                new DownloadFile().execute(url);
+            }
+        });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialogBuilder.show();
     }
 
     @Override
