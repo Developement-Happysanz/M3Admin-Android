@@ -1,8 +1,11 @@
 package com.happysanz.m3admin.activity.piamodule;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -29,6 +33,7 @@ import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
 import com.happysanz.m3admin.servicehelpers.ServiceHelper;
 import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
+import com.happysanz.m3admin.utils.CommonUtils;
 import com.happysanz.m3admin.utils.DeveloperKey;
 import com.happysanz.m3admin.utils.M3AdminConstants;
 import com.happysanz.m3admin.utils.PreferenceStorage;
@@ -206,9 +211,10 @@ public class VideoGalleryActivity extends Activity implements YouTubePlayer.OnFu
         private static final String TAG = VideoListFragment.class.getName();
         private ServiceHelper serviceHelper;
         private ProgressDialogHelper progressDialogHelper;
-
+        private Context context;
         private PageAdapter adapter;
         private View videoBox;
+        private String res = "";
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -234,25 +240,44 @@ public class VideoGalleryActivity extends Activity implements YouTubePlayer.OnFu
 
         @Override
         public void onListItemClick(ListView l, View v, int position, long id) {
-            String videoId = VIDEO_LIST.get(position).videoId;
+            final CharSequence[] options = {"View Video", "Delete Video", "Cancel"};
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+            builder.setTitle("Video");
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int item) {
+                    if (options[item].equals("View Video")) {
+                        String videoId = VIDEO_LIST.get(position).videoId;
 
-            VideoFragment videoFragment =
-                    (VideoFragment) getFragmentManager().findFragmentById(R.id.video_fragment_container);
-            videoFragment.setVideoId(videoId);
+                        VideoFragment videoFragment =
+                                (VideoFragment) getFragmentManager().findFragmentById(R.id.video_fragment_container);
+                        videoFragment.setVideoId(videoId);
 
-            // The videoBox is INVISIBLE if no video was previously selected, so we need to show it now.
-            if (videoBox.getVisibility() != View.VISIBLE) {
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    // Initially translate off the screen so that it can be animated in from below.
-                    videoBox.setTranslationY(videoBox.getHeight());
+                        // The videoBox is INVISIBLE if no video was previously selected, so we need to show it now.
+                        if (videoBox.getVisibility() != View.VISIBLE) {
+                            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                                // Initially translate off the screen so that it can be animated in from below.
+                                videoBox.setTranslationY(videoBox.getHeight());
+                            }
+                            videoBox.setVisibility(View.VISIBLE);
+                        }
+
+                        // If the fragment is off the screen, we animate it in.
+                        if (videoBox.getTranslationY() > 0) {
+                            videoBox.animate().translationY(0).setDuration(ANIMATION_DURATION_MILLIS);
+                        }
+                    } else if (options[item].equals("Delete Video")) {
+                        String videoId = VIDEO_LIST.get(position).videoName;
+                        deleteWishList(videoId);
+                    } else if (options[item].equals("Cancel")) {
+
+                        dialog.dismiss();
+                    }
                 }
-                videoBox.setVisibility(View.VISIBLE);
-            }
+            });
+            builder.show();
 
-            // If the fragment is off the screen, we animate it in.
-            if (videoBox.getTranslationY() > 0) {
-                videoBox.animate().translationY(0).setDuration(ANIMATION_DURATION_MILLIS);
-            }
+
         }
 
         @Override
@@ -282,29 +307,43 @@ public class VideoGalleryActivity extends Activity implements YouTubePlayer.OnFu
 
             if (validateSignInResponse(response)) {
                 try {
+                    if (res.equalsIgnoreCase("viewCenterVideos")) {
+                        JSONArray getTimeTableArray = response.getJSONArray("centerVideos");
+                        List<VideoEntry> list = new ArrayList<VideoEntry>();
+                        if (getTimeTableArray != null && getTimeTableArray.length() > 0) {
+                            for (int i = 0; i < getTimeTableArray.length(); i++) {
+                                JSONObject jsonobj = getTimeTableArray.getJSONObject(i);
+                                String videoTitle = "";
+                                String videoURL = "";
+                                String videoId = "";
 
-                    JSONArray getTimeTableArray = response.getJSONArray("centerVideos");
-                    List<VideoEntry> list = new ArrayList<VideoEntry>();
-                    if (getTimeTableArray != null && getTimeTableArray.length() > 0) {
-                        for (int i = 0; i < getTimeTableArray.length(); i++) {
-                            JSONObject jsonobj = getTimeTableArray.getJSONObject(i);
-                            String videoTitle = "";
-                            String videoURL = "";
+                                videoTitle = jsonobj.getString("video_title");
+                                videoURL = jsonobj.getString("video_url");
+                                videoId = jsonobj.getString("video_id");
 
-                            videoTitle = jsonobj.getString("video_title");
-                            videoURL = jsonobj.getString("video_url");
-
-                            list.add(new VideoEntry(videoTitle, videoURL));
+                                list.add(new VideoEntry(videoTitle, videoURL, videoId));
+                            }
                         }
+
+                        VIDEO_LIST = Collections.unmodifiableList(list);
+
+                        adapter = new PageAdapter(getActivity(), VIDEO_LIST);
+
+                        videoBox = getActivity().findViewById(R.id.video_box);
+                        getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                        setListAdapter(adapter);
+                    } else {
+                        Toast.makeText(getActivity(), "Video has been deleted!", Toast.LENGTH_SHORT).show();
+//                        Fragment currentFragment = getActivity().getFragmentManager().findFragmentById(R.id.video_fragment_container);
+//                        if (currentFragment instanceof VideoListFragment) {
+//                            FragmentTransaction fragTransaction =   (getActivity()).getFragmentManager().beginTransaction();
+//                            fragTransaction.detach(currentFragment);
+//                            fragTransaction.attach(currentFragment);
+//                            fragTransaction.commit();}
+                        getActivity().finish();
+                        getActivity().startActivity(getActivity().getIntent());
+
                     }
-
-                    VIDEO_LIST = Collections.unmodifiableList(list);
-
-                    adapter = new PageAdapter(getActivity(), VIDEO_LIST);
-
-                    videoBox = getActivity().findViewById(R.id.video_box);
-                    getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-                    setListAdapter(adapter);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -345,9 +384,10 @@ public class VideoGalleryActivity extends Activity implements YouTubePlayer.OnFu
         }
 
         private void viewCenterVideos() {
+            res = "viewCenterVideos";
             JSONObject jsonObject = new JSONObject();
             String userId;
-            if(PreferenceStorage.getUserId(getActivity()).equalsIgnoreCase("1")){
+            if (PreferenceStorage.getUserId(getActivity()).equalsIgnoreCase("1")) {
                 userId = PreferenceStorage.getPIAProfileId(getActivity());
             } else {
                 userId = PreferenceStorage.getUserId(getActivity());
@@ -364,6 +404,30 @@ public class VideoGalleryActivity extends Activity implements YouTubePlayer.OnFu
             String url = M3AdminConstants.BUILD_URL + M3AdminConstants.VIEW_VIDEO_GALLERY;
             serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
         }
+
+        private void deleteWishList(String eventId) {
+            res = "eventDelete";
+            JSONObject jsonObject = new JSONObject();
+            String userId;
+            if (PreferenceStorage.getUserId(getActivity()).equalsIgnoreCase("1")) {
+                userId = PreferenceStorage.getPIAProfileId(getActivity());
+            } else {
+                userId = PreferenceStorage.getUserId(getActivity());
+            }
+            try {
+                jsonObject.put(M3AdminConstants.KEY_USER_ID, userId);
+                jsonObject.put(M3AdminConstants.PARAMS_VIDEO_ID, eventId);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+            String url = M3AdminConstants.BUILD_URL + M3AdminConstants.DELETE_VIDEO;
+            serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+        }
+
     }
 
     /**
@@ -545,11 +609,14 @@ public class VideoGalleryActivity extends Activity implements YouTubePlayer.OnFu
     private static final class VideoEntry {
         private final String text;
         private final String videoId;
+        private final String videoName;
 
-        public VideoEntry(String text, String videoId) {
+        public VideoEntry(String text, String videoId, String videoName) {
             this.text = text;
             this.videoId = videoId;
+            this.videoName = videoName;
         }
+
     }
 
     // Utility methods for layouting.

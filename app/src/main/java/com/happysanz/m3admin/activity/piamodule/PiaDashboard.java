@@ -124,12 +124,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
         changePassword = (TextView) findViewById(R.id.change_password);
         changePassword.setOnClickListener(this);
         logout = (TextView) findViewById(R.id.logout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doLogout();
-            }
-        });
+        logout.setOnClickListener(this);
 
         mobilizerDash = findViewById(R.id.mobilizer_layout);
         mobilizerDash.setOnClickListener(this);
@@ -368,6 +363,31 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
         if (view == taskDash){
             Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
             startActivity(intent);
+        } if (view == logout){
+            android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Logout");
+            alertDialogBuilder.setMessage("Do you really want to logout?");
+            alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    SharedPreferences sharedPreferences =
+                            PreferenceManager.getDefaultSharedPreferences(context);
+                    sharedPreferences.edit().clear().commit();
+//        TwitterUtil.getInstance().resetTwitterRequestToken();
+
+                    Intent homeIntent = new Intent(context, SplashScreenActivity.class);
+                    homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(homeIntent);
+                    finish();
+                }
+            });
+            alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alertDialogBuilder.show();
         }
 
     }
