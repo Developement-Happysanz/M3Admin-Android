@@ -1,6 +1,7 @@
 package com.happysanz.m3admin.activity.tnsrlmmodule;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -19,7 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.happysanz.m3admin.R;
+import com.happysanz.m3admin.activity.loginmodule.ChangePasswordActivity;
 import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
+import com.happysanz.m3admin.activity.piamodule.PiaProfileActivity;
+import com.happysanz.m3admin.activity.piamodule.TaskActivity;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 
 public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickListener {
@@ -27,11 +31,12 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     Context context;
-    RelativeLayout pia, mobilizationPlan, tnsrlmStaff, profile, dashBoard, logout;
+    RelativeLayout pia, mobilizationPlan, tnsrlmStaff, dashBoard;
     LinearLayout piaTnsrlm, centerTnsrlm, mobilizerTnsrlm, studentsTnsrlm, graph;
     Boolean visib = false;
     boolean doubleBackToExitPressedOnce = false;
     TextView userName;
+    private TextView profile, aboutUs, changePassword, logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +53,13 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
         mobilizationPlan.setOnClickListener(this);
         tnsrlmStaff = (RelativeLayout) findViewById(R.id.tnsrlm_layout);
         tnsrlmStaff.setOnClickListener(this);
-        profile = (RelativeLayout) findViewById(R.id.profile_layout);
+        profile = findViewById(R.id.user_profile);
         profile.setOnClickListener(this);
         dashBoard = (RelativeLayout) findViewById(R.id.dash_layout);
         dashBoard.setOnClickListener(this);
 
-        logout = (RelativeLayout) findViewById(R.id.logout_layout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doLogout();
-            }
-        });
+        logout =  findViewById(R.id.logout);
+        logout.setOnClickListener(this);
 
         piaTnsrlm = findViewById(R.id.tnsrlm_pia_layout);
         piaTnsrlm.setOnClickListener(this);
@@ -181,6 +181,14 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
             startActivity(intent);
         }
+        if (view == aboutUs){
+            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+            startActivity(intent);
+        }
+        if (view == changePassword){
+            Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
+            startActivity(intent);
+        }
         if (view == dashBoard){
             Intent intent = new Intent(getApplicationContext(), TnsrlmDashboard.class);
             startActivity(intent);
@@ -204,6 +212,32 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
         if (view == graph){
             Intent intent = new Intent(getApplicationContext(), GraphActivity.class);
             startActivity(intent);
+        }
+        if (view == logout){
+            android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Logout");
+            alertDialogBuilder.setMessage("Do you really want to logout?");
+            alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    SharedPreferences sharedPreferences =
+                            PreferenceManager.getDefaultSharedPreferences(context);
+                    sharedPreferences.edit().clear().commit();
+//        TwitterUtil.getInstance().resetTwitterRequestToken();
+
+                    Intent homeIntent = new Intent(context, SplashScreenActivity.class);
+                    homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(homeIntent);
+                    finish();
+                }
+            });
+            alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alertDialogBuilder.show();
         }
 
     }

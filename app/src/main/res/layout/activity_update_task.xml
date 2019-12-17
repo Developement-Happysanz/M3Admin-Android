@@ -26,12 +26,12 @@
         android:id="@+id/tvtitletext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
+        android:layout_gravity="left"
         android:gravity="center"
         android:minHeight="?attr/actionBarSize"
         android:padding="5dp"
-        android:text="View Task"
+        android:layout_toRightOf="@+id/back_tic_his"
+        android:text="Update Task"
         android:textColor="@color/white"
         android:textSize="20sp"/>
 
@@ -46,30 +46,79 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/et_task_title"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_task_title"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_task_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:hint="Title"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_task_detail"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_task_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:hint="Task details"
+                    android:layout_marginTop="10dp"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_task_date"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_task_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:layout_marginTop="10dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="Task date"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Title"
-                android:singleLine="true" />
+                android:layout_below="@+id/ti_qualification"
+                android:layout_marginTop="10dp">
 
-            <EditText
-                android:id="@+id/et_task_detail"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:hint="Task details"
-                android:layout_marginTop="10dp"
-                android:gravity="top"
-                android:inputType="textMultiLine"
-                android:singleLine="true" />
+                <EditText
+                    android:id="@+id/status"
+                    android:layout_width="match_parent"
+                    android:layout_margin="20dp"
+                    android:layout_height="50dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="Status"
+                    android:singleLine="true" />
 
-            <EditText
-                android:id="@+id/et_task_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="Task date"
-                android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btn_done"

@@ -35,6 +35,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.bean.pia.StoreMobilizer;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
@@ -91,7 +92,9 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
     private ArrayAdapter<String> mGenderAdapter = null;
     private List<String> mRoleList = new ArrayList<String>();
     private ArrayAdapter<String> mRoleAdapter = null;
-
+    private List<String> mStatusList = new ArrayList<String>();
+    private ArrayAdapter<String> mStatusAdapter = null;
+    String page = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,12 +102,19 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
+        page = getIntent().getStringExtra("page");
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), UserActivity.class);
-                startActivity(intent);
-                finish();
+                if (page.equalsIgnoreCase("mob")) {
+                    Intent intent = new Intent(getApplicationContext(), MobilizerActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
         spnMobilizer = findViewById(R.id.spn_role);
@@ -112,7 +122,9 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         txtName = findViewById(R.id.user_name);
         txtGender = findViewById(R.id.gender);
         txtStatus = findViewById(R.id.status);
-        txtStatus.setVisibility(View.GONE);
+        txtStatus.setOnClickListener(this);
+        txtStatus.setFocusable(false);
+
 
         txtDob = findViewById(R.id.dob);
         txtNationality = findViewById(R.id.nationality);
@@ -178,6 +190,23 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
             }
         };
 
+        mStatusList.add("Active");
+        mStatusList.add("Inactive");
+
+        mStatusAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mStatusList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mStatusList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+
+
     }
 
     private void showGenderList() {
@@ -222,6 +251,27 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         builderSingle.show();
     }
 
+    private void showStatusList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Status");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Status");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mStatusAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mStatusList.get(which);
+                        txtStatus.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         Calendar newDate = Calendar.getInstance();
@@ -237,6 +287,8 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
             }
         } else if (view == txtDob) {
             showBirthdayDate();
+        } else if (view == txtStatus) {
+            showStatusList();
         }
     }
 
@@ -262,19 +314,20 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         String secphone = txtSecPhone.getText().toString();
         String mail = txtMail.getText().toString();
         String seccmail = txtSecMail.getText().toString();
+        String status = txtStatus.getText().toString();
         String serverFormatDate = "";
 
         if (dob != null && dob != "") {
 
             String date = dob;
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             Date testDate = null;
             try {
                 testDate = sdf.parse(date);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             serverFormatDate = formatter.format(testDate);
             System.out.println(".....Date..." + serverFormatDate);
         }
@@ -295,6 +348,7 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
             jsonObject.put(M3AdminConstants.PARAMS_EMAIL, mail);
             jsonObject.put(M3AdminConstants.PARAMS_SEC_EMAIL, seccmail);
             jsonObject.put(M3AdminConstants.PARAMS_QUALIFICATION, qualification);
+            jsonObject.put(M3AdminConstants.PARAMS_STATUS, status);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -329,12 +383,22 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
                 e.printStackTrace();
             } finally {
                 mDatePicker = new DatePickerDialog(this, R.style.datePickerTheme, this, year, month, day);
+                DatePicker dP = mDatePicker.getDatePicker();
+                Calendar cal = Calendar.getInstance();
+                cal.set(2000,12,31);
+                Date result = cal.getTime();
+                dP.setMaxDate(result.getTime());
                 mDatePicker.show();
             }
         } else {
             Log.d(TAG, "show default date");
 
             mDatePicker = new DatePickerDialog(this, R.style.datePickerTheme, this, year, month, day);
+            DatePicker dP = mDatePicker.getDatePicker();
+            Calendar cal = Calendar.getInstance();
+            cal.set(2000,12,31);
+            Date result = cal.getTime();
+            dP.setMaxDate(result.getTime());
             mDatePicker.show();
         }
     }
@@ -426,6 +490,9 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
             return false;
         } else if (!AppValidator.checkNullString(this.txtMail.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid mobile number");
+            return false;
+        } else if (!AppValidator.checkNullString(this.txtStatus.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Set User status");
             return false;
         } else {
             return true;

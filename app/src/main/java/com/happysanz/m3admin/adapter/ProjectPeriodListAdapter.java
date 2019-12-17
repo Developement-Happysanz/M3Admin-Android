@@ -33,7 +33,7 @@ public class ProjectPeriodListAdapter extends BaseAdapter {
     public ProjectPeriodListAdapter(Context context, ArrayList<ProjectPeriod> taskData) {
         this.context = context;
         this.taskData = taskData;
-        Collections.reverse(taskData);
+//        Collections.reverse(taskData);
         mSearching = false;
     }
 

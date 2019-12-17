@@ -24,10 +24,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -76,7 +78,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
     private static final String TAG = UpdateTaskActivity.class.getName();
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
-    private EditText edtTitle, edtTaskDetails, edtTaskDate;
+    private EditText edtTitle, edtTaskDetails, edtTaskDate, txtStatus;
     private Button btnUploadPhotos, btnViewPhotos, btnDone;
     private ImageView ivBack;
     private SimpleDateFormat mDateFormatter;
@@ -87,6 +89,8 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
 
     private TaskData taskData;
 
+    private List<String> mStatusList = new ArrayList<String>();
+    private ArrayAdapter<String> mStatusAdapter = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -112,8 +116,12 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
         edtTaskDate.setOnClickListener(this);
         edtTaskDate.setFocusable(false);
 
+        txtStatus = findViewById(R.id.status);
+        txtStatus.setOnClickListener(this);
+        txtStatus.setFocusable(false);
+
         String taskDate = "";
-        if (taskData.getTaskDate() != null && taskData.getTaskDate() != "") {
+        if (taskData.getTaskDate() != null && !taskData.getTaskDate().isEmpty()) {
 
             String date = taskData.getTaskDate();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
@@ -136,7 +144,21 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
         mDateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
         setupUI(findViewById(R.id.scrollID));
+        mStatusList.add("Active");
+        mStatusList.add("Inactive");
 
+        mStatusAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mStatusList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mStatusList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
     }
 
     @Override

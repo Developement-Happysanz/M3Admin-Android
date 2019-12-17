@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.bean.pia.Mobilizer;
 import com.happysanz.m3admin.bean.pia.TaskData;
@@ -55,7 +56,7 @@ import java.util.Locale;
 
 import static android.util.Log.d;
 
-public class UpdateUserActivity  extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, DatePickerDialog.OnDateSetListener {
+public class UpdateUserActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = AddTaskActivity.class.getName();
 
@@ -74,7 +75,7 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
     private List<String> mStatusList = new ArrayList<String>();
     private ArrayAdapter<String> mStatusAdapter = null;
     Mobilizer user;
-
+    String mob = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,13 +85,20 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
+        mob = getIntent().getStringExtra("page");
 
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), UserActivity.class);
-                startActivity(intent);
-                finish();
+                if (mob.equalsIgnoreCase("mob")){
+                    Intent intent = new Intent(getApplicationContext(), MobilizerActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 
@@ -104,12 +112,11 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
         txtName = findViewById(R.id.user_name);
         txtGender = findViewById(R.id.gender);
         txtStatus = findViewById(R.id.status);
-        txtStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showStatusList();
-            }
-        });
+
+        txtStatus = findViewById(R.id.status);
+        txtStatus.setOnClickListener(this);
+        txtStatus.setFocusable(false);
+
         txtDob = findViewById(R.id.dob);
         txtNationality = findViewById(R.id.nationality);
         txtReligion = findViewById(R.id.religion);
@@ -287,6 +294,8 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
             }
         } else if (view == txtDob) {
             showBirthdayDate();
+        } else if (view == txtStatus) {
+            showStatusList();
         }
     }
 
@@ -320,14 +329,14 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
         if (dob != null && dob != "") {
 
             String date = dob;
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             Date testDate = null;
             try {
                 testDate = sdf.parse(date);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             serverFormatDate = formatter.format(testDate);
             System.out.println(".....Date..." + serverFormatDate);
         }
@@ -349,6 +358,7 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
             jsonObject.put(M3AdminConstants.PARAMS_SEC_EMAIL, seccmail);
             jsonObject.put(M3AdminConstants.PARAMS_QUALIFICATION, qualification);
             jsonObject.put(M3AdminConstants.PARAMS_ADDRESS, address);
+            jsonObject.put(M3AdminConstants.PARAMS_STATUS, status);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -382,12 +392,22 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
                 e.printStackTrace();
             } finally {
                 mDatePicker = new DatePickerDialog(this, R.style.datePickerTheme, this, year, month, day);
+                DatePicker dP = mDatePicker.getDatePicker();
+                Calendar cal = Calendar.getInstance();
+                cal.set(2000,12,31);
+                Date result = cal.getTime();
+                dP.setMaxDate(result.getTime());
                 mDatePicker.show();
             }
         } else {
             Log.d(TAG, "show default date");
 
             mDatePicker = new DatePickerDialog(this, R.style.datePickerTheme, this, year, month, day);
+            DatePicker dP = mDatePicker.getDatePicker();
+            Calendar cal = Calendar.getInstance();
+            cal.set(2000,12,31);
+            Date result = cal.getTime();
+            dP.setMaxDate(result.getTime());
             mDatePicker.show();
         }
     }
@@ -411,9 +431,15 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
             if (res.equalsIgnoreCase("send")) {
 
                 Toast.makeText(this, "Updated successfully...", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), UserActivity.class);
-                startActivity(intent);
-                finish();
+                if (mob.equalsIgnoreCase("mob")){
+                    Intent intent = new Intent(getApplicationContext(), MobilizerActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
 
             } else if (res.equalsIgnoreCase("data")) {
                 try {
@@ -432,7 +458,30 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
                     txtMail.setText(getData.getJSONObject(0).getString("email"));
                     txtSecMail.setText(getData.getJSONObject(0).getString("sec_email"));
                     txtAddress.setText(getData.getJSONObject(0).getString("address"));
+                    if (getData.getJSONObject(0).getString("role_type").equalsIgnoreCase("5")) {
+                       spnMobilizer.setText("Mobiliser");
+                    } else if (getData.getJSONObject(0).getString("role_type").equalsIgnoreCase("4")) {
+                        spnMobilizer.setText("Trainer");
+                    }
+                    txtStatus.setText(getData.getJSONObject(0).getString("status"));
+                    String serverFormatDate = "";
+                    String dob = txtDob.getText().toString();
 
+                    if (dob != null && dob != "") {
+
+                        String date = dob;
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        Date testDate = null;
+                        try {
+                            testDate = sdf.parse(date);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        serverFormatDate = formatter.format(testDate);
+                        System.out.println(".....Date..." + serverFormatDate);
+                        txtDob.setText(serverFormatDate);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -505,6 +554,9 @@ public class UpdateUserActivity  extends AppCompatActivity implements View.OnCli
             return false;
         } else if (!AppValidator.checkNullString(this.txtMail.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid mobile number");
+            return false;
+        } else if (!AppValidator.checkNullString(this.txtStatus.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Set User status");
             return false;
         } else {
             return true;

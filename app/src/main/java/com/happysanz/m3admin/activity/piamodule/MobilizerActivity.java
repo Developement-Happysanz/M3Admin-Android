@@ -58,6 +58,16 @@ public class MobilizerActivity extends AppCompatActivity implements IServiceList
                 finish();
             }
         });
+        findViewById(R.id.add_user).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AddNewUserActivity.class);
+                intent.putExtra("page", "mob");
+                startActivity(intent);
+                finish();
+            }
+        });
+
         mobilizerArrayList = new ArrayList<>();
         loadMoreListView = (ListView) findViewById(R.id.list_mobilizers);
         loadMoreListView.setOnItemClickListener(this);
@@ -130,8 +140,22 @@ public class MobilizerActivity extends AppCompatActivity implements IServiceList
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.d(TAG, "onEvent list item click" + position);
+        Mobilizer userData = null;
+        if ((mobilizerListAdapter != null) && (mobilizerListAdapter.ismSearching())) {
+            Log.d(TAG, "while searching");
+            int actualindex = mobilizerListAdapter.getActualEventPos(position);
+            Log.d(TAG, "actual index" + actualindex);
+            userData = mobilizerArrayList.get(actualindex);
+        } else {
+            userData = mobilizerArrayList.get(position);
+        }
+        Intent intent = new Intent(this, UpdateUserActivity.class);
+        intent.putExtra("userObj", userData);
+        intent.putExtra("page", "mob");
+        startActivity(intent);
+        finish();
     }
 
     private void loadMob() {

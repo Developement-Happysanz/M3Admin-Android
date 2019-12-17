@@ -32,7 +32,7 @@ public class TaskDataListAdapter extends BaseAdapter {
     public TaskDataListAdapter(Context context, ArrayList<TaskData> taskData) {
         this.context = context;
         this.taskData = taskData;
-        Collections.reverse(taskData);
+//        Collections.reverse(taskData);
         mSearching = false;
     }
 
@@ -76,7 +76,9 @@ public class TaskDataListAdapter extends BaseAdapter {
             holder.txtTaskTitle = (TextView) convertView.findViewById(R.id.text_task_title);
             holder.txtTaskDescription = (TextView) convertView.findViewById(R.id.text_task_description);
             holder.txtTaskDate = (TextView) convertView.findViewById(R.id.task_date);
-            holder.txtTaskAssignedTo = (TextView) convertView.findViewById(R.id.text_task_assigned);
+            holder.txtTaskAssignedTo = (TextView) convertView.findViewById(R.id.text_task_assigned_to);
+            holder.txtTaskAssignedBy = (TextView) convertView.findViewById(R.id.text_task_assigned_by);
+            holder.txtTaskStatus = (TextView) convertView.findViewById(R.id.task_status);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -90,7 +92,10 @@ public class TaskDataListAdapter extends BaseAdapter {
         holder.txtTaskId.setText(taskData.get(position).getId());
         holder.txtTaskTitle.setText(taskData.get(position).getTaskTitle());
         holder.txtTaskDescription.setText(taskData.get(position).getTaskDescription());
+        holder.txtTaskDescription.setVisibility(View.GONE);
         holder.txtTaskAssignedTo.setText("Assigned To: "+taskData.get(position).getAssigned_to());
+        holder.txtTaskAssignedBy.setText("Assigned By: "+taskData.get(position).getAssigned_from());
+        holder.txtTaskStatus.setText(taskData.get(position).getStatus());
         String start = taskData.get(position).getTaskDate();
         try {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -136,7 +141,7 @@ public class TaskDataListAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
-        public TextView txtTaskId, txtTaskTitle, txtTaskDescription, txtTaskDate, txtTaskAssignedTo;
+        public TextView txtTaskId, txtTaskTitle, txtTaskDescription, txtTaskDate, txtTaskAssignedTo, txtTaskAssignedBy, txtTaskStatus;
     }
 
     public boolean ismSearching() {

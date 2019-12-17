@@ -150,7 +150,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             edtPassword.setError(getString(R.string.err_empty_password));
             requestFocus(edtPassword);
             return false;
-        } else if (!M3Validator.checkStringMinLength(4, this.edtPassword.getText().toString().trim())) {
+        } else if (!M3Validator.checkStringMinLength(6, this.edtPassword.getText().toString().trim())) {
             edtPassword.setError(getString(R.string.err_min_pass_length));
             requestFocus(edtPassword);
             return false;
@@ -319,6 +319,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String piaAddress = "";
         String piaPhone = "";
         String piaEmail = "";
+        String piaProfilePic = "";
 
         try {
 
@@ -354,10 +355,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     PreferenceStorage.savePIAPhone(this, piaPhone);
                 }
 
-                // PIA Preference - PIA PRN Number
+                // PIA Preference - PIA Email
                 piaEmail = piaProfile.getString("pia_email");
                 if ((piaEmail != null) && !(piaEmail.isEmpty()) && !piaEmail.equalsIgnoreCase("null")) {
                     PreferenceStorage.savePIAEmail(this, piaEmail);
+                }
+
+                // PIA Preference - PIA Pic
+                piaProfilePic = piaProfile.getString("profile_pic");
+                if ((piaProfilePic != null) && !(piaProfilePic.isEmpty()) && !piaProfilePic.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveUserPicture(this, piaProfilePic);
                 }
             }
 

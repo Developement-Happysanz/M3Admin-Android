@@ -38,71 +38,92 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/add_user"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:minHeight="60dp"
+            android:paddingStart="13dp"
+            android:paddingEnd="13dp"
+            android:src="@drawable/ic_add_button" />
+
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="* Click on mobilizer to edit"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
         android:background="@color/black"
         android:orientation="horizontal">
 
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:layout_weight="0.5"
+            android:background="@color/white"
+            android:gravity="center"
             android:text="Name"
-            android:layout_weight="0.5"
-            android:gravity="center"
-            android:background="@color/white"
-            android:layout_margin="1dp"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="3dp"
+            android:layout_margin="1dp"
             android:layout_weight="0.5"
+            android:background="@color/white"
+            android:gravity="center"
+            android:paddingBottom="3dp"
             android:text="Type"
-            android:gravity="center"
-            android:visibility="gone"
-            android:background="@color/white"
-            android:layout_margin="1dp"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="3dp"
-            android:layout_weight="0.85"
-            android:text="Status"
-            android:gravity="center"
-            android:background="@color/white"
             android:layout_margin="1dp"
-            android:textStyle="bold"
+            android:layout_weight="0.85"
+            android:background="@color/white"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:text="Status"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
 
         <ListView
             android:id="@+id/list_mobilizers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@color/white"
-            android:dividerHeight="0dp"/>
+            android:dividerHeight="0dp" />
 
 
     </LinearLayout>

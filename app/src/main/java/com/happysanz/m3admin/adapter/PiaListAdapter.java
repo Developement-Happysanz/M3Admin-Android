@@ -27,7 +27,7 @@ public class PiaListAdapter extends BaseAdapter {
     public PiaListAdapter(Context context, ArrayList<Mobilizer> mobilizers) {
         this.context = context;
         this.mobilizers = mobilizers;
-        Collections.reverse(mobilizers);
+//        Collections.reverse(mobilizers);
 //        transformation = new RoundedTransformationBuilder()
 //                .cornerRadiusDp(0)
 //                .oval(false)

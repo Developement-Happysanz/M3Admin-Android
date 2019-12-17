@@ -70,6 +70,7 @@
                 android:id="@+id/spn_role"
                 android:layout_width="match_parent"
                 android:hint="Role"
+                android:focusable="false"
                 style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                 android:layout_height="50dp"
                 android:layout_marginLeft="100dp"

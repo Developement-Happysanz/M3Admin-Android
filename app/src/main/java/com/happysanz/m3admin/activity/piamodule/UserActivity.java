@@ -62,6 +62,7 @@ public class UserActivity extends AppCompatActivity implements IServiceListener,
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AddNewUserActivity.class);
+                intent.putExtra("page", "user");
                 startActivity(intent);
                 finish();
             }
@@ -142,6 +143,7 @@ public class UserActivity extends AppCompatActivity implements IServiceListener,
         }
         Intent intent = new Intent(this, UpdateUserActivity.class);
         intent.putExtra("userObj", userData);
+        intent.putExtra("page", "user");
         startActivity(intent);
         finish();
     }

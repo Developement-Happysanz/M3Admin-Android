@@ -27,7 +27,7 @@ public class MobilizerListAdapter extends BaseAdapter {
     public MobilizerListAdapter(Context context, ArrayList<Mobilizer> mobilizers) {
         this.context = context;
         this.mobilizers = mobilizers;
-        Collections.reverse(mobilizers);
+//        Collections.reverse(mobilizers);
 //        transformation = new RoundedTransformationBuilder()
 //                .cornerRadiusDp(0)
 //                .oval(false)

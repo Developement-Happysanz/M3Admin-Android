@@ -12,13 +12,13 @@ android {
         }
     }
 
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.happysanz.m3admin"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 7
         versionName "1.0.412"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -60,6 +60,15 @@ android {
             jniDebuggable false
             zipAlignEnabled true
             signingConfig signingConfigs.config
+        }
+        debug {
+            versionNameSuffix ".debug"
+            resValue "string", "app_version",
+                    "${defaultConfig.versionName}${versionNameSuffix}"
+        }
+        release {
+            resValue "string", "app_version",
+                    "${defaultConfig.versionName}"
         }
     }
 
@@ -135,6 +144,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.github.yalantis:ucrop:2.2.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

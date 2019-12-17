@@ -174,6 +174,9 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
     private CheckBox cbCandidatesTC;
     private CheckBox cbCandidatesAadhaarStatus;
     private EditText etCandidatesAadhaarNo;
+    private EditText etCandidateStatus;
+    private List<String> mStatusList = new ArrayList<String>();
+    private ArrayAdapter<String> mStatusAdapter = null;
     private Button btnSubmit;
 
     String tradeId = "";
@@ -242,7 +245,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         } else if (v == btnSubmit) {
             if (mLastLocation != null) {
                 if (validateFields()) {
-                    if (allProspects == null){
+                    if (allProspects == null) {
                         checkInternalState = "candidate_submit";
                         saveProfile();
                     } else {
@@ -364,7 +367,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         }
                     };
                     GetBloodGroup();
-                }else if (checkInternalState.equalsIgnoreCase("bloodGroup")) {
+                } else if (checkInternalState.equalsIgnoreCase("bloodGroup")) {
                     JSONArray getData = response.getJSONArray("Bloodgroup");
                     int getLength = getData.length();
                     String bloodGroupId = "";
@@ -391,7 +394,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         }
                     };
                     if (allProspects == null) {
-                        Log.d(TAG, "null" );
+                        Log.d(TAG, "null");
                     } else {
                         getProspectdata();
                     }
@@ -463,6 +466,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     etCandidatesQualification.setText(getData.getJSONObject(0).getString("last_studied"));
                     etCandidatesLastInstitute.setText(getData.getJSONObject(0).getString("last_institute"));
                     etCandidatesQualifiedPromotion.setText(getData.getJSONObject(0).getString("qualified_promotion"));
+                    etCandidateStatus.setText(getData.getJSONObject(0).getString("status"));
 
                 } else if (checkInternalState.equalsIgnoreCase("addStudent")) {
                     if (mProgressDialog != null) {
@@ -601,6 +605,32 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
         etCandidatesAadhaarNo = findViewById(R.id.et_candidate_aadhaar_card_number);
 
+        etCandidateStatus = findViewById(R.id.et_candidate_status);
+        etCandidateStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showStatusList();
+            }
+        });
+        mStatusList.add("Confirmed");
+        mStatusList.add("Rejected");
+
+        mStatusAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mStatusList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mStatusList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+        if (allProspects == null) {
+            etCandidateStatus.setVisibility(View.GONE);
+        }
+
         btnSubmit = findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(this);
 
@@ -729,8 +759,13 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         etCandidateSex.setText("Others");
                     }
                     etCandidateAddressLine1.setText(house + " " + street + " " + location);
-                    etCandidateCity.setText(postOffice);
+                    etCandidateFatherName.setText(careOf);
+                    etCandidateCity.setText(district);
+                    etCandidateDOB.setText(dob);
                     etCandidateState.setText(state);
+                    etCandidateNationality.setText("Indian");
+                    cbCandidatesAadhaarStatus.setVisibility(View.VISIBLE);
+                    cbCandidatesAadhaarStatus.setChecked(true);
 
                     /*String dobFormat = "", ageFormat = "";
                     if (dob != null && dob != "") {
@@ -799,6 +834,27 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 //                lv_saved_card_list.setVisibility(View.GONE);
             }
         }
+    }
+
+    private void showStatusList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Status");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Status");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mStatusAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mStatusList.get(which);
+                        etCandidateStatus.setText(strName);
+                    }
+                });
+        builderSingle.show();
     }
 
     private boolean validateFields() {
@@ -1040,6 +1096,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         String CandidatesQualification = etCandidatesQualification.getText().toString();
         String CandidatesLastInstitute = etCandidatesLastInstitute.getText().toString();
         String CandidatesQualifiedPromotion = etCandidatesQualifiedPromotion.getText().toString();
+        String CandidatesStatus = etCandidateStatus.getText().toString();
 //        String CandidatesTC = etCandidatesTC.getText().toString();
         String CandidatesTC = "";
         if (cbCandidatesTC.isChecked()) {
@@ -1112,7 +1169,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             jsonObject.put(M3AdminConstants.PARAMS_LAST_STUDIED, CandidatesQualification);
             jsonObject.put(M3AdminConstants.PARAMS_QUALIFIED_PROMOTION, CandidatesQualifiedPromotion);
             jsonObject.put(M3AdminConstants.PARAMS_TRANSFER_CERTIFICATE, CandidatesTC);
-            jsonObject.put(M3AdminConstants.PARAMS_STATUS, "Pending");
+            jsonObject.put(M3AdminConstants.PARAMS_STATUS, CandidatesStatus);
 //            jsonObject.put(M3AdminConstants.PARAMS_CREATED_BY, PreferenceStorage.getUserId(getApplicationContext()));
 //            jsonObject.put(M3AdminConstants.PARAMS_CREATED_AT, currentDateandTime);
             jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
@@ -1549,9 +1606,9 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
     }
 
     private void selectTradeById(String id) {
-        if (!tradeList.isEmpty()){
+        if (!tradeList.isEmpty()) {
             String test = "";
-            for (int ss = 0; ss < tradeList.size(); ss++){
+            for (int ss = 0; ss < tradeList.size(); ss++) {
                 if (tradeList.get(ss).getTradeId().equalsIgnoreCase(id)) {
                     test = tradeList.get(ss).getTradeName();
                 }

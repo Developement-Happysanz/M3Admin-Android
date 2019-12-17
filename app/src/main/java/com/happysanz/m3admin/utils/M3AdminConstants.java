@@ -19,6 +19,9 @@ public class M3AdminConstants {
     //Forgot password URL
     public static final String USER_FORGOT_PASSWORD = "apimain/forgot_password/";
 
+    //Forgot password URL
+    public static final String USER_CHANGE_PASSWORD = "apimain/change_password/";
+
 
     //    PIA
 //    MOBILIZER LIST
@@ -42,6 +45,9 @@ public class M3AdminConstants {
     //    TRADE LIST
     public static final String TRADE_LIST = "apipia/list_trade";
 
+    //    TRADE LIST
+    public static final String UPDATE_TRADE_LIST = "apipia/update_trade";
+
 
     public static final String PROJECT_PERIOD = "apipia/project_period";
 
@@ -49,10 +55,12 @@ public class M3AdminConstants {
     public static final String VIEW_GALLERY = "apipia/center_gallery";
 
     public static final String ADD_PHOTO = "apipia/add_center_photos/";
+    public static final String DELETE_PHOTO = "apipia/center_gallery_delete/";
 
     public static final String ADD_LOGO = "apipia/update_center_banner/";
 
     public static final String ADD_VIDEO = "apipia/add_center_videos/";
+    public static final String DELETE_VIDEO = "apipia/center_video_delete/";
 
     public static final String ASSETS_URL_LOGO = "assets/center/logo/";
 
@@ -61,6 +69,7 @@ public class M3AdminConstants {
 
     //    TRADE LIST
     public static final String CREATE_TRADE = "apipia/create_trade";
+    public static final String UPDATE_TRADE = "apipia/update_trade";
 
 
     //    PROSPECT LIST
@@ -93,6 +102,15 @@ public class M3AdminConstants {
 
     //    UPDATE CANDIDATE
     public static final String UPDATE_CANDIDATE = "apipia/update_student";
+
+    //    CREATE USER
+    public static final String USER_PROFILE = "apipia/user_profile";
+
+    //    CREATE USER
+    public static final String UPDATE_PIA_USER_PROFILE = "apipia/user_profile_update";
+
+    //    CREATE USER
+    public static final String UPLOAD_USER_PIC = "apipia/user_profilepic/";
 
     //    CREATE USER
     public static final String CREATE_USER = "apipia/create_user";
@@ -136,6 +154,7 @@ public class M3AdminConstants {
 
     //    Task add params
     public static final String PARAMS_TRADE_TITLE = "trade_name";
+    public static final String PARAMS_TRADE_ID = "trade_id";
 
     public static final String UPLOAD_CANDIDATE_PIC = "student_picupload/";
 
@@ -185,6 +204,8 @@ public class M3AdminConstants {
 
     public static final String PARAMS_CENTER_ID = "center_id";
     public static final String PARAMS_CENTER_PHOTO = "center_photo";
+    public static final String PARAMS_PHOTO_ID = "gallery_id";
+    public static final String PARAMS_VIDEO_ID = "video_id";
     public static final String PARAMS_VIDEO_TITLE = "video_title";
     public static final String PARAMS_VIDEO_LINK = "video_link";
 
@@ -203,6 +224,8 @@ public class M3AdminConstants {
     //    SignIn params
     public static final String PARAMS_USERNAME = "user_name";
     public static final String PARAMS_PASSWORD = "password";
+    public static final String PARAMS_OLD_PASSWORD = "old_password";
+    public static final String PARAMS_NEW_PASSWORD = "new_password";
     public static final String PARAMS_GCM_KEY = "device_id";
     public static final String PARAMS_MOBILE_TYPE = "mobile_type";
 

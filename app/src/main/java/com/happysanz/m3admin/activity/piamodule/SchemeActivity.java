@@ -55,7 +55,7 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
     private void loadScheme() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(M3AdminConstants.USER_LOGIN_API, PreferenceStorage.getUserId(this));
+            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
 
 
         } catch (JSONException e) {

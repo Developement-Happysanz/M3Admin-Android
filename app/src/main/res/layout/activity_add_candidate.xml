@@ -70,7 +70,7 @@
                     android:hint="Name*"
                     android:inputType="text"
                     android:singleLine="true"
-
+                    android:maxLength="20"
                     android:textSize="14sp" />
 
                 <LinearLayout
@@ -195,6 +195,7 @@
                         android:layout_weight="0.50"
                         android:hint="Father name*"
                         android:inputType="text"
+                        android:maxLength="20"
 
                         android:singleLine="true"
                         android:textSize="14sp" />
@@ -206,6 +207,7 @@
                         android:layout_weight="0.50"
                         android:hint="Mother name*"
                         android:inputType="text"
+                        android:maxLength="20"
 
                         android:singleLine="true"
                         android:textSize="14sp" />
@@ -218,6 +220,7 @@
                     android:digits="0123456789"
                     android:hint="Mobile number*"
                     android:inputType="number"
+                    android:maxLength="13"
 
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -228,6 +231,7 @@
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
                     android:hint="Alternative Mobile number"
+                    android:maxLength="13"
 
                     android:inputType="number"
                     android:singleLine="true"
@@ -237,6 +241,7 @@
                     android:id="@+id/et_candidate_email_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLength="20"
 
                     android:hint="Email id"
                     android:inputType="textEmailAddress"
@@ -268,6 +273,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Address line 1*"
+                    android:maxLength="100"
 
                     android:inputType="text"
                     android:singleLine="true"
@@ -278,6 +284,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Address line 2"
+                    android:maxLength="100"
 
                     android:inputType="text"
                     android:singleLine="true"
@@ -298,6 +305,7 @@
                     android:id="@+id/cb_candidate_disability"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLength="20"
 
                     android:layout_weight="0.50"
                     android:text="Any Disability ?" />
@@ -358,6 +366,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Last institute"
+                    android:maxLength="20"
 
                     android:inputType="text"
                     android:singleLine="true"
@@ -395,18 +404,26 @@
                     android:id="@+id/cb_candidate_have_aadhaar_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:enabled="false"
-                    android:text="Have aadhaar card ?"
-                    android:visibility="gone" />
+                    android:checked="false"
+                    android:visibility="gone"
+                    android:text="Have aadhaar card ?" />
 
                 <EditText
                     android:id="@+id/et_candidate_aadhaar_card_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:digits="0123456789"
                     android:hint="Aadhaar number*"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_candidate_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:hint="Status"
                     android:inputType="number"
                     android:singleLine="true"
                     android:textSize="14sp" />

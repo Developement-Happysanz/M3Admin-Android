@@ -186,7 +186,8 @@
                     <RelativeLayout
                         android:id="@+id/logout_layout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/img_logout"
@@ -194,6 +195,7 @@
                             android:layout_height="25dp"
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="13dp"
+                            android:layout_marginBottom="20dp"
                             android:src="@drawable/ic_logout" />
 
                         <TextView
@@ -209,6 +211,31 @@
                             android:textSize="18sp" />
 
                     </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"
+                            android:layout_margin="10dp"/>
+
+                        <include
+                            android:id="@+id/activity_toolbar"
+                            layout="@layout/common_menu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="14sp"
+                            android:text="@string/app_version"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

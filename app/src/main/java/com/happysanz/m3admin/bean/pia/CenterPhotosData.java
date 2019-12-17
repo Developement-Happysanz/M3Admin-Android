@@ -15,6 +15,10 @@ public class CenterPhotosData implements Serializable {
     @Expose
     private String centerPhotos;
 
+    @SerializedName("gallery_id")
+    @Expose
+    private String galleryId;
+
     /**
      * @return The centerPhotos
      */
@@ -27,5 +31,19 @@ public class CenterPhotosData implements Serializable {
      */
     public void setCenterPhotos(String centerPhotos) {
         this.centerPhotos = centerPhotos;
+    }
+
+    /**
+     * @return The galleryId
+     */
+    public String getGalleryId() {
+        return galleryId;
+    }
+
+    /**
+     * @param galleryId The galleryId
+     */
+    public void setGalleryId(String galleryId) {
+        this.galleryId = galleryId;
     }
 }

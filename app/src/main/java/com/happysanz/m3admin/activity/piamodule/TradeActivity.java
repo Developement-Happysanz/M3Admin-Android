@@ -189,9 +189,11 @@ public class TradeActivity extends AppCompatActivity implements View.OnClickList
         } else {
             tradeData = tradeDataArrayList.get(position);
         }
-//        Intent intent = new Intent(this, BatchDetailsActivity.class);
-//        intent.putExtra("eventObj", tradeData);
-//        startActivity(intent);
+        Intent intent = new Intent(this, AddTradeActivity.class);
+        intent.putExtra("eventObj", tradeData);
+        intent.putExtra("page", "edit");
+        startActivity(intent);
+        finish();
     }
     
 }

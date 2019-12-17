@@ -31,7 +31,7 @@ public class AllProspectsListAdapter extends BaseAdapter {
     public AllProspectsListAdapter(Context context, ArrayList<AllProspects> upcomingHoliday) {
         this.context = context;
         this.upcomingHoliday = upcomingHoliday;
-        Collections.reverse(upcomingHoliday);
+//        Collections.reverse(upcomingHoliday);
 //        transformation = new RoundedTransformationBuilder()
 //                .cornerRadiusDp(0)
 //                .oval(false)

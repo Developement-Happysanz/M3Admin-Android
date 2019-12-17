@@ -32,7 +32,7 @@ public class MobilizationPlanListAdapter extends BaseAdapter {
     public MobilizationPlanListAdapter(Context context, ArrayList<MobilizationPlan> planData) {
         this.context = context;
         this.planData = planData;
-        Collections.reverse(planData);
+//        Collections.reverse(planData);
         mSearching = false;
     }
 

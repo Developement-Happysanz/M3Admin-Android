@@ -15,13 +15,14 @@
     <string name="err_mail">Enter vaild mail ID</string>
     <string name="err_number">Enter vaild phone number</string>
     <string name="empty_entry">Field cannot be empty</string>
+    <string name="pass_match">New password and confirm password do not match!</string>
     <string name="err_min_uniq_length">Unique number must be exactly 13 characters&#8230;</string>
     <string name="error_no_net">No internet access. Please check your connection and try again.</string>
 
     <!--Sign In -->
     <string name="err_username">Enter valid username</string>
     <string name="err_empty_password">Enter valid password</string>
-    <string name="err_min_pass_length">Short passwords are easy to guess! Try one with at least 4 characters&#8230;</string>
+    <string name="err_min_pass_length">Short passwords are easy to guess! Try one with at least 6 characters&#8230;</string>
 
 
     <!--live-->
@@ -39,6 +40,7 @@
     <string name="label_uid">UID</string>
     <string name="label_gender">GENDER</string>
     <string name="label_yob">YEAR OF BIRTH</string>
+    <string name="label_dob">DATE OF BIRTH</string>
     <string name="label_co">CARE OF</string>
     <string name="label_vtc">VILLAGE TEHSIL</string>
     <string name="label_po">POST OFFICE</string>

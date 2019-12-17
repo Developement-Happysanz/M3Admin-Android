@@ -1,10 +1,12 @@
 package com.happysanz.m3admin.activity.piamodule;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,12 +14,15 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.bean.pia.StoreMobilizer;
+import com.happysanz.m3admin.bean.pia.TradeData;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -36,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class AddTradeActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener{
@@ -49,7 +55,10 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
     Spinner spnMobilizer;
     String storeMobilizerId ="", res;
     Button save;
-    EditText txtTitle;
+    EditText txtTitle, txtStatus;
+    private List<String> mStatusList = new ArrayList<String>();
+    private ArrayAdapter<String> mStatusAdapter = null;
+    TradeData tradeData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +67,7 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
+
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,19 +76,70 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
                 finish();
             }
         });
-        txtTitle = findViewById(R.id.trade_title);
 
+        tradeData = (TradeData) getIntent().getSerializableExtra("eventObj") ;
+
+        txtTitle = findViewById(R.id.trade_title);
+        txtStatus = findViewById(R.id.status);
+        txtStatus.setOnClickListener(this);
         save = findViewById(R.id.save_trade);
         save.setOnClickListener(this);
 
+        if (tradeData != null){
+            txtTitle.setText(tradeData.getTradeName());
+            txtStatus.setText(tradeData.getStatus());
+        }
+
+        mStatusList.add("Active");
+        mStatusList.add("Inactive");
+
+        mStatusAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mStatusList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mStatusList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+
     }
 
+    private void showStatusList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Status");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Status");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mStatusAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mStatusList.get(which);
+                        txtStatus.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
     @Override
     public void onClick(View view) {
         if (view == save) {
             if (validateFields()) {
-                sendTaskValues();
+                if (tradeData != null) {
+                    updateTaskValues();
+                } else {
+                    sendTaskValues();
+                }
             }
+        } else if (view == txtStatus) {
+            showStatusList();
         }
     }
 
@@ -100,7 +161,7 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
 
 
     private void sendTaskValues() {
-        res = "";
+        res = "add";
 
         String title = txtTitle.getText().toString();
 
@@ -108,6 +169,7 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
         try {
             jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
             jsonObject.put(M3AdminConstants.PARAMS_TRADE_TITLE, title);
+            jsonObject.put(M3AdminConstants.PARAMS_STATUS, txtStatus.getText().toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -115,6 +177,27 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
 
         progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
         String url = M3AdminConstants.BUILD_URL + M3AdminConstants.CREATE_TRADE;
+        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+    }
+
+    private void updateTaskValues() {
+        res = "update";
+
+        String title = txtTitle.getText().toString();
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
+            jsonObject.put(M3AdminConstants.PARAMS_TRADE_ID, tradeData.getId());
+            jsonObject.put(M3AdminConstants.PARAMS_TRADE_TITLE, title);
+            jsonObject.put(M3AdminConstants.PARAMS_STATUS, txtStatus.getText().toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.UPDATE_TRADE;
         serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 
@@ -132,7 +215,11 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
     public void onResponse(JSONObject response) {
         progressDialogHelper.hideProgressDialog();
         if (validateSignInResponse(response)) {
-            Toast.makeText(this, "Added successfully...", Toast.LENGTH_SHORT).show();
+            if (tradeData != null) {
+                Toast.makeText(this, "Updated successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Added successfully", Toast.LENGTH_SHORT).show();
+            }
             Intent intent = new Intent(getApplicationContext(), TradeActivity.class);
             startActivity(intent);
             finish();

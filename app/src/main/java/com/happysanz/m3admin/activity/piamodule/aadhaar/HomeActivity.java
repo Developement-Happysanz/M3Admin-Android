@@ -35,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
     String uid, name, gender, yearOfBirth, careOf, house, street, location, villageTehsil, postOffice, district, state, postCode, dob;
 
     // UI Elements
-    TextView tv_sd_uid, tv_sd_name, tv_sd_gender, tv_sd_yob, tv_sd_co, tv_sd_vtc, tv_sd_po, tv_sd_dist,
+    TextView tv_sd_uid, tv_sd_name, tv_sd_gender, tv_sd_yob, tv_sd_dob, tv_sd_co, tv_sd_vtc, tv_sd_po, tv_sd_dist,
             tv_sd_state, tv_sd_pc, tv_cancel_action;
     LinearLayout ll_scanned_data_wrapper, ll_data_wrapper, ll_action_button_wrapper;
     private ImageView imBack;
@@ -56,6 +56,7 @@ public class HomeActivity extends AppCompatActivity {
         tv_sd_name = (TextView) findViewById(R.id.tv_sd_name);
         tv_sd_gender = (TextView) findViewById(R.id.tv_sd_gender);
         tv_sd_yob = (TextView) findViewById(R.id.tv_sd_yob);
+        tv_sd_dob = (TextView) findViewById(R.id.tv_sd_dob);
         tv_sd_co = (TextView) findViewById(R.id.tv_sd_co);
         tv_sd_vtc = (TextView) findViewById(R.id.tv_sd_vtc);
         tv_sd_po = (TextView) findViewById(R.id.tv_sd_po);
@@ -213,6 +214,7 @@ public class HomeActivity extends AppCompatActivity {
         tv_sd_name.setText("");
         tv_sd_gender.setText("");
         tv_sd_yob.setText("");
+        tv_sd_dob.setText("");
         tv_sd_co.setText("");
         tv_sd_vtc.setText("");
         tv_sd_po.setText("");
@@ -225,6 +227,7 @@ public class HomeActivity extends AppCompatActivity {
         tv_sd_name.setText(name);
         tv_sd_gender.setText(gender);
         tv_sd_yob.setText(yearOfBirth);
+        tv_sd_dob.setText(dob);
         tv_sd_co.setText(careOf);
         tv_sd_vtc.setText(villageTehsil);
         tv_sd_po.setText(postOffice);

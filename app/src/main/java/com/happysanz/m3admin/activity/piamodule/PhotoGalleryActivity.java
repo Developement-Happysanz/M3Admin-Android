@@ -45,6 +45,7 @@ import com.happysanz.m3admin.interfaces.DialogClickListener;
 import com.happysanz.m3admin.servicehelpers.ServiceHelper;
 import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
 import com.happysanz.m3admin.utils.AndroidMultiPartEntity;
+import com.happysanz.m3admin.utils.CommonUtils;
 import com.happysanz.m3admin.utils.M3AdminConstants;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 
@@ -77,7 +78,7 @@ import androidx.core.content.ContextCompat;
 
 import static android.util.Log.d;
 
-public class PhotoGalleryActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
+public class PhotoGalleryActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     public static final String DATE_FORMAT = "yyyyMMdd_HHmmss";
@@ -141,6 +142,7 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
 
         loadMoreListView = (ListView) findViewById(R.id.photo_list);
         loadMoreListView.setOnItemClickListener(this);
+        loadMoreListView.setOnItemLongClickListener(this);
 
         centerPhotosDataArrayList = new ArrayList<>();
 
@@ -536,6 +538,11 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
 
                 finish();
                 startActivity(getIntent());
+            } else if (res.equalsIgnoreCase("eventDelete")){
+                AlertDialogHelper.showSimpleAlertDialog(this, "Deleted Successfully");
+
+                finish();
+                startActivity(getIntent());
             } else {
                 Gson gson = new Gson();
                 CenterPhotosList taskPictureList = gson.fromJson(response.toString(), CenterPhotosList.class);
@@ -602,6 +609,66 @@ public class PhotoGalleryActivity extends AppCompatActivity implements View.OnCl
         Intent intent = new Intent(getApplicationContext(), ZoomImageActivity.class);
         intent.putExtra("eventObj", url);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+        Log.d(TAG, "onEvent list item clicked" + position);
+        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(PhotoGalleryActivity.this);
+        alertDialogBuilder.setTitle("Delete");
+        alertDialogBuilder.setMessage("Do you want delete the wishlist item ?");
+        alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+
+                CenterPhotosData event = null;
+                if ((centerPhotosListAdapter != null) && (centerPhotosListAdapter.ismSearching())) {
+                    Log.d(TAG, "while searching");
+                    int actualindex = centerPhotosListAdapter.getActualEventPos(position);
+                    Log.d(TAG, "actual index" + actualindex);
+                    event = centerPhotosDataArrayList.get(actualindex);
+                    centerPhotosDataArrayList.remove(actualindex);
+                    centerPhotosListAdapter.notifyDataSetChanged();
+                } else {
+                    event = centerPhotosDataArrayList.get(position);
+                    centerPhotosDataArrayList.remove(position);
+                    centerPhotosListAdapter.notifyDataSetChanged();
+                }
+                deleteWishList(event.getGalleryId());
+            }
+        });
+        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alertDialogBuilder.show();
+
+
+        return true;
+    }
+
+    private void deleteWishList (String eventId){
+        if (CommonUtils.isNetworkAvailable(this)) {
+            res = "eventDelete";
+            JSONObject jsonObject = new JSONObject();
+            try {
+
+                jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+                jsonObject.put(M3AdminConstants.PARAMS_PHOTO_ID, eventId);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+            String url = M3AdminConstants.BUILD_URL + M3AdminConstants.DELETE_PHOTO;
+            serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+        } else {
+            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

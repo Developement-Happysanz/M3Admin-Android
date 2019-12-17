@@ -39,6 +39,10 @@ public class TaskData implements Serializable {
     @Expose
     private String assigned_to;
 
+    @SerializedName("assigned_from")
+    @Expose
+    private String assigned_from;
+
     /**
      * @return The id
      */
@@ -149,6 +153,20 @@ public class TaskData implements Serializable {
      */
     public void setAssigned_to(String assigned_to) {
         this.assigned_to = assigned_to;
+    }
+
+    /**
+     * @return The assigned_from
+     */
+    public String getAssigned_from() {
+        return assigned_from;
+    }
+
+    /**
+     * @param assigned_from The assigned_from
+     */
+    public void setAssigned_from(String assigned_from) {
+        this.assigned_from = assigned_from;
     }
 
 }
