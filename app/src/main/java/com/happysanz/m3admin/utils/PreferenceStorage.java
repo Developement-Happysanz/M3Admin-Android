@@ -290,4 +290,68 @@ public class PreferenceStorage {
         return staffQualification;
     }
 
+    public static void savePIACount(Context context, String staffQualification) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.PIA_COUNT, staffQualification);
+        editor.apply();
+    }
+
+    public static String getPIACount(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String staffQualification;
+        staffQualification = sharedPreferences.getString(M3AdminConstants.PIA_COUNT, "");
+        return staffQualification;
+    }
+
+    public static void savemobCount(Context context, String staffQualification) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.MOB_COUNT, staffQualification);
+        editor.apply();
+    }
+
+    public static String getmobCount(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String staffQualification;
+        staffQualification = sharedPreferences.getString(M3AdminConstants.MOB_COUNT, "");
+        return staffQualification;
+    }
+
+    public static void savecenterCount(Context context, String staffQualification) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.CENTER_COUNT, staffQualification);
+        editor.apply();
+    }
+
+    public static String getcenterCount(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String staffQualification;
+        staffQualification = sharedPreferences.getString(M3AdminConstants.CENTER_COUNT, "");
+        return staffQualification;
+    }
+
+    public static void savestudentCount(Context context, String staffQualification) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.PROSPECT_COUNT, staffQualification);
+        editor.apply();
+    }
+
+    public static String getstudentCount(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String staffQualification;
+        staffQualification = sharedPreferences.getString(M3AdminConstants.PROSPECT_COUNT, "");
+        return staffQualification;
+    }
+
 }

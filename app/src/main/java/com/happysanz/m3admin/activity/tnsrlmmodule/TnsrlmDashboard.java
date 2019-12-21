@@ -13,35 +13,61 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.loginmodule.ChangePasswordActivity;
 import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
+import com.happysanz.m3admin.activity.piamodule.MobilizerActivity;
 import com.happysanz.m3admin.activity.piamodule.PiaProfileActivity;
 import com.happysanz.m3admin.activity.piamodule.TaskActivity;
+import com.happysanz.m3admin.bean.pia.MobilizerList;
+import com.happysanz.m3admin.helper.AlertDialogHelper;
+import com.happysanz.m3admin.helper.ProgressDialogHelper;
+import com.happysanz.m3admin.interfaces.DialogClickListener;
+import com.happysanz.m3admin.servicehelpers.ServiceHelper;
+import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
+import com.happysanz.m3admin.utils.CommonUtils;
+import com.happysanz.m3admin.utils.M3AdminConstants;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 
-public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickListener {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static android.util.Log.d;
+
+public class TnsrlmDashboard extends AppCompatActivity  implements IServiceListener, DialogClickListener, View.OnClickListener {
+    private static final String TAG = TnsrlmDashboard.class.getName();
     Toolbar toolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     Context context;
     RelativeLayout pia, mobilizationPlan, tnsrlmStaff, dashBoard;
     LinearLayout piaTnsrlm, centerTnsrlm, mobilizerTnsrlm, studentsTnsrlm, graph;
+    TextView piaCount, centerCount, mobilizerCount, studentsCount;
     Boolean visib = false;
     boolean doubleBackToExitPressedOnce = false;
     TextView userName;
     private TextView profile, aboutUs, changePassword, logout;
+    private ServiceHelper serviceHelper;
+    private ProgressDialogHelper progressDialogHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_tnsrlm);
+
+        serviceHelper = new ServiceHelper(this);
+        serviceHelper.setServiceListener(this);
+        progressDialogHelper = new ProgressDialogHelper(this);
+        callGetClassTestService();
+
         toolbar = (Toolbar) findViewById(R.id.activity_toolbar);
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -69,6 +95,16 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
         mobilizerTnsrlm.setOnClickListener(this);
         studentsTnsrlm = findViewById(R.id.tnsrlm_student_layout);
         studentsTnsrlm.setOnClickListener(this);
+
+        piaCount = findViewById(R.id.pia_count);
+        centerCount = findViewById(R.id.center_count);
+        mobilizerCount = findViewById(R.id.mobiliser_count);
+        studentsCount = findViewById(R.id.student_count);
+//        piaCount.setText(PreferenceStorage.getPIACount(this));
+//        centerCount.setText(PreferenceStorage.getcenterCount(this));
+//        mobilizerCount.setText(PreferenceStorage.getmobCount(this));
+//        studentsCount.setText(PreferenceStorage.getstudentCount(this));
+
         graph = findViewById(R.id.graph_layout);
         graph.setOnClickListener(this);
 
@@ -240,5 +276,129 @@ public class TnsrlmDashboard extends AppCompatActivity implements View.OnClickLi
             alertDialogBuilder.show();
         }
 
+    }
+
+    @Override
+    public void onAlertPositiveClicked(int tag) {
+
+    }
+
+    @Override
+    public void onAlertNegativeClicked(int tag) {
+
+    }
+
+    private boolean validateSignInResponse(JSONObject response) {
+        boolean signInSuccess = false;
+        if ((response != null)) {
+            try {
+                String status = response.getString("status");
+                String msg = response.getString(M3AdminConstants.PARAM_MESSAGE);
+                d(TAG, "status val" + status + "msg" + msg);
+
+                if ((status != null)) {
+                    if (((status.equalsIgnoreCase("activationError")) || (status.equalsIgnoreCase("alreadyRegistered")) ||
+                            (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
+                        signInSuccess = false;
+                        d(TAG, "Show error dialog");
+                        AlertDialogHelper.showSimpleAlertDialog(this, msg);
+
+                    } else {
+                        signInSuccess = true;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return signInSuccess;
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        progressDialogHelper.hideProgressDialog();
+
+        if (validateSignInResponse(response)) {
+            try {
+                saveTNSRLMProfile(response.getJSONObject("dashboardData"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.d(TAG, "Error while sign In");
+        }
+    }
+
+    private void saveTNSRLMProfile(JSONObject TNSRLMProfile) {
+
+        Log.d(TAG, "TNSRLMProfile dictionary" + TNSRLMProfile.toString());
+
+        String piaCount1 = "";
+        String mobCount1 = "";
+        String centerCount1 = "";
+        String studentCount1 = "";
+
+        try {
+
+            if (TNSRLMProfile != null) {
+
+//                // PIA Preference - PIA profile Id
+                piaCount1 = TNSRLMProfile.getString("pia_count");
+                if ((piaCount1 != null) && !(piaCount1.isEmpty()) && !piaCount1.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savePIACount(this, piaCount1);
+                }
+
+                // PIA Preference - PIA profile Id
+                mobCount1 = TNSRLMProfile.getString("mobilizer_count");
+                if ((mobCount1 != null) && !(mobCount1.isEmpty()) && !mobCount1.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savemobCount(this, mobCount1);
+                }
+
+                // PIA Preference - PIA PRN Number
+                centerCount1 = TNSRLMProfile.getString("center_count");
+                if ((centerCount1 != null) && !(centerCount1.isEmpty()) && !centerCount1.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savecenterCount(this, centerCount1);
+                }
+
+                // PIA Preference - PIA Name
+                studentCount1 = TNSRLMProfile.getString("student_count");
+                if ((studentCount1 != null) && !(studentCount1.isEmpty()) && !studentCount1.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savestudentCount(this, studentCount1);
+                }
+
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        piaCount.setText(piaCount1);
+        centerCount.setText(centerCount1);
+        mobilizerCount.setText(mobCount1);
+        studentsCount.setText(studentCount1);
+    }
+
+    @Override
+    public void onError(String error) {
+
+    }
+
+    public void callGetClassTestService() {
+
+        if (CommonUtils.isNetworkAvailable(this)) {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put(M3AdminConstants.KEY_USER_ID, "1");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+//                progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+            String url = M3AdminConstants.BUILD_URL + M3AdminConstants.ADMIN_DASHBOARD;
+            serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+        } else {
+            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
+        }
     }
 }

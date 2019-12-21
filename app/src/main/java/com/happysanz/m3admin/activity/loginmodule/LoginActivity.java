@@ -230,7 +230,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                 } else if (findUser.equalsIgnoreCase("1")) {
 
+                    JSONObject dashBoardData = response.getJSONObject("dashboardData");
                     saveUserData(userData);
+                    saveTNSRLMProfile(dashBoardData);
 
                     Intent intent = new Intent(this, TnsrlmDashboard.class);
 //                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -372,6 +374,50 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             ex.printStackTrace();
         }
 
+    }
+
+    private void saveTNSRLMProfile(JSONObject TNSRLMProfile) {
+
+        Log.d(TAG, "TNSRLMProfile dictionary" + TNSRLMProfile.toString());
+
+        String piaCount = "";
+        String mobCount = "";
+        String centerCount = "";
+        String studentCount = "";
+
+        try {
+
+            if (TNSRLMProfile != null) {
+
+//                // PIA Preference - PIA profile Id
+                piaCount = TNSRLMProfile.getString("pia_count");
+                if ((piaCount != null) && !(piaCount.isEmpty()) && !piaCount.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savePIACount(this, piaCount);
+                }
+
+                // PIA Preference - PIA profile Id
+                mobCount = TNSRLMProfile.getString("mobilizer_count");
+                if ((mobCount != null) && !(mobCount.isEmpty()) && !mobCount.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savemobCount(this, mobCount);
+                }
+
+                // PIA Preference - PIA PRN Number
+                centerCount = TNSRLMProfile.getString("center_count");
+                if ((centerCount != null) && !(centerCount.isEmpty()) && !centerCount.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savecenterCount(this, centerCount);
+                }
+
+                // PIA Preference - PIA Name
+                studentCount = TNSRLMProfile.getString("student_count");
+                if ((studentCount != null) && !(studentCount.isEmpty()) && !studentCount.equalsIgnoreCase("null")) {
+                    PreferenceStorage.savestudentCount(this, studentCount);
+                }
+
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

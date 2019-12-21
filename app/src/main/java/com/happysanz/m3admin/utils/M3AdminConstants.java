@@ -22,6 +22,12 @@ public class M3AdminConstants {
     //Forgot password URL
     public static final String USER_CHANGE_PASSWORD = "apimain/change_password/";
 
+    //Forgot password URL
+    public static final String ADMIN_DASHBOARD = "apimain/admin_dashboard/";
+
+    //Forgot password URL
+    public static final String PIA_DASHBOARD = "apimain/admin_dashboard/";
+
 
     //    PIA
 //    MOBILIZER LIST
@@ -200,6 +206,12 @@ public class M3AdminConstants {
 
 
     public static final String KEY_AADHAAR = "aadhaar_action";
+
+    // TNSRLM DATA Constants
+    public static final String PIA_COUNT = "pia_count";
+    public static final String MOB_COUNT = "mobilizer_count";
+    public static final String CENTER_COUNT = "center_count";
+    public static final String PROSPECT_COUNT = "student_count";
 
 
     public static final String PARAMS_CENTER_ID = "center_id";
