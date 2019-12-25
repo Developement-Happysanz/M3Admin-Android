@@ -110,7 +110,7 @@
 
         <activity
             android:name=".activity.piamodule.PiaDashboard"
-            android:label="@string/app_name"
+            android:label="@string/app_name_pia"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarLogin"
             android:windowSoftInputMode="stateHidden" />
@@ -325,7 +325,7 @@
 
         <activity
             android:name=".activity.tnsrlmmodule.TnsrlmDashboard"
-            android:label="@string/app_name"
+            android:label="@string/app_name_tnsrlm"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarLogin"
             android:windowSoftInputMode="stateHidden" />

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">M3 Admin</string>
+    <string name="app_name_pia">M3 PIA</string>
+    <string name="app_name_tnsrlm">M3 TNSRLM</string>
     <string name="error_occurred">Error</string>
     <string name="empty" />
     <string name="drawer_open">Drawer open</string>
