@@ -4,14 +4,14 @@ public class M3AdminConstants {
 
     //URL'S
     //BASE URL
-    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
-//    private static final String BASE_URL = "https://iyerandrao.com/";
+//    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
+    private static final String BASE_URL = "https://iyerandrao.com/";
 
     //BUILD URL
 //    public static final String BUILD_URL = BASE_URL + "M3TNSRLM/";
 //    public static final String BUILD_URL = BASE_URL + "m3test/";
-//    public static final String BUILD_URL = BASE_URL + "application/";
-    public static final String BUILD_URL = BASE_URL + "";
+    public static final String BUILD_URL = BASE_URL + "application/";
+//    public static final String BUILD_URL = BASE_URL + "";
 
     //GENERAL URL
     //Users URL
@@ -163,7 +163,7 @@ public class M3AdminConstants {
     public static final String PARAMS_TRADE_TITLE = "trade_name";
     public static final String PARAMS_TRADE_ID = "trade_id";
 
-    public static final String UPLOAD_CANDIDATE_PIC = "student_picupload/";
+    public static final String UPLOAD_CANDIDATE_PIC = "apipia/student_picupload/";
 
     //Mobilizer URL
     private static final String MOBILIZER_API = "http://happysanz.net/m3test/apimobilizer/";

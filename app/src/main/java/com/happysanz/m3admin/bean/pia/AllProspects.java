@@ -35,6 +35,10 @@ public class AllProspects  implements Serializable {
     @Expose
     private String status;
 
+    @SerializedName("student_pic")
+    @Expose
+    private String student_pic;
+
     /**
      * @return The id
      */
@@ -131,6 +135,20 @@ public class AllProspects  implements Serializable {
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /**
+     * @return The student_pic
+     */
+    public String getStudent_pic() {
+        return student_pic;
+    }
+
+    /**
+     * @param student_pic The student_pic
+     */
+    public void setStudent_pic(String student_pic) {
+        this.student_pic = student_pic;
     }
 
 }

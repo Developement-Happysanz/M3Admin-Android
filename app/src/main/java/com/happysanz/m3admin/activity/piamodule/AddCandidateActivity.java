@@ -72,6 +72,7 @@ import com.happysanz.m3admin.utils.M3AdminConstants;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 import com.happysanz.m3admin.utils.aadhaar.DataAttributes;
 import com.happysanz.m3admin.utils.aadhaar.Storage;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -427,10 +428,33 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                 } else if (checkInternalState.equalsIgnoreCase("prospect")) {
                     JSONArray getData = response.getJSONArray("studentDetails");
 //                    JSONObject getData = response.getJSONObject("studentDetails");
-
+                    admissionId = getData.getJSONObject(0).getString("name");
                     etCandidateName.setText(getData.getJSONObject(0).getString("name"));
                     etCandidateSex.setText(getData.getJSONObject(0).getString("sex"));
-                    etCandidateDOB.setText(getData.getJSONObject(0).getString("dob"));
+
+                    String dobFormat = "";
+                    String dob = getData.getJSONObject(0).getString("dob");
+//                    etCandidateDOB.setText(getData.getJSONObject(0).getString("dob"));
+                    if (dob != null && dob != "") {
+
+                        String date = dob;
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+                        Date testDate = null;
+                        try {
+                            testDate = sdf.parse(date);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
+                        dobFormat = formatter.format(testDate);
+                        System.out.println(".....Date..." + dobFormat);
+
+//                        SimpleDateFormat ageFormatter = new SimpleDateFormat("yyy-MM-dd");
+//                        ageFormat = ageFormatter.format(testDate);
+
+                    }
+                    etCandidateDOB.setText(dobFormat);
+
                     etCandidateAge.setText(getData.getJSONObject(0).getString("age"));
                     etCandidateNationality.setText(getData.getJSONObject(0).getString("nationality"));
                     etCandidateReligion.setText(getData.getJSONObject(0).getString("religion"));
@@ -452,11 +476,11 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     } else {
                         cbAnyDisability.setChecked(true);
                     }
+                    etCandidatesAadhaarNo.setText(getData.getJSONObject(0).getString("aadhaar_card_number"));
                     if (getData.getJSONObject(0).getString("have_aadhaar_card").equalsIgnoreCase("0")) {
                         cbCandidatesAadhaarStatus.setChecked(false);
                     } else {
                         cbCandidatesAadhaarStatus.setChecked(true);
-                        etCandidatesAadhaarNo.setText(getData.getJSONObject(0).getString("aadhaar_card_number"));
                     }
 //                    etCandidateDisabilityReason.setText(getData.getJSONObject(0).getString("name"));
 //                    etCandidatesPreferredTrade.setText(getData.getJSONObject(0).getString("preferred_trade"));
@@ -467,6 +491,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     etCandidatesLastInstitute.setText(getData.getJSONObject(0).getString("last_institute"));
                     etCandidatesQualifiedPromotion.setText(getData.getJSONObject(0).getString("qualified_promotion"));
                     etCandidateStatus.setText(getData.getJSONObject(0).getString("status"));
+                    admissionId = getData.getJSONObject(0).getString("id");
 
                 } else if (checkInternalState.equalsIgnoreCase("addStudent")) {
                     if (mProgressDialog != null) {
@@ -488,10 +513,24 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         finish();
                     }
                 } else if (checkInternalState.equalsIgnoreCase("updateStudent")) {
-                    Toast.makeText(getApplicationContext(), "Student profile update successfully...", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), ProspectsActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if (mProgressDialog != null) {
+                        mProgressDialog.cancel();
+                    }
+                    if ((mActualFilePath != null)) {
+                        Log.d(TAG, "Update profile picture");
+                        mProgressDialog = new ProgressDialog(this);
+                        mProgressDialog.setIndeterminate(true);
+                        mProgressDialog.setMessage("Updating Profile");
+                        mProgressDialog.show();
+                        saveUserImage();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Student profile update successfully...", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), ProspectsActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+
                 }
             }
         } catch (JSONException e) {
@@ -536,6 +575,12 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         imCandidatePicture = findViewById(R.id.im_candidate_picture);
         imCandidatePicture.setOnClickListener(this);
 
+        if (allProspects != null) {
+            String url = allProspects.getStudent_pic();
+            if (((url != null) && !(url.isEmpty()))) {
+                Picasso.get().load(url).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(imCandidatePicture);
+            }
+        }
         etCandidateName = findViewById(R.id.et_candidate_name);
 
         etCandidateSex = findViewById(R.id.et_candidate_sex);
