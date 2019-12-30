@@ -186,6 +186,20 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
+            android:name=".activity.piamodule.SchemePhotoGallery"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".activity.piamodule.SchemeVideos"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
             android:name=".activity.piamodule.TradeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

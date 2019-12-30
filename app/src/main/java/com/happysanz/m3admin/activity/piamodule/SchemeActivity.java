@@ -1,8 +1,10 @@
 package com.happysanz.m3admin.activity.piamodule;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +33,7 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
     String schemeName = "";
     String schemeInfo = "";
     String schemeVideo = "";
+    Button gallery, video;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,12 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
         progressDialogHelper = new ProgressDialogHelper(this);
         schemeTitle = findViewById(R.id.scheme_title);
         sDetail = findViewById(R.id.scheme_detail);
+
+        gallery = findViewById(R.id.gallery_layout);
+        gallery.setOnClickListener(this);
+        video = findViewById(R.id.video_gallery_layout);
+        video.setOnClickListener(this);
+
         loadScheme();
     }
 
@@ -69,7 +78,15 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
-
+        if (view == gallery) {
+            Intent intent = new Intent(this, SchemePhotoGallery.class);
+            startActivity(intent);
+        }
+        if (view == video) {
+            Intent intent = new Intent(this, SchemeVideos.class);
+            intent.putExtra("video", schemeVideo);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -119,11 +136,12 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
 
         if (validateSignInResponse(response)) {
             try {
-                JSONArray schemeDetails = response.getJSONArray("schemeDetails");
+                JSONObject schemeData = response.getJSONObject("scheme_details");
+                JSONObject schemeDetails = schemeData.getJSONObject("schemeDetails");
 
-                schemeName = schemeDetails.getJSONObject(0).getString("scheme_name");
-                schemeInfo = schemeDetails.getJSONObject(0).getString("scheme_info");
-                schemeVideo = schemeDetails.getJSONObject(0).getString("scheme_video");
+                schemeName = schemeDetails.getString("scheme_name");
+                schemeInfo = schemeDetails.getString("scheme_info");
+                schemeVideo = schemeDetails.getString("scheme_video");
 
                 schemeTitle.setText(schemeName);
                 sDetail.setText(schemeInfo);
@@ -136,6 +154,8 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onError(String error) {
+        progressDialogHelper.hideProgressDialog();
+        AlertDialogHelper.showSimpleAlertDialog(this, error);
 
     }
 

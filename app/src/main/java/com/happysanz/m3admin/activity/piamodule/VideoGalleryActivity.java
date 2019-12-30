@@ -506,7 +506,7 @@ public class VideoGalleryActivity extends Activity implements YouTubePlayer.OnFu
                     thumbnail.setTag(entry.videoId);
                 } else {
                     // 3) The view is already created and already initialized. Simply set the right videoId
-                    //    on the loader.
+                    //    on the loader.f
                     thumbnail.setImageResource(R.drawable.loading_thumbnail);
                     loader.setVideo(entry.videoId);
                 }
