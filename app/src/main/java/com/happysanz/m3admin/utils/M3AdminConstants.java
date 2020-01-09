@@ -4,14 +4,14 @@ public class M3AdminConstants {
 
     //URL'S
     //BASE URL
-//    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
-    private static final String BASE_URL = "https://iyerandrao.com/";
+    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
+//    private static final String BASE_URL = "https://iyerandrao.com/";
 
     //BUILD URL
 //    public static final String BUILD_URL = BASE_URL + "M3TNSRLM/";
 //    public static final String BUILD_URL = BASE_URL + "m3test/";
-    public static final String BUILD_URL = BASE_URL + "application/";
-//    public static final String BUILD_URL = BASE_URL + "";
+//    public static final String BUILD_URL = BASE_URL + "application/";
+    public static final String BUILD_URL = BASE_URL + "";
 
     //GENERAL URL
     //Users URL
@@ -142,6 +142,12 @@ public class M3AdminConstants {
 
     //    DISTANCE TRACKING
     public static final String DISTANCE_TRACKING = "apipia/user_tracking";
+
+    //    DISTANCE TRACKING
+    public static final String GRAPH_TNSRLM = "apimain/admin_graph_details";
+
+    //    DISTANCE TRACKING
+    public static final String GRAPH_PIA = "apimain/pia_graph_details";
 
     //    MOBILISATION PLAN VIEW
     public static final String MOBILIZATION_PLAN_LIST = "apipia/mobilization_plan_list";

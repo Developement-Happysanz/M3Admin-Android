@@ -318,6 +318,7 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
                 piaProfilePic = piaProfile.getString("profile_pic");
                 if ((piaProfilePic != null) && !(piaProfilePic.isEmpty()) && !piaProfilePic.equalsIgnoreCase("null")) {
                     PreferenceStorage.saveUserPicture(this, piaProfilePic);
+                    Picasso.get().load(piaProfilePic).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(profileImg);
                 }
             }
 
