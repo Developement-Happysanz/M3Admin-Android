@@ -396,6 +396,7 @@
                 <CheckBox
                     android:id="@+id/cb_candidate_tc"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
 
                     android:layout_height="wrap_content"
                     android:text="Have transfer certificate ?" />

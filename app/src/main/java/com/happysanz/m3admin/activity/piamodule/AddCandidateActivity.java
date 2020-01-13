@@ -1090,7 +1090,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             jsonObject.put(M3AdminConstants.PARAMS_LAST_INSTITUTE, CandidatesLastInstitute);
             jsonObject.put(M3AdminConstants.PARAMS_LAST_STUDIED, CandidatesQualification);
             jsonObject.put(M3AdminConstants.PARAMS_QUALIFIED_PROMOTION, CandidatesQualifiedPromotion);
-            jsonObject.put(M3AdminConstants.PARAMS_TRANSFER_CERTIFICATE, CandidatesTC);
+//            jsonObject.put(M3AdminConstants.PARAMS_TRANSFER_CERTIFICATE, CandidatesTC);
             jsonObject.put(M3AdminConstants.PARAMS_STATUS, "Pending");
 //            jsonObject.put(M3AdminConstants.PARAMS_CREATED_BY, PreferenceStorage.getUserId(getApplicationContext()));
 //            jsonObject.put(M3AdminConstants.PARAMS_CREATED_AT, currentDateandTime);
@@ -1213,7 +1213,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             jsonObject.put(M3AdminConstants.PARAMS_LAST_INSTITUTE, CandidatesLastInstitute);
             jsonObject.put(M3AdminConstants.PARAMS_LAST_STUDIED, CandidatesQualification);
             jsonObject.put(M3AdminConstants.PARAMS_QUALIFIED_PROMOTION, CandidatesQualifiedPromotion);
-            jsonObject.put(M3AdminConstants.PARAMS_TRANSFER_CERTIFICATE, CandidatesTC);
+//            jsonObject.put(M3AdminConstants.PARAMS_TRANSFER_CERTIFICATE, CandidatesTC);
             jsonObject.put(M3AdminConstants.PARAMS_STATUS, CandidatesStatus);
 //            jsonObject.put(M3AdminConstants.PARAMS_CREATED_BY, PreferenceStorage.getUserId(getApplicationContext()));
 //            jsonObject.put(M3AdminConstants.PARAMS_CREATED_AT, currentDateandTime);
