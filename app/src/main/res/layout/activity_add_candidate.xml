@@ -69,8 +69,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Name*"
                     android:inputType="text"
+                    android:maxLength="40"
                     android:singleLine="true"
-                    android:maxLength="20"
                     android:textSize="14sp" />
 
                 <LinearLayout
@@ -123,8 +123,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
                         android:hint="Nationality*"
-
                         android:inputType="text"
+                        android:maxLength="40"
                         android:singleLine="true"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -140,8 +140,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
                         android:hint="Religion*"
-
                         android:inputType="text"
+                        android:maxLength="40"
                         android:singleLine="true"
                         android:textSize="14sp" />
 
@@ -151,8 +151,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
                         android:hint="Community Class*"
-
                         android:inputType="text"
+                        android:maxLength="40"
                         android:singleLine="true"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -168,8 +168,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
                         android:hint="Community*"
-
                         android:inputType="text"
+                        android:maxLength="40"
                         android:singleLine="true"
                         android:textSize="14sp" />
 
@@ -178,7 +178,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
-
+                        android:focusable="false"
                         android:hint="Blood group*"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -195,8 +195,7 @@
                         android:layout_weight="0.50"
                         android:hint="Father name*"
                         android:inputType="text"
-                        android:maxLength="20"
-
+                        android:maxLength="40"
                         android:singleLine="true"
                         android:textSize="14sp" />
 
@@ -207,8 +206,7 @@
                         android:layout_weight="0.50"
                         android:hint="Mother name*"
                         android:inputType="text"
-                        android:maxLength="20"
-
+                        android:maxLength="40"
                         android:singleLine="true"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -231,9 +229,9 @@
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
                     android:hint="Alternative Mobile number"
-                    android:maxLength="13"
-
                     android:inputType="number"
+
+                    android:maxLength="13"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -241,10 +239,10 @@
                     android:id="@+id/et_candidate_email_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="20"
-
                     android:hint="Email id"
+
                     android:inputType="textEmailAddress"
+                    android:maxLength="40"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -253,7 +251,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="State*"
-
+                    android:maxLength="40"
                     android:inputType="text"
                     android:singleLine="true"
                     android:textSize="14sp" />
@@ -264,7 +262,7 @@
                     android:layout_height="wrap_content"
                     android:hint="City*"
                     android:inputType="text"
-
+                    android:maxLength="40"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -273,9 +271,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Address line 1*"
-                    android:maxLength="100"
-
                     android:inputType="text"
+
+                    android:maxLength="100"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -284,9 +282,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Address line 2"
-                    android:maxLength="100"
-
                     android:inputType="text"
+
+                    android:maxLength="100"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -295,7 +293,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.50"
-
+                    android:maxLength="50"
                     android:hint="Mother tongue*"
                     android:inputType="text"
                     android:singleLine="true"
@@ -305,9 +303,9 @@
                     android:id="@+id/cb_candidate_disability"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="20"
-
                     android:layout_weight="0.50"
+
+                    android:maxLength="20"
                     android:text="Any Disability ?" />
 
                 <EditText
@@ -353,7 +351,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.60"
-
+                        android:maxLength="40"
                         android:hint="Qualification"
                         android:inputType="text"
                         android:singleLine="true"
@@ -366,9 +364,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Last institute"
-                    android:maxLength="20"
-
                     android:inputType="text"
+                    android:maxLength="40"
                     android:singleLine="true"
                     android:textSize="14sp" />
 
@@ -396,18 +393,18 @@
                 <CheckBox
                     android:id="@+id/cb_candidate_tc"
                     android:layout_width="match_parent"
-                    android:visibility="gone"
-
                     android:layout_height="wrap_content"
-                    android:text="Have transfer certificate ?" />
+
+                    android:text="Have transfer certificate ?"
+                    android:visibility="gone" />
 
                 <CheckBox
                     android:id="@+id/cb_candidate_have_aadhaar_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:visibility="gone"
-                    android:text="Have aadhaar card ?" />
+                    android:text="Have aadhaar card ?"
+                    android:visibility="gone" />
 
                 <EditText
                     android:id="@+id/et_candidate_aadhaar_card_number"
@@ -415,6 +412,7 @@
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
                     android:hint="Aadhaar number*"
+                    android:maxLength="20"
                     android:inputType="number"
                     android:singleLine="true"
                     android:textSize="14sp" />
