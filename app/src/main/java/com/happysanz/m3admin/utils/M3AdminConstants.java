@@ -4,8 +4,12 @@ public class M3AdminConstants {
 
     //URL'S
     //BASE URL
-    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
+//    Live
 //    private static final String BASE_URL = "https://iyerandrao.com/";
+//    Development
+//    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
+//    Testing
+    private static final String BASE_URL = "https://happysanz.in/m3tnsrlm/";
 
     //BUILD URL
 //    public static final String BUILD_URL = BASE_URL + "M3TNSRLM/";
