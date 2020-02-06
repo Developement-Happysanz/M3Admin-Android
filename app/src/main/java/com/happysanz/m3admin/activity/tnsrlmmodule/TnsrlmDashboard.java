@@ -15,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ import com.happysanz.m3admin.activity.loginmodule.ChangePasswordActivity;
 import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
 import com.happysanz.m3admin.activity.piamodule.MobilizerActivity;
 import com.happysanz.m3admin.activity.piamodule.PiaProfileActivity;
+import com.happysanz.m3admin.activity.piamodule.SchemeActivity;
 import com.happysanz.m3admin.activity.piamodule.TaskActivity;
 import com.happysanz.m3admin.bean.pia.MobilizerList;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
@@ -36,6 +38,7 @@ import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
 import com.happysanz.m3admin.utils.CommonUtils;
 import com.happysanz.m3admin.utils.M3AdminConstants;
 import com.happysanz.m3admin.utils.PreferenceStorage;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +51,7 @@ public class TnsrlmDashboard extends AppCompatActivity  implements IServiceListe
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     Context context;
-    RelativeLayout pia, mobilizationPlan, tnsrlmStaff, dashBoard;
+    RelativeLayout pia, mobilizationPlan, tnsrlmStaff, piaScheme, dashBoard;
     LinearLayout piaTnsrlm, centerTnsrlm, mobilizerTnsrlm, studentsTnsrlm, graph;
     TextView piaCount, centerCount, mobilizerCount, studentsCount;
     Boolean visib = false;
@@ -57,6 +60,7 @@ public class TnsrlmDashboard extends AppCompatActivity  implements IServiceListe
     private TextView profile, aboutUs, changePassword, logout;
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
+    private ImageView profileImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +83,28 @@ public class TnsrlmDashboard extends AppCompatActivity  implements IServiceListe
         mobilizationPlan.setOnClickListener(this);
         tnsrlmStaff = (RelativeLayout) findViewById(R.id.tnsrlm_layout);
         tnsrlmStaff.setOnClickListener(this);
+        piaScheme = (RelativeLayout) findViewById(R.id.scheme_layout);
+        piaScheme.setOnClickListener(this);
         profile = findViewById(R.id.user_profile);
         profile.setOnClickListener(this);
         dashBoard = (RelativeLayout) findViewById(R.id.dash_layout);
         dashBoard.setOnClickListener(this);
 
-        logout =  findViewById(R.id.logout);
+        profile = (TextView) findViewById(R.id.user_profile);
+        profile.setOnClickListener(this);
+        aboutUs = (TextView) findViewById(R.id.about_us);
+        aboutUs.setOnClickListener(this);
+        changePassword = (TextView) findViewById(R.id.change_password);
+        changePassword.setOnClickListener(this);
+        logout = (TextView) findViewById(R.id.logout);
         logout.setOnClickListener(this);
+
+        profileImg = findViewById(R.id.img_profile_image);
+        profileImg.setOnClickListener(this);
+        String url = PreferenceStorage.getUserPicture(this);
+        if (((url != null) && !(url.isEmpty()))) {
+            Picasso.get().load(url).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(profileImg);
+        }
 
         piaTnsrlm = findViewById(R.id.tnsrlm_pia_layout);
         piaTnsrlm.setOnClickListener(this);
@@ -209,6 +228,10 @@ public class TnsrlmDashboard extends AppCompatActivity  implements IServiceListe
             Intent intent = new Intent(getApplicationContext(), MobilizationPlanActivity.class);
             startActivity(intent);
         }
+        if (view == piaScheme){
+            Intent intent = new Intent(getApplicationContext(), SchemeActivity.class);
+            startActivity(intent);
+        }
         if (view == tnsrlmStaff){
             Intent intent = new Intent(getApplicationContext(), TnsrlmStaffActivity.class);
             startActivity(intent);
@@ -216,10 +239,11 @@ public class TnsrlmDashboard extends AppCompatActivity  implements IServiceListe
         if (view == profile){
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
             startActivity(intent);
+            finish();
         }
         if (view == aboutUs){
-            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+//            startActivity(intent);
         }
         if (view == changePassword){
             Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);

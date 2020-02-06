@@ -46,11 +46,14 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <Spinner
+        <EditText
             android:id="@+id/spn_user_mob"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            style="@style/Base.TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
+            android:focusable="false"
+            android:hint="Select user"
+            android:spinnerMode="dropdown"
+            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp" />
 

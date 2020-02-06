@@ -29,6 +29,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.happysanz.m3admin.R;
+import com.happysanz.m3admin.bean.pia.Centers;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -39,6 +40,7 @@ import com.happysanz.m3admin.utils.CommonUtils;
 import com.happysanz.m3admin.utils.M3AdminConstants;
 import com.happysanz.m3admin.utils.M3Validator;
 import com.happysanz.m3admin.utils.PreferenceStorage;
+import com.squareup.picasso.Picasso;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -72,6 +74,7 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
     LinearLayout before, after;
     ImageView logo;
 
+    private Centers centers;
 
     private Uri outputFileUri;
     static final int REQUEST_IMAGE_GET = 1;
@@ -80,6 +83,7 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
     private Uri mSelectedImageUri = null;
     private String mUpdatedImageUrl = null;
     private Bitmap mCurrentUserImageBitmap = null;
+    String page;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +93,21 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CenterActivity.class);
-                startActivity(intent);
-                finish();
+                if (page.equalsIgnoreCase("add")) {
+                    Intent intent = new Intent(getApplicationContext(), CenterActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), CenterDetailActivity.class);
+                    intent.putExtra("cent", centers);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
+
+        centers = (Centers) getIntent().getSerializableExtra("center");
+        page = getIntent().getStringExtra("page");
 
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
@@ -109,12 +123,39 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
         centerAddress = findViewById(R.id.center_address);
         savedetails = findViewById(R.id.save_center);
         savedetails.setOnClickListener(this);
+
+        if (page.equalsIgnoreCase("update")) {
+            before.setVisibility(View.GONE);
+            after.setVisibility(View.VISIBLE);
+            loadCentersDetails();
+        }
+
+    }
+
+    private void loadCentersDetails() {
+        res = "details";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(M3AdminConstants.PARAMS_CENTER_ID, centers.getid());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.GET_CENTER_DETAILS;
+        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 
     @Override
     public void onClick(View view) {
         if (view == savedetails) {
-            sendCenterDetails();
+            if (page.equalsIgnoreCase("update")) {
+                updateCenterDetails();
+            } else {
+                sendCenterDetails();
+            }
         }
         if (view == before) {
             before.setVisibility(View.GONE);
@@ -146,6 +187,35 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
 
                 progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
                 String url = M3AdminConstants.BUILD_URL + M3AdminConstants.CREATE_CENTER;
+                serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+            }
+        } else {
+            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
+        }
+
+    }
+
+    private void updateCenterDetails() {
+        res = "update";
+        String cName = centerName.getText().toString();
+        String cDetail = centerDetail.getText().toString();
+        String cAddress = centerAddress.getText().toString();
+        if (CommonUtils.isNetworkAvailable(getApplicationContext())) {
+            if (validateFields()) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+                    jsonObject.put(M3AdminConstants.PARAMS_CENTER_ID, centers.getid());
+                    jsonObject.put(M3AdminConstants.PARAMS_CENTER_NAME, cName);
+                    jsonObject.put(M3AdminConstants.PARAMS_CENTER_ADDRESS, cAddress);
+                    jsonObject.put(M3AdminConstants.PARAMS_CENTER_INFO, cDetail);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+                String url = M3AdminConstants.BUILD_URL + M3AdminConstants.UPDATE_CENTER_DETAILS;
                 serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
             }
         } else {
@@ -225,18 +295,40 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
         progressDialogHelper.hideProgressDialog();
         if (validateSignInResponse(response)) {
             try {
+                if (res.equalsIgnoreCase("details")) {
+                    String url = response.getJSONArray("cenerDetails").getJSONObject(0).getString("center_logo");
+                    String centeName = response.getJSONArray("cenerDetails").getJSONObject(0).getString("center_name");
+                    String centeInfo = response.getJSONArray("cenerDetails").getJSONObject(0).getString("center_info");
+                    String centeAddress = response.getJSONArray("cenerDetails").getJSONObject(0).getString("center_address");
+
+                    if (((url != null) && !(url.isEmpty()))) {
+                        Picasso.get().load(url).into(logo);
+                    } else {
+                        logo.setImageResource(R.drawable.ic_profile);
+                    }
+                    centerName.setText(centeName);
+                    centerDetail.setText(centeInfo);
+                    centerAddress.setText(centeAddress);
+                } else if (res.equalsIgnoreCase("update")) {
+                    Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), CenterDetailActivity.class);
+                    intent.putExtra("cent", centers);
+                    startActivity(intent);
+                    finish();
+                }
                 String id = response.getString(M3AdminConstants.PARAMS_CENTER_ID);
                 PreferenceStorage.saveCenterId(this, id);
+
+                mUpdatedImageUrl = null;
+                if (!mActualFilePath.isEmpty()) {
+                    new UploadFileToServer().execute();
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), CenterActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
-            mUpdatedImageUrl = null;
-            if (!mActualFilePath.isEmpty()) {
-                new UploadFileToServer().execute();
-            } else {
-                Intent intent = new Intent(getApplicationContext(), CenterActivity.class);
-                startActivity(intent);
-                finish();
             }
         }
     }

@@ -157,7 +157,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:id="@+id/profile_layout"
+                        android:id="@+id/scheme_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -177,7 +177,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_toRightOf="@id/img_task"
                             android:gravity="center_vertical"
-                            android:text="Profile"
+                            android:text="Schemes"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 

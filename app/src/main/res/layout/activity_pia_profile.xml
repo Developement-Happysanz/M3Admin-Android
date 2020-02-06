@@ -60,7 +60,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:padding="10dp"
-                    android:src="@drawable/ic_photoo" />
+                    android:src="@drawable/ic_profile" />
 
 
             </LinearLayout>
@@ -113,7 +113,7 @@
                 android:id="@+id/ti_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ti_prn"
+                android:layout_below="@+id/ti_state"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
@@ -126,6 +126,27 @@
                     android:layout_marginTop="40dp"
                     android:layout_marginRight="30dp"
                     android:hint="Address"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ti_prn"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <EditText
+                    android:id="@+id/state"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="30dp"
+                    android:hint="State"
                     android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>

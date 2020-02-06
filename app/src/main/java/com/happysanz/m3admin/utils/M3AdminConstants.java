@@ -4,8 +4,9 @@ public class M3AdminConstants {
 
     //URL'S
     //BASE URL
-    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
+//    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
 //    private static final String BASE_URL = "https://iyerandrao.com/";
+    private static final String BASE_URL = "http://happysanz.in/m3tnsrlm/";
 
     //BUILD URL
 //    public static final String BUILD_URL = BASE_URL + "M3TNSRLM/";
@@ -40,6 +41,12 @@ public class M3AdminConstants {
 
     //    CREATE CENTER
     public static final String CREATE_CENTER = "apipia/create_center";
+
+    //    CREATE CENTER
+    public static final String GET_CENTER_DETAILS = "apipia/center_details";
+
+    //    CREATE CENTER
+    public static final String UPDATE_CENTER_DETAILS = "apipia/update_center_details";
 
 
     //    TASK LIST
@@ -131,6 +138,9 @@ public class M3AdminConstants {
     //    STAFF TNSRLM
     public static final String GET_USER_TNSRLM = "apimain/user_details";
 
+    //    STAFF TNSRLM
+    public static final String UPLOAD_PIC_TNSRLM = "apimain/user_profilepic";
+
     //    USER DETAIL
     public static final String GET_USER = "apipia/user_details";
 
@@ -180,6 +190,12 @@ public class M3AdminConstants {
 
     //    PIA Creation URL
     public static final String CREATE_PIA = "apimain/create_pia";
+
+    //    PIA Creation URL
+    public static final String UPDATE_PIA = "apimain/update_pia";
+
+    //    PIA Creation URL
+    public static final String DETAILS_PIA = "apimain/pia_details";
 
     //    PIA Creation URL
     public static final String PIA_LIST = "apimain/pia_list";

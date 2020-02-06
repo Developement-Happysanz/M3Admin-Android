@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 import static android.util.Log.d;
 
-public class PiaActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
+public class PiaActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private static final String TAG = PiaActivity.class.getName();
 
@@ -75,6 +75,7 @@ public class PiaActivity extends AppCompatActivity implements View.OnClickListen
         progressDialogHelper = new ProgressDialogHelper(this);
         loadMoreListView = findViewById(R.id.pia_list);
         loadMoreListView.setOnItemClickListener(this);
+        loadMoreListView.setOnItemLongClickListener(this);
         tradeDataArrayList = new ArrayList<>();
         loadTrades();
     }
@@ -191,4 +192,23 @@ public class PiaActivity extends AppCompatActivity implements View.OnClickListen
         startActivity(intent);
     }
 
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        d(TAG, "onEvent list item click" + position);
+        Mobilizer piaData = null;
+        if ((tradeDataListAdapter != null) && (tradeDataListAdapter.ismSearching())) {
+            d(TAG, "while searching");
+            int actualindex = tradeDataListAdapter.getActualEventPos(position);
+            d(TAG, "actual index" + actualindex);
+            piaData = tradeDataArrayList.get(actualindex);
+        } else {
+            piaData = tradeDataArrayList.get(position);
+        }
+        Intent intent = new Intent(this, UpdatePiaActivity.class);
+//        PreferenceStorage.savePIAProfileId(this,piaData.getUser_id());
+        intent.putExtra("eventObj", piaData.getUser_master_id());
+        startActivity(intent);
+        finish();
+        return true;
+    }
 }
