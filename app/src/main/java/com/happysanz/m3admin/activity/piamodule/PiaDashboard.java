@@ -353,8 +353,8 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
         if (view == aboutUs){
-//            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), AboutUsActivity.class);
+            startActivity(intent);
         }
         if (view == changePassword){
             Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);
