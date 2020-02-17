@@ -1,21 +1,25 @@
 package com.happysanz.m3admin.activity.piamodule;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -23,6 +27,7 @@ import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.adapter.TaskDataListAdapter;
 import com.happysanz.m3admin.bean.pia.StoreMobilizer;
+import com.happysanz.m3admin.bean.pia.StoreTrade;
 import com.happysanz.m3admin.bean.pia.TaskData;
 import com.happysanz.m3admin.bean.pia.TaskDataList;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
@@ -57,15 +62,18 @@ public class TrackingUserSelectionActivity extends AppCompatActivity implements 
     TaskDataListAdapter taskDataListAdapter;
     ArrayList<TaskData> taskDataArrayList;
     protected boolean isLoadingForFirstTime = true;
-    Spinner spnMobilizer;
+    EditText spnMobilizer;
     String storeMobilizerId = "", res;
     Button live, distance;
-    TextView spnDate;
+    TextView spnDate, generateReport;
     private SimpleDateFormat mDateFormatter;
     private DatePickerDialog mDatePicker;
     String d;
     List<LatLng> list = new ArrayList<>();
     LatLng livLoc;
+
+    ArrayList<StoreMobilizer> classesList;
+    ArrayAdapter<StoreMobilizer> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,22 +97,44 @@ public class TrackingUserSelectionActivity extends AppCompatActivity implements 
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
         spnMobilizer = findViewById(R.id.spn_user_mob);
-        spnMobilizer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spnMobilizer.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                StoreMobilizer classList = (StoreMobilizer) parent.getSelectedItem();
-
-                storeMobilizerId = classList.getMobilizerId();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onClick(View v) {
+                showTrades();
             }
         });
 
+        generateReport = findViewById(R.id.generate_report);
+        generateReport.setOnClickListener(this);
+
         loadMob();
         mDateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+    }
+
+    private void showTrades() {
+        Log.d(TAG, "Show trade lists");
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select user");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(adapter,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        StoreMobilizer classList = classesList.get(which);
+                        spnMobilizer.setText(classList.getMobilizerName());
+                        storeMobilizerId = classList.getMobilizerId();
+//
+//                        StoreTrade trade = tradeList.get(which);
+//                        etCandidatesPreferredTrade.setText(trade.getTradeName());
+//                        tradeId = trade.getTradeId();
+//                        GetTradeTimings();
+                    }
+                });
+        builderSingle.show();
     }
 
     private void getLiveTrackData() {
@@ -235,6 +265,10 @@ public class TrackingUserSelectionActivity extends AppCompatActivity implements 
         if (v == spnDate) {
             showBirthdayDate();
         }
+        if (v == generateReport) {
+            Intent i = new Intent(this, TrackingReportGenerationActivity.class);
+            startActivity(i);
+        }
     }
 
 
@@ -288,7 +322,7 @@ public class TrackingUserSelectionActivity extends AppCompatActivity implements 
 
                     String classId = "";
                     String className = "";
-                    ArrayList<StoreMobilizer> classesList = new ArrayList<>();
+                    classesList = new ArrayList<>();
 
                     for (int i = 0; i < getLength; i++) {
 
@@ -299,8 +333,18 @@ public class TrackingUserSelectionActivity extends AppCompatActivity implements 
                     }
 
                     //fill data in spinner
-                    ArrayAdapter<StoreMobilizer> adapter = new ArrayAdapter<StoreMobilizer>(getApplicationContext(), R.layout.spinner_item_ns, classesList);
-                    spnMobilizer.setAdapter(adapter);
+                    adapter = new ArrayAdapter<StoreMobilizer>(getApplicationContext(), R.layout.gender_layout, R.id.gender_name, classesList){ // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent) {
+                            Log.d(TAG, "getview called" + position);
+                            View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                            TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                            gendername.setText(classesList.get(position).getMobilizerName());
+
+                            // ... Fill in other views ...
+                            return view;
+                        }
+                    };
                 } else if (res.equalsIgnoreCase("data")) {
                     String lat, lng;
                     Double latitude, longitude;

@@ -1026,15 +1026,15 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         } else {
             CandidatesTC = "0";
         }
-        String CandidatesAadhaarStatus = "" + cbCandidatesAadhaarStatus.isChecked();
+        String CandidatesAadhaarStatus = "1" ;
         String CandidatesAadhaarNo = "";
-        if (cbCandidatesAadhaarStatus.isChecked()) {
-            CandidatesAadhaarStatus = "1";
+//        if (cbCandidatesAadhaarStatus.isChecked()) {
+//            CandidatesAadhaarStatus = "1";
             CandidatesAadhaarNo = etCandidatesAadhaarNo.getText().toString();
-        } else {
-            CandidatesAadhaarStatus = "0";
-            CandidatesAadhaarNo = "";
-        }
+//        } else {
+//            CandidatesAadhaarStatus = "0";
+//            CandidatesAadhaarNo = "";
+//        }
 
         String serverFormatDate = "";
         if (etCandidateDOB.getText().toString() != null && etCandidateDOB.getText().toString() != "") {
@@ -1149,15 +1149,15 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         } else {
             CandidatesTC = "0";
         }
-        String CandidatesAadhaarStatus = "" + cbCandidatesAadhaarStatus.isChecked();
+        String CandidatesAadhaarStatus = "1" ;
         String CandidatesAadhaarNo = "";
-        if (cbCandidatesAadhaarStatus.isChecked()) {
-            CandidatesAadhaarStatus = "1";
+//        if (cbCandidatesAadhaarStatus.isChecked()) {
+//            CandidatesAadhaarStatus = "1";
             CandidatesAadhaarNo = etCandidatesAadhaarNo.getText().toString();
-        } else {
-            CandidatesAadhaarStatus = "0";
-            CandidatesAadhaarNo = "";
-        }
+//        } else {
+//            CandidatesAadhaarStatus = "0";
+//            CandidatesAadhaarNo = "";
+//        }
 
         String serverFormatDate = "";
         if (etCandidateDOB.getText().toString() != null && etCandidateDOB.getText().toString() != "") {

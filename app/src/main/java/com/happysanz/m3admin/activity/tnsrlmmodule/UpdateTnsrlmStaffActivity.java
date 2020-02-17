@@ -45,7 +45,7 @@ import java.util.Locale;
 
 public class UpdateTnsrlmStaffActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, DatePickerDialog.OnDateSetListener {
 
-    private static final String TAG = AddTaskActivity.class.getName();
+    private static final String TAG = UpdateTnsrlmStaffActivity.class.getName();
 
     private DatePickerDialog mDatePicker;
     private SimpleDateFormat mDateFormatter;

@@ -10,18 +10,25 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
+import com.google.gson.JsonArray;
 import com.happysanz.m3admin.BuildConfig;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
@@ -31,6 +38,7 @@ import com.happysanz.m3admin.servicehelpers.ServiceHelper;
 import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
 import com.happysanz.m3admin.utils.AndroidMultiPartEntity;
 import com.happysanz.m3admin.utils.M3AdminConstants;
+import com.happysanz.m3admin.utils.M3Validator;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 import com.squareup.picasso.Picasso;
 import com.yalantis.ucrop.UCrop;
@@ -43,6 +51,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -52,15 +61,26 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener {
+import static android.util.Log.d;
 
-    private static final String TAG = ProfileActivity.class.getName();
+public class UpdatePiaActivity extends AppCompatActivity implements IServiceListener, DialogClickListener {
+
+    private static final String TAG = PiaActivity.class.getName();
+
+    Button addNewPia;
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
-    String localRes, res;
+    String uniqueNumber, name, address, email, phone, resDa;
+    EditText uNumber, piaName, piaAddress, piaEmail, piaPhone;
+    private EditText etPiaStatus;
+    private List<String> mStatusList = new ArrayList<String>();
+    private ArrayAdapter<String> mStatusAdapter = null;
+    private String piaID;
     private ImageView profileImg;
 
 
@@ -74,57 +94,133 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     long totalSize = 0;
     File image = null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-
-        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), TnsrlmDashboard.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
+        setContentView(R.layout.activity_update_pia);
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
 
-        profileImg = findViewById(R.id.tnsrlm_profile_img);
-        profileImg.setOnClickListener(this);
-        String url = PreferenceStorage.getUserPicture(this);
-        if (((url != null) && !(url.isEmpty()))) {
-            Picasso.get().load(url).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(profileImg);
-        }
-        getUserData();
+        piaID = getIntent().getStringExtra("eventObj");
 
+        uNumber = findViewById(R.id.pia_id);
+        piaName = findViewById(R.id.pia_name);
+        piaAddress = findViewById(R.id.pia_address);
+        piaEmail = findViewById(R.id.pia_mail);
+        piaPhone = findViewById(R.id.pia_phone);
+
+        getProfileData();
+
+        profileImg = findViewById(R.id.new_logo);
+        profileImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImageIntent();
+            }
+        });
+
+        etPiaStatus = findViewById(R.id.pia_status);
+        etPiaStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showStatusList();
+            }
+        });
+        mStatusList.add("Active");
+        mStatusList.add("Inactive");
+
+        mStatusAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mStatusList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mStatusList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+        addNewPia = (Button) findViewById(R.id.save_pia);
+        addNewPia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (validateFields()){
+                    resDa = "updateData";
+                    uniqueNumber = uNumber.getText().toString();
+                    name = piaName.getText().toString();
+                    address = piaAddress.getText().toString();
+                    email = piaEmail.getText().toString();
+                    phone = piaPhone.getText().toString();
+
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put(M3AdminConstants.PARAMS_PIA_ID, piaID);
+                        jsonObject.put(M3AdminConstants.PARAMS_UNIQUE_NUMBER, uniqueNumber);
+                        jsonObject.put(M3AdminConstants.PARAMS_NAME, name);
+                        jsonObject.put(M3AdminConstants.PARAMS_ADDRESS, address);
+                        jsonObject.put(M3AdminConstants.PARAMS_EMAIL, email);
+                        jsonObject.put(M3AdminConstants.PARAMS_PHONE, phone);
+                        jsonObject.put(M3AdminConstants.PARAMS_STATUS, etPiaStatus.getText().toString());
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+                    String url = M3AdminConstants.BUILD_URL + M3AdminConstants.UPDATE_PIA;
+                    serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+                }
+
+            }
+        });
+
+        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PiaActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
+    private void showStatusList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
 
-    private void getUserData() {
-        res = "data";
+        builderSingle.setTitle("Select Status");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Status");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mStatusAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mStatusList.get(which);
+                        etPiaStatus.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
+    private void getProfileData() {
+        resDa = "getData";
         JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(M3AdminConstants.KEY_USER_MASTER_ID, PreferenceStorage.getUserId(this));
 
+        try {
+            jsonObject.put(M3AdminConstants.PARAMS_PIA_ID, piaID);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.USER_PROFILE;
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.DETAILS_PIA;
         serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        if (v == profileImg) {
-            openImageIntent();
-        }
     }
 
     @Override
@@ -143,13 +239,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             try {
                 String status = response.getString("status");
                 String msg = response.getString(M3AdminConstants.PARAM_MESSAGE);
-                Log.d(TAG, "status val" + status + "msg" + msg);
+                d(TAG, "status val" + status + "msg" + msg);
 
                 if ((status != null)) {
                     if (((status.equalsIgnoreCase("activationError")) || (status.equalsIgnoreCase("alreadyRegistered")) ||
                             (status.equalsIgnoreCase("notRegistered")) || (status.equalsIgnoreCase("error")))) {
                         signInSuccess = false;
-                        Log.d(TAG, "Show error dialog");
+                        d(TAG, "Show error dialog");
                         AlertDialogHelper.showSimpleAlertDialog(this, msg);
 
                     } else {
@@ -167,10 +263,31 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onResponse(JSONObject response) {
         progressDialogHelper.hideProgressDialog();
         if (validateSignInResponse(response)) {
-            try {
-                JSONObject data = response.getJSONObject("userList");
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (resDa.equalsIgnoreCase("getData")) {
+
+                try {
+                    JSONArray data = response.getJSONArray("userList");
+
+                    uNumber.setText(data.getJSONObject(0).getString("pia_unique_number"));
+                    piaName.setText(data.getJSONObject(0).getString("pia_name"));
+                    piaAddress.setText(data.getJSONObject(0).getString("pia_address"));
+                    piaEmail.setText(data.getJSONObject(0).getString("pia_email"));
+                    piaPhone.setText(data.getJSONObject(0).getString("pia_phone"));
+                    etPiaStatus.setText(data.getJSONObject(0).getString("status"));
+                    String url = data.getJSONObject(0).getString("profile_pic");
+                    if (((url != null) && !(url.isEmpty()))) {
+                        Picasso.get().load(url).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(profileImg);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Intent intent = new Intent(this, PiaActivity.class);
+                Toast.makeText(UpdatePiaActivity.this, "Pia updated", Toast.LENGTH_SHORT).show();
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
             }
         }
     }
@@ -180,9 +297,54 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    private boolean validateFields() {
+
+        if (!M3Validator.checkNullString(this.uNumber.getText().toString().trim())) {
+            uNumber.setError(getString(R.string.err_entry));
+            requestFocus(uNumber);
+            return false;
+        } else if (!M3Validator.checkNullString(this.piaName.getText().toString().trim())) {
+            piaName.setError(getString(R.string.empty_entry));
+            requestFocus(piaName);
+            return false;
+        }else if (!M3Validator.checkNullString(this.piaAddress.getText().toString().trim())) {
+            piaAddress.setError(getString(R.string.empty_entry));
+            requestFocus(piaAddress);
+            return false;
+        }else if (!M3Validator.checkNullString(this.piaEmail.getText().toString().trim())) {
+            piaEmail.setError(getString(R.string.empty_entry));
+            requestFocus(piaEmail);
+            return false;
+        }else if (!M3Validator.isEmailValid(this.piaEmail.getText().toString().trim())) {
+            piaEmail.setError(getString(R.string.err_mail));
+            requestFocus(piaEmail);
+            return false;
+        }else if (!M3Validator.checkMobileNumLength(this.piaPhone.getText().toString().trim())) {
+            piaPhone.setError(getString(R.string.err_number));
+            requestFocus(piaPhone);
+            return false;
+        }else if (!M3Validator.checkNullString(this.piaPhone.getText().toString().trim())) {
+            piaPhone.setError(getString(R.string.empty_entry));
+            requestFocus(piaPhone);
+            return false;
+        } else if (!M3Validator.checkUniqueNumLength(this.uNumber.getText().toString().trim())) {
+            uNumber.setError(getString(R.string.err_min_uniq_length));
+            requestFocus(uNumber);
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
     private void openImageIntent() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Remove Photo", "Cancel"};
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(ProfileActivity.this);
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(UpdatePiaActivity.this);
         builder.setTitle("Change Profile Picture");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
@@ -191,7 +353,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 //                    openCamera();
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-                    Uri f = FileProvider.getUriForFile(ProfileActivity.this,
+                    Uri f = FileProvider.getUriForFile(UpdatePiaActivity.this,
                             BuildConfig.APPLICATION_ID + ".provider",
                             createImageFile());
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, f);
@@ -199,8 +361,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 } else if (options[item].equals("Choose from Gallery")) {
                     openImagesDocument();
                 } else if (options[item].equals("Remove Photo")) {
-                    PreferenceStorage.saveUserPicture(ProfileActivity.this, "");
-                    profileImg.setBackground(ContextCompat.getDrawable(ProfileActivity.this, R.drawable.ic_profile));
+                    PreferenceStorage.saveUserPicture(UpdatePiaActivity.this, "");
+                    profileImg.setBackground(ContextCompat.getDrawable(UpdatePiaActivity.this, R.drawable.ic_profile));
                     mSelectedImageUri = Uri.parse("android.resource://com.palprotech.heylaapp/drawable/ic_default_profile");
                     mActualFilePath = mSelectedImageUri.getPath();
                     saveUserImage();
@@ -240,7 +402,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 }
 
                 // ScanFile so it will be appeared on Gallery
-                MediaScannerConnection.scanFile(ProfileActivity.this,
+                MediaScannerConnection.scanFile(UpdatePiaActivity.this,
                         new String[]{mActualFilePath}, null,
                         new MediaScannerConnection.OnScanCompletedListener() {
                             public void onScanCompleted(String path, Uri uri) {
@@ -322,7 +484,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         mUpdatedImageUrl = null;
 
-        new ProfileActivity.UploadFileToServer().execute();
+        new UpdatePiaActivity.UploadFileToServer().execute();
     }
 
 
@@ -352,7 +514,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             String responseString = null;
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost(String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.UPLOAD_PIC_TNSRLM + PreferenceStorage.getUserId(getApplicationContext()) + "/"));
+            httppost = new HttpPost(String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.UPLOAD_USER_PIC + PreferenceStorage.getPIAProfileId(getApplicationContext()) +"/"));
 
             try {
                 AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
@@ -392,7 +554,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             String successVal = resp.getString("status");
 
                             mUpdatedImageUrl = resp.getString("picture_url");
-                            PreferenceStorage.saveUserPicture(getApplicationContext(), mUpdatedImageUrl);
+//                            PreferenceStorage.saveUserPicture(getApplicationContext(), mUpdatedImageUrl);
 
                             Log.d(TAG, "updated image url is" + mUpdatedImageUrl);
                             if (successVal.equalsIgnoreCase("success")) {
@@ -422,10 +584,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
             super.onPostExecute(result);
             if ((result == null) || (result.isEmpty()) || (result.contains("Error"))) {
-                Toast.makeText(ProfileActivity.this, "Unable to save profile picture", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UpdatePiaActivity.this, "Unable to save profile picture", Toast.LENGTH_SHORT).show();
             } else {
                 if (mUpdatedImageUrl != null) {
-                    PreferenceStorage.saveUserPicture(ProfileActivity.this, mUpdatedImageUrl);
+                    PreferenceStorage.saveUserPicture(UpdatePiaActivity.this, mUpdatedImageUrl);
                 }
             }
 
@@ -442,6 +604,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             super.onCancelled();
         }
     }
-
+    
 
 }

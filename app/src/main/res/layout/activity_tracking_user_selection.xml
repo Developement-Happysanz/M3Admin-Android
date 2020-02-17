@@ -46,11 +46,14 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <Spinner
+        <EditText
             android:id="@+id/spn_user_mob"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            style="@style/Base.TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
+            android:focusable="false"
+            android:hint="Select user"
+            android:spinnerMode="dropdown"
+            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp" />
 
@@ -72,26 +75,44 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/live_track"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/blue"
                 android:padding="10dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginEnd="100dp"
                 android:text="Live Tracking"
                 android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/distance_track"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginEnd="100dp"
                 android:background="@color/blue"
                 android:padding="10dp"
+                android:layout_marginTop="20dp"
                 android:text="distance Tracking"
                 android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/generate_report"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="130dp"
+                android:layout_marginEnd="130dp"
+                android:textStyle="bold"
+                android:text="Generate Report"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
 
         </LinearLayout>
 

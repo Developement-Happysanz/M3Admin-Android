@@ -3,23 +3,20 @@ package com.happysanz.m3admin.activity.tnsrlmmodule;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
-import com.happysanz.m3admin.activity.piamodule.CenterActivity;
-import com.happysanz.m3admin.activity.piamodule.PiaDashboard;
-import com.happysanz.m3admin.adapter.MobilizerListAdapter;
+import com.happysanz.m3admin.activity.piamodule.ProjectPlanActivity;
+import com.happysanz.m3admin.activity.piamodule.SchemeActivity;
 import com.happysanz.m3admin.adapter.PiaListAdapter;
-import com.happysanz.m3admin.adapter.TradeDataListAdapter;
 import com.happysanz.m3admin.bean.pia.Mobilizer;
 import com.happysanz.m3admin.bean.pia.MobilizerList;
-import com.happysanz.m3admin.bean.pia.TradeData;
-import com.happysanz.m3admin.bean.pia.TradeDataList;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -27,6 +24,7 @@ import com.happysanz.m3admin.servicehelpers.ServiceHelper;
 import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
 import com.happysanz.m3admin.utils.M3AdminConstants;
 import com.happysanz.m3admin.utils.PreferenceStorage;
+import com.nostra13.universalimageloader.core.download.ImageDownloader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +33,7 @@ import java.util.ArrayList;
 
 import static android.util.Log.d;
 
-public class PiaActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
+public class PiaSchemeActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
 
     private static final String TAG = PiaActivity.class.getName();
 
@@ -59,10 +57,9 @@ public class PiaActivity extends AppCompatActivity implements View.OnClickListen
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), AddNewPiaActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
-
+        addNewPia.setVisibility(View.GONE);
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,7 +72,6 @@ public class PiaActivity extends AppCompatActivity implements View.OnClickListen
         progressDialogHelper = new ProgressDialogHelper(this);
         loadMoreListView = findViewById(R.id.pia_list);
         loadMoreListView.setOnItemClickListener(this);
-        loadMoreListView.setOnItemLongClickListener(this);
         tradeDataArrayList = new ArrayList<>();
         loadTrades();
     }
@@ -186,29 +182,9 @@ public class PiaActivity extends AppCompatActivity implements View.OnClickListen
         } else {
             piaData = tradeDataArrayList.get(position);
         }
-        Intent intent = new Intent(this, PiaDetailsActivity.class);
+        Intent intent = new Intent(this, SchemeActivity.class);
         PreferenceStorage.savePIAProfileId(this,piaData.getUser_id());
-//        intent.putExtra("eventObj", piaData);
         startActivity(intent);
     }
 
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        d(TAG, "onEvent list item click" + position);
-        Mobilizer piaData = null;
-        if ((tradeDataListAdapter != null) && (tradeDataListAdapter.ismSearching())) {
-            d(TAG, "while searching");
-            int actualindex = tradeDataListAdapter.getActualEventPos(position);
-            d(TAG, "actual index" + actualindex);
-            piaData = tradeDataArrayList.get(actualindex);
-        } else {
-            piaData = tradeDataArrayList.get(position);
-        }
-        Intent intent = new Intent(this, UpdatePiaActivity.class);
-//        PreferenceStorage.savePIAProfileId(this,piaData.getUser_id());
-        intent.putExtra("eventObj", piaData.getUser_master_id());
-        startActivity(intent);
-        finish();
-        return true;
-    }
 }

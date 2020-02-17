@@ -92,6 +92,12 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
         progressDialogHelper = new ProgressDialogHelper(this);
         initiateFields();
         getProfileData();
+        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initiateFields() {
@@ -120,6 +126,7 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
         }
 
         saveDetails = findViewById(R.id.save_user);
+        saveDetails.setOnClickListener(this);
     }
 
     private void getProfileData() {
@@ -252,8 +259,9 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
             if (res.equalsIgnoreCase("getData")) {
                 if (localRes.equalsIgnoreCase("pia")) {
                     try {
-                        JSONArray getData = response.getJSONArray("userprofile");
-                        savePIAProfile(getData.getJSONObject(0));
+                        JSONObject getData = response.getJSONObject("userprofile");
+                        savePIAProfile(getData);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -284,12 +292,6 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
 
             if (piaProfile != null) {
 
-                // PIA Preference - PIA PRN Number
-                piaPRNNumber = piaProfile.getString("pia_unique_number");
-                if ((piaPRNNumber != null) && !(piaPRNNumber.isEmpty()) && !piaPRNNumber.equalsIgnoreCase("null")) {
-                    PreferenceStorage.savePIAPRNNumber(this, piaPRNNumber);
-                }
-
                 // PIA Preference - PIA Name
                 piaName = piaProfile.getString("pia_name");
                 if ((piaName != null) && !(piaName.isEmpty()) && !piaName.equalsIgnoreCase("null")) {
@@ -315,7 +317,7 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
                 }
 
                 // PIA Preference - PIA Pic
-                piaProfilePic = piaProfile.getString("profile_pic");
+                piaProfilePic = piaProfile.getString("pia_profile_pic");
                 if ((piaProfilePic != null) && !(piaProfilePic.isEmpty()) && !piaProfilePic.equalsIgnoreCase("null")) {
                     PreferenceStorage.saveUserPicture(this, piaProfilePic);
                     Picasso.get().load(piaProfilePic).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(profileImg);
