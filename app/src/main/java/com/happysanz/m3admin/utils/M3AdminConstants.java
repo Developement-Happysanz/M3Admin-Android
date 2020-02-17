@@ -35,9 +35,11 @@ public class M3AdminConstants {
 //    MOBILIZER LIST
     public static final String GET_MOBILIZER_LIST = "apimain/pia_mob_list";
 
-
     //    CENTER LIST
     public static final String GET_CENTER_LIST = "apipia/center_list";
+
+    //    CENTER LIST
+    public static final String GET_REPORT = "apipia/mobilizier_tracking_report";
 
     //    CREATE CENTER
     public static final String CREATE_CENTER = "apipia/create_center";
@@ -329,6 +331,9 @@ public class M3AdminConstants {
 
     // Tracking
     public static final String PARAMS_TRACK_DATE = "track_date";
+    public static final String PARAMS_TRACK_START_DATE = "from_date";
+    public static final String PARAMS_TRACK_END_DATE = "to_date";
+    public static final String PARAMS_MOBILIZER_ID = "mobilizer_id";
 
 
 }

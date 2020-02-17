@@ -65,7 +65,7 @@ public class TrackingUserSelectionActivity extends AppCompatActivity implements 
     EditText spnMobilizer;
     String storeMobilizerId = "", res;
     Button live, distance;
-    TextView spnDate;
+    TextView spnDate, generateReport;
     private SimpleDateFormat mDateFormatter;
     private DatePickerDialog mDatePicker;
     String d;
@@ -103,6 +103,9 @@ public class TrackingUserSelectionActivity extends AppCompatActivity implements 
                 showTrades();
             }
         });
+
+        generateReport = findViewById(R.id.generate_report);
+        generateReport.setOnClickListener(this);
 
         loadMob();
         mDateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
@@ -261,6 +264,10 @@ public class TrackingUserSelectionActivity extends AppCompatActivity implements 
         }
         if (v == spnDate) {
             showBirthdayDate();
+        }
+        if (v == generateReport) {
+            Intent i = new Intent(this, TrackingReportGenerationActivity.class);
+            startActivity(i);
         }
     }
 

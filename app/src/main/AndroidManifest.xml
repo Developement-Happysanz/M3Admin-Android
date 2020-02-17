@@ -413,6 +413,13 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
+            android:name=".activity.piamodule.TrackingReportGenerationActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
             android:name=".activity.tnsrlmmodule.AddNewTnsrlmStaffActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
