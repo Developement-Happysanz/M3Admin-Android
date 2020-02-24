@@ -149,6 +149,24 @@ public class PreferenceStorage {
     /*End*/
 
     // PIA Profile Id
+    public static void saveSchemeId(Context context, String userType) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.SCHEME_ID, userType);
+        editor.apply();
+    }
+
+    public static String getSchemeId(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String userType;
+        userType = sharedPreferences.getString(M3AdminConstants.SCHEME_ID, "");
+        return userType;
+    }
+    /*End*/
+
+    // PIA Profile Id
     public static void saveCenterId(Context context, String userType) {
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(context);

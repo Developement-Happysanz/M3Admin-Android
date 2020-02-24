@@ -21,15 +21,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.loginmodule.ChangePasswordActivity;
 import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
-import com.happysanz.m3admin.activity.piamodule.MobilizerActivity;
-import com.happysanz.m3admin.activity.piamodule.PiaProfileActivity;
-import com.happysanz.m3admin.activity.piamodule.SchemeActivity;
-import com.happysanz.m3admin.activity.piamodule.TaskActivity;
-import com.happysanz.m3admin.bean.pia.MobilizerList;
+import com.happysanz.m3admin.activity.piamodule.AboutUsActivity;
+import com.happysanz.m3admin.activity.piamodule.SchemeDetailActivity;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -229,7 +225,7 @@ public class TnsrlmDashboard extends AppCompatActivity  implements IServiceListe
             startActivity(intent);
         }
         if (view == piaScheme){
-            Intent intent = new Intent(getApplicationContext(), SchemeActivity.class);
+            Intent intent = new Intent(getApplicationContext(), PiaSchemeActivity.class);
             startActivity(intent);
         }
         if (view == tnsrlmStaff){
@@ -242,8 +238,8 @@ public class TnsrlmDashboard extends AppCompatActivity  implements IServiceListe
             finish();
         }
         if (view == aboutUs){
-//            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), AboutUsActivity.class);
+            startActivity(intent);
         }
         if (view == changePassword){
             Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);

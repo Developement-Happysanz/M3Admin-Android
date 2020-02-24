@@ -57,6 +57,9 @@ public class M3AdminConstants {
     //    SCHEME LIST
     public static final String SCHEME_LIST = "apipia/list_scheme";
 
+    //    SCHEME LIST
+    public static final String SCHEME_DETAIL = "apipia/scheme_details";
+
 
     //    TRADE LIST
     public static final String TRADE_LIST = "apipia/list_trade";
@@ -172,7 +175,7 @@ public class M3AdminConstants {
 
     //    Task add params
     public static final String PARAMS_TASK_TITLE = "task_title";
-    public static final String PARAMS_TASK_ID = "task_title";
+    public static final String PARAMS_TASK_ID = "task_id";
     public static final String PARAMS_TASK_DESCRIPTION = "task_description";
     public static final String PARAMS_TASK_DATE = "task_date";
     public static final String PARAMS_TASK_STATUS = "status";
@@ -202,6 +205,7 @@ public class M3AdminConstants {
     //    PIA Creation URL
     public static final String PIA_LIST = "apimain/pia_list";
 
+    public static final String TASK_IMAGE_LIST = "https://happysanz.in/m3tnsrlm/apimobilizer/list_taskpic/";
 
     //    Service Params
     public static String PARAM_MESSAGE = "msg";
@@ -234,6 +238,7 @@ public class M3AdminConstants {
 
     // TNSRLM DATA Constants
     public static final String PIA_COUNT = "pia_count";
+    public static final String SCHEME_ID = "scheme_id";
     public static final String MOB_COUNT = "mobilizer_count";
     public static final String CENTER_COUNT = "center_count";
     public static final String PROSPECT_COUNT = "student_count";

@@ -66,10 +66,9 @@ public class TradeActivity extends AppCompatActivity implements View.OnClickList
         loadTrades();
         addNewTrade = findViewById(R.id.add_trade);
         addNewTrade.setOnClickListener(this);
-        if (PreferenceStorage.getUserId(this).equalsIgnoreCase("1")) {
+
+        if (PreferenceStorage.getTnsrlmCheck(this)){
             addNewTrade.setVisibility(View.GONE);
-        } else {
-            addNewTrade.setVisibility(View.VISIBLE);
         }
     }
 

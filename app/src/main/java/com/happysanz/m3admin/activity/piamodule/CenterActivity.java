@@ -80,6 +80,9 @@ public class CenterActivity extends AppCompatActivity implements  IServiceListen
             loadCenters();
         }
 
+        if (PreferenceStorage.getTnsrlmCheck(this)){
+            add.setVisibility(View.GONE);
+        }
     }
 
     private void loadCentersForPia() {

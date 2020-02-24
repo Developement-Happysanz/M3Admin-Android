@@ -55,6 +55,11 @@
     <string name="label_home">HOME</string>
     <string name="label_delete">DELETE</string>
 
+
+    <string name="pia">Training Partner</string>
+    <string name="partn">Partner</string>
+    <string name="pia_dashb">Training Partner Dashboard</string>
+
     <!--Youtube-->
     <string name="player_error">Error initializing YouTube player: %s</string>
     <string name="seek_to">Jump To</string>

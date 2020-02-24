@@ -323,6 +323,7 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
         String piaPhone = "";
         String piaEmail = "";
         String piaProfilePic = "";
+        String schemeId = "";
 
         try {
 
@@ -357,6 +358,12 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
                 if ((piaProfilePic != null) && !(piaProfilePic.isEmpty()) && !piaProfilePic.equalsIgnoreCase("null")) {
                     PreferenceStorage.saveUserPicture(this, piaProfilePic);
                     Picasso.get().load(piaProfilePic).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(profileImg);
+                }
+
+                // PIA Preference - PIA Scheme
+                schemeId = piaProfile.getString("scheme_id");
+                if ((schemeId != null) && !(schemeId.isEmpty()) && !schemeId.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveSchemeId(this, schemeId);
                 }
             }
 

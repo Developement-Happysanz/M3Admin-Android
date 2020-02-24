@@ -79,7 +79,9 @@ public class MobilizerActivity extends AppCompatActivity implements IServiceList
         } else {
             callGetClassTestService();
         }
-
+        if (PreferenceStorage.getTnsrlmCheck(this)){
+            findViewById(R.id.add_user).setVisibility(View.GONE);
+        }
     }
 
     @Override

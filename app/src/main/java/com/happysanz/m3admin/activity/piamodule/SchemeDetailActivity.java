@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 import static android.util.Log.d;
 
-public class SchemeActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
+public class SchemeDetailActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, AdapterView.OnItemClickListener {
     private static final String TAG = "TaskFragment";
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
@@ -65,6 +65,7 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(M3AdminConstants.SCHEME_ID, PreferenceStorage.getSchemeId(this));
 
 
         } catch (JSONException e) {
@@ -72,7 +73,7 @@ public class SchemeActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.SCHEME_LIST;
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.SCHEME_DETAIL;
         serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 

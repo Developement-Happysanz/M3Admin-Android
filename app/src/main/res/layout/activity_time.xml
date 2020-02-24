@@ -40,34 +40,61 @@
 
     </RelativeLayout>
 
-
-    <DatePicker
-        android:id="@+id/start_time"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner">
+        android:layout_height="match_parent">
 
-    </DatePicker>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <DatePicker
-        android:id="@+id/end_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Time"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:textColor="@color/black"/>
 
-    </DatePicker>
+            <DatePicker
+                android:id="@+id/start_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner">
+
+            </DatePicker>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="End Time"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:textColor="@color/black"/>
+            <DatePicker
+                android:id="@+id/end_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner">
+
+            </DatePicker>
 
 
-    <Button
-        android:id="@+id/upload_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:text="Add"
-        android:background="@color/blue"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp" />
+            <Button
+                android:id="@+id/upload_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Add"
+                android:background="@color/blue"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
