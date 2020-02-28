@@ -206,9 +206,14 @@ public class CenterActivity extends AppCompatActivity implements  IServiceListen
         } else {
             centers = centersArrayList.get(position);
         }
-        Intent intent = new Intent(this, CenterDetailActivity.class);
-        intent.putExtra("cent", centers);
-        startActivity(intent);
+        if (PreferenceStorage.getTnsrlmCheck(this)){
+
+        } else {
+            Intent intent = new Intent(this, CenterDetailActivity.class);
+            intent.putExtra("cent", centers);
+            startActivity(intent);
+        }
+
     }
 
     @Override

@@ -153,11 +153,15 @@ public class MobilizerActivity extends AppCompatActivity implements IServiceList
         } else {
             userData = mobilizerArrayList.get(position);
         }
-        Intent intent = new Intent(this, UpdateUserActivity.class);
-        intent.putExtra("userObj", userData);
-        intent.putExtra("page", "mob");
-        startActivity(intent);
-        finish();
+        if (PreferenceStorage.getTnsrlmCheck(this)){
+            userData = mobilizerArrayList.get(position);
+        } else {
+            Intent intent = new Intent(this, UpdateUserActivity.class);
+            intent.putExtra("userObj", userData);
+            intent.putExtra("page", "mob");
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void loadMob() {

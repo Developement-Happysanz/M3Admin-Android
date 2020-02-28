@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.app.AppController;
 import com.happysanz.m3admin.bean.pia.TaskPicture;
+import com.happysanz.m3admin.customview.TouchImageView;
 import com.happysanz.m3admin.utils.M3Validator;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -85,7 +86,7 @@ public class TaskPictureListAdapter extends BaseAdapter {
 
             holder = new ViewHolder();
             holder.txtId = (TextView) convertView.findViewById(R.id.txt_id);
-            holder.imageView = (ImageView) convertView.findViewById(R.id.img_logo);
+            holder.imageView = (TouchImageView) convertView.findViewById(R.id.img_logo);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -106,6 +107,6 @@ public class TaskPictureListAdapter extends BaseAdapter {
 
     public class ViewHolder {
         public TextView txtId;
-        public ImageView imageView;
+        public TouchImageView imageView;
     }
 }

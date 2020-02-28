@@ -125,7 +125,7 @@ public class TnsrlmDashboard extends AppCompatActivity  implements IServiceListe
 
 
         userName = findViewById(R.id.user_profile_name);
-        userName.setText(PreferenceStorage.getUserName(this));
+        userName.setText(PreferenceStorage.getName(this));
 
         PreferenceStorage.saveTnsrlmCheck(this,true);
 

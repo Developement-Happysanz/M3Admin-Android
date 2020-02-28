@@ -217,6 +217,8 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if (v == ivBack) {
+            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+            startActivity(intent);
             finish();
         }
         if (v == edtTaskDate) {
@@ -299,6 +301,8 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
 //            setResult(RESULT_OK);
             Toast.makeText(this, "Updated successfully...", Toast.LENGTH_SHORT).show();
 //            finish();
+            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+            startActivity(intent);
             finish();
         }
     }
