@@ -367,7 +367,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                             return view;
                         }
                     };
-                    GetBloodGroup();
+//                    GetBloodGroup();
                 } else if (checkInternalState.equalsIgnoreCase("bloodGroup")) {
                     JSONArray getData = response.getJSONArray("Bloodgroup");
                     int getLength = getData.length();
@@ -740,7 +740,30 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             }
         });*/
 
-        GetBloodGroup();
+        bloodGroupList = new ArrayList<>();
+
+        bloodGroupList.add(new StoreBloodGroup("1", "A+"));
+        bloodGroupList.add(new StoreBloodGroup("2", "O+"));
+        bloodGroupList.add(new StoreBloodGroup("3", "B+"));
+        bloodGroupList.add(new StoreBloodGroup("4", "AB+"));
+        bloodGroupList.add(new StoreBloodGroup("5", "A-"));
+        bloodGroupList.add(new StoreBloodGroup("6", "O-"));
+        bloodGroupList.add(new StoreBloodGroup("7", "B-"));
+        bloodGroupList.add(new StoreBloodGroup("8", "AB-"));
+
+        //fill data in spinner
+        mBloodGroupAdapter = new ArrayAdapter<StoreBloodGroup>(getApplicationContext(), R.layout.gender_layout, R.id.gender_name, bloodGroupList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(bloodGroupList.get(position).getBloodGroupName());
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
 
         String checkFromAadhaarScan = "";
 
@@ -1605,29 +1628,29 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         builderSingle.show();
     }
 
-    private void GetBloodGroup() {
-
-        checkInternalState = "bloodGroup";
-
-        if (CommonUtils.isNetworkAvailable(this)) {
-
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-            String url = M3AdminConstants.BLOOD_GROUP_LIST;
-            serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
-
-
-        } else {
-            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
-        }
-    }
+//    private void GetBloodGroup() {
+//
+//        checkInternalState = "bloodGroup";
+//
+//        if (CommonUtils.isNetworkAvailable(this)) {
+//
+//            JSONObject jsonObject = new JSONObject();
+//            try {
+//                jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//            progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+//            String url = M3AdminConstants.BLOOD_GROUP_LIST;
+//            serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+//
+//
+//        } else {
+//            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
+//        }
+//    }
 
     private void showBloodGroups() {
         Log.d(TAG, "Show blood group lists");

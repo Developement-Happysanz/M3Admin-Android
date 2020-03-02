@@ -193,7 +193,7 @@ public class M3AdminConstants {
     public static final String UPLOAD_CANDIDATE_PIC = "apipia/student_picupload/";
 
     //Mobilizer URL
-    private static final String MOBILIZER_API = "http://happysanz.net/m3test/apimobilizer/";
+    private static final String MOBILIZER_API = "https://happysanz.net/m3test/apimobilizer/";
     public static final String BLOOD_GROUP_LIST = MOBILIZER_API + "select_bloodgroup/";
 
 
