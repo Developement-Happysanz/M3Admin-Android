@@ -39,9 +39,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="PIA"
+                    android:text="@string/partn"
                     android:textColor="@color/black"
                     android:textSize="16sp"
+                    android:textAllCaps="true"
                     android:textStyle="bold" />
 
                 <TextView

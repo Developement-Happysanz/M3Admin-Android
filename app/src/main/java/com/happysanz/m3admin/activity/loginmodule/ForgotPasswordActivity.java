@@ -86,11 +86,11 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                     String url = M3AdminConstants.BUILD_URL + M3AdminConstants.USER_FORGOT_PASSWORD;
                     serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
 
-                } else {
-                    AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
                 }
 
             }
+        } else {
+            AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
         }
     }
 

@@ -96,7 +96,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_toRightOf="@id/img_pros"
                             android:gravity="center_vertical"
-                            android:text="PIA"
+                            android:text="@string/pia"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
@@ -150,7 +150,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_toRightOf="@id/img_add_plan"
                             android:gravity="center_vertical"
-                            android:text="TNSRLM Staff"
+                            android:text="Staff"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
@@ -167,7 +167,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
                             android:layout_marginTop="13dp"
-                            android:src="@drawable/ic_prospects" />
+                            android:src="@drawable/ic_scheme_sidemenu" />
 
                         <TextView
                             android:layout_width="wrap_content"

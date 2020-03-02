@@ -137,6 +137,13 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
+            android:name=".activity.piamodule.AboutUsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
             android:name=".activity.piamodule.AddTradeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -172,6 +179,13 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
+            android:name=".activity.piamodule.ViewTaskPhotosActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
             android:name=".activity.piamodule.ProjectPlanActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -179,7 +193,7 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".activity.piamodule.SchemeActivity"
+            android:name=".activity.piamodule.SchemeDetailActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBarLogin"

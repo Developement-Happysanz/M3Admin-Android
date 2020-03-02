@@ -1,8 +1,10 @@
 package com.happysanz.m3admin.activity.piamodule;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
@@ -21,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
@@ -63,6 +66,7 @@ import static android.util.Log.d;
 
 public class PiaProfileActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener {
 
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     private static final String TAG = "PiaProfileActivity";
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
@@ -175,13 +179,45 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         if (view == profileImg) {
-            openImageIntent();
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(PiaProfileActivity.this, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+            } else {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(PiaProfileActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                } else {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_DENIED) {
+                        ActivityCompat.requestPermissions(PiaProfileActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                    }
+                    openImageIntent();
+                }
+            }
         } else if (view == saveDetails) {
             if (validateFields()){
                 sendProfileData();
             }
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            String permissions[],
+            int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openImageIntent();
+//                    Toast.makeText(ProfileActivity.this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(PiaProfileActivity.this, "Permission Denied!", Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+
 
     private boolean validateFields() {
         if (!M3Validator.checkNullString(this.piaName.getText().toString().trim())) {
@@ -287,6 +323,7 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
         String piaPhone = "";
         String piaEmail = "";
         String piaProfilePic = "";
+        String schemeId = "";
 
         try {
 
@@ -321,6 +358,12 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
                 if ((piaProfilePic != null) && !(piaProfilePic.isEmpty()) && !piaProfilePic.equalsIgnoreCase("null")) {
                     PreferenceStorage.saveUserPicture(this, piaProfilePic);
                     Picasso.get().load(piaProfilePic).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(profileImg);
+                }
+
+                // PIA Preference - PIA Scheme
+                schemeId = piaProfile.getString("scheme_id");
+                if ((schemeId != null) && !(schemeId.isEmpty()) && !schemeId.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveSchemeId(this, schemeId);
                 }
             }
 

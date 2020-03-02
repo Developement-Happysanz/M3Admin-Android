@@ -58,7 +58,7 @@ public class ProjectPeriodActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
+        setContentView(R.layout.activity_project_plan);
 
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +74,7 @@ public class ProjectPeriodActivity extends AppCompatActivity implements View.OnC
         loadMoreListView = findViewById(R.id.listView_task);
         loadMoreListView.setOnItemClickListener(this);
         taskDataArrayList = new ArrayList<>();
-        addNewTask = findViewById(R.id.add_task);
+        addNewTask = findViewById(R.id.add_plan);
         addNewTask.setOnClickListener(this);
 
         loadTask();

@@ -40,89 +40,127 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <com.happysanz.m3admin.customview.CircleImageView
-            android:id="@+id/tnsrlm_profile_img"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_profile"
-            android:layout_marginTop="20dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Contact Us"
-            android:layout_marginLeft="10dp"
-            android:textSize="20sp"
-            android:visibility="invisible"
-            android:textColor="@color/blue"
-            android:layout_marginTop="10dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mail"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"/>
-
-        <EditText
-            android:id="@+id/tnsrlm_mail"
+        <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
             android:layout_height="wrap_content"
-            android:text="Mail"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="30dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Website"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"/>
+            <com.happysanz.m3admin.customview.CircleImageView
+                android:id="@+id/tnsrlm_profile_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_profile"
+                android:layout_gravity="center_horizontal"/>
 
-        <EditText
-            android:id="@+id/tnsrlm_site"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Website"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="30dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Contact Number"
-            android:layout_marginLeft="10dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"/>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/after_select"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
-        <EditText
-            android:id="@+id/tnsrlm_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Contact Number"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="30dp"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="10dp"/>
+                <EditText
+                    android:id="@+id/user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="30dp"
+                    android:hint="Name"
+                    android:singleLine="true" />
 
-    </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ti_state"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="30dp"
+                    android:hint="Address"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ti_address"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="30dp"
+                    android:hint="Mail"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/ti_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ti_email"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="30dp"
+                    android:maxLength="13"
+                    android:hint="Phone"
+                    android:inputType="number"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Button
+                android:id="@+id/save_user"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ti_phone"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="40dp"
+                android:background="@color/blue"
+                android:text="Save"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

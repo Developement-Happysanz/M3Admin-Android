@@ -88,7 +88,7 @@ public class RecordListAdapter  extends BaseAdapter {
         }
 
         holder.txtDate.setText(mobilizers.get(position).getcreated_at());
-        holder.txtDistance.setText(mobilizers.get(position).getkm());
+        holder.txtDistance.setText(mobilizers.get(position).getkm() + " Km");
 //        holder.txtSNo.setText("" + (position + 1));
         return convertView;
     }

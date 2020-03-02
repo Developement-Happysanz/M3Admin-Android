@@ -55,6 +55,11 @@
     <string name="label_home">HOME</string>
     <string name="label_delete">DELETE</string>
 
+
+    <string name="pia">Training Partner</string>
+    <string name="partn">Partner</string>
+    <string name="pia_dashb">Training Partner Dashboard</string>
+
     <!--Youtube-->
     <string name="player_error">Error initializing YouTube player: %s</string>
     <string name="seek_to">Jump To</string>
@@ -62,5 +67,16 @@
     <!---->
 
     <string name="google_android_map_api_key">AIzaSyDjDzpwn7SXO7cgENXMAFKU5Mdh5nX8wkE</string>
+
+    <!--About Us Page-->
+    <string name="about_content">Mobilizing and Monitoring Management (M3) is an easy-to-use field workforce tracking and management application.
+
+Keeping up with the evolving Software as a Service (SaaS) paradigm, M3 is a combination of technology and strategy aimed at eliminating the troubles faced by field staffs as well as their management.
+
+M3 comes as web and mobile application which operates independently but in a synchronized manner.
+
+M3 is optimized in a way that this application can be deployed for any kind of initiatives that involves field work.
+</string>
+    <string name="about">About</string>
 
 </resources>

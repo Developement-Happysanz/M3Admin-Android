@@ -7,16 +7,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
-import com.happysanz.m3admin.activity.piamodule.ProjectPlanActivity;
-import com.happysanz.m3admin.activity.piamodule.SchemeActivity;
+import com.happysanz.m3admin.activity.piamodule.SchemeDetailActivity;
 import com.happysanz.m3admin.adapter.PiaListAdapter;
+import com.happysanz.m3admin.adapter.SchemeListAdapter;
 import com.happysanz.m3admin.bean.pia.Mobilizer;
 import com.happysanz.m3admin.bean.pia.MobilizerList;
+import com.happysanz.m3admin.bean.tnsrlm.Scheme;
+import com.happysanz.m3admin.bean.tnsrlm.SchemeList;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -24,7 +27,6 @@ import com.happysanz.m3admin.servicehelpers.ServiceHelper;
 import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
 import com.happysanz.m3admin.utils.M3AdminConstants;
 import com.happysanz.m3admin.utils.PreferenceStorage;
-import com.nostra13.universalimageloader.core.download.ImageDownloader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,24 +43,19 @@ public class PiaSchemeActivity extends AppCompatActivity implements View.OnClick
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
     ListView loadMoreListView;
-    PiaListAdapter tradeDataListAdapter;
-    ArrayList<Mobilizer> tradeDataArrayList;
+    SchemeListAdapter tradeDataListAdapter;
+    ArrayList<Scheme> tradeDataArrayList;
     protected boolean isLoadingForFirstTime = true;
     Handler mHandler = new Handler();
     int pageNumber = 0, totalCount = 0;
+    private TextView tite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pia);
         addNewPia = (ImageView) findViewById(R.id.add_pia);
-        addNewPia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AddNewPiaActivity.class);
-                startActivity(intent);
-            }
-        });
+
         addNewPia.setVisibility(View.GONE);
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +63,9 @@ public class PiaSchemeActivity extends AppCompatActivity implements View.OnClick
                 finish();
             }
         });
+
+        tite = findViewById(R.id.title);
+        tite.setText("Scheme List");
 
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
@@ -128,11 +128,11 @@ public class PiaSchemeActivity extends AppCompatActivity implements View.OnClick
 //                    progressDialogHelper.hideProgressDialog();
 
                     Gson gson = new Gson();
-                    MobilizerList tradeDataList = gson.fromJson(response.toString(), MobilizerList.class);
-                    if (tradeDataList.getMobilizerArrayList() != null && tradeDataList.getMobilizerArrayList().size() > 0) {
+                    SchemeList tradeDataList = gson.fromJson(response.toString(), SchemeList.class);
+                    if (tradeDataList.getSchemeArrayList() != null && tradeDataList.getSchemeArrayList().size() > 0) {
                         totalCount = tradeDataList.getCount();
                         isLoadingForFirstTime = false;
-                        updateListAdapter(tradeDataList.getMobilizerArrayList());
+                        updateListAdapter(tradeDataList.getSchemeArrayList());
                     }
                 }
             });
@@ -146,10 +146,10 @@ public class PiaSchemeActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    protected void updateListAdapter(ArrayList<Mobilizer> tradeDataArrayList) {
+    protected void updateListAdapter(ArrayList<Scheme> tradeDataArrayList) {
         this.tradeDataArrayList.addAll(tradeDataArrayList);
         if (tradeDataListAdapter == null) {
-            tradeDataListAdapter = new PiaListAdapter(this, this.tradeDataArrayList);
+            tradeDataListAdapter = new SchemeListAdapter(this, this.tradeDataArrayList);
             loadMoreListView.setAdapter(tradeDataListAdapter);
         } else {
             tradeDataListAdapter.notifyDataSetChanged();
@@ -160,20 +160,21 @@ public class PiaSchemeActivity extends AppCompatActivity implements View.OnClick
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(M3AdminConstants.SCHEME_ID, PreferenceStorage.getUserId(this));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.PIA_LIST;
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.SCHEME_LIST;
         serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         d(TAG, "onEvent list item click" + position);
-        Mobilizer piaData = null;
+        Scheme piaData = null;
         if ((tradeDataListAdapter != null) && (tradeDataListAdapter.ismSearching())) {
             d(TAG, "while searching");
             int actualindex = tradeDataListAdapter.getActualEventPos(position);
@@ -182,8 +183,8 @@ public class PiaSchemeActivity extends AppCompatActivity implements View.OnClick
         } else {
             piaData = tradeDataArrayList.get(position);
         }
-        Intent intent = new Intent(this, SchemeActivity.class);
-        PreferenceStorage.savePIAProfileId(this,piaData.getUser_id());
+        Intent intent = new Intent(this, SchemeDetailActivity.class);
+        PreferenceStorage.saveSchemeId(this,piaData.getscheme_id());
         startActivity(intent);
     }
 

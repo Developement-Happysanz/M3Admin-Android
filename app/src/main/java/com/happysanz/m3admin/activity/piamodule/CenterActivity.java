@@ -80,6 +80,9 @@ public class CenterActivity extends AppCompatActivity implements  IServiceListen
             loadCenters();
         }
 
+        if (PreferenceStorage.getTnsrlmCheck(this)){
+            add.setVisibility(View.GONE);
+        }
     }
 
     private void loadCentersForPia() {
@@ -203,9 +206,14 @@ public class CenterActivity extends AppCompatActivity implements  IServiceListen
         } else {
             centers = centersArrayList.get(position);
         }
-        Intent intent = new Intent(this, CenterDetailActivity.class);
-        intent.putExtra("cent", centers);
-        startActivity(intent);
+        if (PreferenceStorage.getTnsrlmCheck(this)){
+
+        } else {
+            Intent intent = new Intent(this, CenterDetailActivity.class);
+            intent.putExtra("cent", centers);
+            startActivity(intent);
+        }
+
     }
 
     @Override

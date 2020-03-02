@@ -19,6 +19,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -31,6 +34,7 @@ import com.happysanz.m3admin.servicehelpers.ServiceHelper;
 import com.happysanz.m3admin.serviceinterfaces.IServiceListener;
 import com.happysanz.m3admin.utils.AndroidMultiPartEntity;
 import com.happysanz.m3admin.utils.M3AdminConstants;
+import com.happysanz.m3admin.utils.M3Validator;
 import com.happysanz.m3admin.utils.PreferenceStorage;
 import com.squareup.picasso.Picasso;
 import com.yalantis.ucrop.UCrop;
@@ -43,6 +47,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -60,7 +65,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private static final String TAG = ProfileActivity.class.getName();
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
-    String localRes, res;
     private ImageView profileImg;
 
 
@@ -73,7 +77,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private String mUpdatedImageUrl = null;
     long totalSize = 0;
     File image = null;
-
+    private EditText name, email, address, phone;
+    private Button save;
+    private String checkRes = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,23 +105,79 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (((url != null) && !(url.isEmpty()))) {
             Picasso.get().load(url).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(profileImg);
         }
+
+        name = findViewById(R.id.user_name);
+        address = findViewById(R.id.address);
+        email = findViewById(R.id.email);
+        phone = findViewById(R.id.phone);
+        save = findViewById(R.id.save_user);
+        save.setOnClickListener(this);
+
         getUserData();
 
     }
 
+    private boolean validateFields() {
+        if (!M3Validator.checkNullString(this.name.getText().toString().trim())) {
+            name.setError(getString(R.string.empty_entry));
+            requestFocus(name);
+            return false;
+        } else if (!M3Validator.checkNullString(this.address.getText().toString().trim())) {
+            address.setError(getString(R.string.empty_entry));
+            requestFocus(address);
+            return false;
+        } else if (!M3Validator.checkNullString(this.email.getText().toString().trim())) {
+            email.setError(getString(R.string.empty_entry));
+            requestFocus(email);
+            return false;
+        } else if (!M3Validator.checkNullString(this.phone.getText().toString().trim())) {
+            phone.setError(getString(R.string.empty_entry));
+            requestFocus(phone);
+            return false;
+        }  else {
+            return true;
+        }
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
 
     private void getUserData() {
-        res = "data";
+        checkRes = "data";
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(M3AdminConstants.KEY_USER_MASTER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(M3AdminConstants.KEY_ROLE_TYPE, PreferenceStorage.getUserType(this));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.USER_PROFILE;
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.USER_PROFILE_TNSRLM;
+        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+    }
+
+    private void sendUserData() {
+        checkRes = "update";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(M3AdminConstants.KEY_USER_MASTER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(M3AdminConstants.KEY_ROLE_TYPE, PreferenceStorage.getUserType(this));
+            jsonObject.put(M3AdminConstants.KEY_NAME, name.getText());
+            jsonObject.put(M3AdminConstants.PARAMS_ADDRESS, address.getText());
+            jsonObject.put(M3AdminConstants.PARAMS_EMAIL, email.getText());
+            jsonObject.put(M3AdminConstants.PARAMS_PHONE, phone.getText());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.UPDATE_PROFILE_TNSRLM;
         serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 
@@ -124,6 +186,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         if (v == profileImg) {
             openImageIntent();
+        } if (v == save) {
+            if (validateFields()) {
+                sendUserData();
+            }
         }
     }
 
@@ -168,7 +234,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         progressDialogHelper.hideProgressDialog();
         if (validateSignInResponse(response)) {
             try {
-                JSONObject data = response.getJSONObject("userList");
+                if (checkRes.equalsIgnoreCase("data")) {
+                    JSONArray data = response.getJSONArray("userList");
+                    name.setText(data.getJSONObject(0).getString("name"));
+                    address.setText(data.getJSONObject(0).getString("address"));
+                    email.setText(data.getJSONObject(0).getString("email"));
+                    phone.setText(data.getJSONObject(0).getString("phone"));
+                } else if (checkRes.equalsIgnoreCase("update")) {
+                    Intent intent = new Intent(getApplicationContext(), TnsrlmDashboard.class);
+                    startActivity(intent);
+                    finish();
+                    Toast.makeText(this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -18,6 +19,7 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -92,6 +94,8 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
     private List<String> mStatusList = new ArrayList<String>();
     private ArrayAdapter<String> mStatusAdapter = null;
 
+    private Button viewPhotos;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +123,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
         txtStatus = findViewById(R.id.status);
         txtStatus.setOnClickListener(this);
         txtStatus.setFocusable(false);
+        txtStatus.setText(taskData.getStatus());
 
         String taskDate = "";
         if (taskData.getTaskDate() != null && !taskData.getTaskDate().isEmpty()) {
@@ -141,11 +146,15 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
         btnDone = findViewById(R.id.btn_done);
         btnDone.setOnClickListener(this);
 
+        viewPhotos = findViewById(R.id.btn_view_photos);
+        viewPhotos.setOnClickListener(this);
+
         mDateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
         setupUI(findViewById(R.id.scrollID));
-        mStatusList.add("Active");
-        mStatusList.add("Inactive");
+        mStatusList.add("Assigned");
+        mStatusList.add("Ongoing");
+        mStatusList.add("Completed");
 
         mStatusAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mStatusList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
             @Override
@@ -208,6 +217,8 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if (v == ivBack) {
+            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+            startActivity(intent);
             finish();
         }
         if (v == edtTaskDate) {
@@ -220,6 +231,14 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
         }
         if (v == btnUploadPhotos) {
             openImageIntent();
+        }
+        if (v == txtStatus) {
+            showGenderList();
+        }
+        if (v == viewPhotos) {
+            Intent intent = new Intent(getApplicationContext(), ViewTaskPhotosActivity.class);
+            intent.putExtra("eventObj", taskData);
+            startActivity(intent);
         }
     }
 
@@ -282,6 +301,8 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
 //            setResult(RESULT_OK);
             Toast.makeText(this, "Updated successfully...", Toast.LENGTH_SHORT).show();
 //            finish();
+            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+            startActivity(intent);
             finish();
         }
     }
@@ -325,7 +346,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
                 jsonObject.put(M3AdminConstants.PARAMS_TASK_DESCRIPTION, taskDetails);
                 jsonObject.put(M3AdminConstants.PARAMS_MOB_ID, taskData.getUser_id());
                 jsonObject.put(M3AdminConstants.PARAMS_TASK_DATE, serverFormatDate);
-                jsonObject.put(M3AdminConstants.PARAMS_TASK_STATUS, "Active");
+                jsonObject.put(M3AdminConstants.PARAMS_TASK_STATUS, txtStatus.getText());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -371,6 +392,27 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
             mDatePicker = new DatePickerDialog(this, R.style.datePickerTheme, this, year, month, day);
             mDatePicker.show();
         }
+    }
+
+    private void showGenderList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Gender");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Status");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mStatusAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mStatusList.get(which);
+                        txtStatus.setText(strName);
+                    }
+                });
+        builderSingle.show();
     }
 
     private void openImageIntent() {

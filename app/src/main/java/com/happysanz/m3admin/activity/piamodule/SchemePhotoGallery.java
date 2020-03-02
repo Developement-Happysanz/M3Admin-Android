@@ -175,13 +175,14 @@ public class SchemePhotoGallery extends AppCompatActivity implements View.OnClic
 
         try {
             jsonObject.put(M3AdminConstants.KEY_USER_ID, userId);
+            jsonObject.put(M3AdminConstants.SCHEME_ID, PreferenceStorage.getSchemeId(this));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.SCHEME_LIST;
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.SCHEME_DETAIL;
         serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 

@@ -70,33 +70,32 @@ public class ChangePasswordActivity  extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        if (CommonUtils.isNetworkAvailable(getApplicationContext())) {
             if (v == btSubmit) {
                 if (validateFields()) {
                     String oldPa = oldPass.getText().toString();
                     String newPa = newPass.getText().toString();
                     String id = PreferenceStorage.getUserId(this);
 
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put(M3AdminConstants.KEY_USER_ID, id);
-                        jsonObject.put(M3AdminConstants.PARAMS_OLD_PASSWORD, oldPa);
-                        jsonObject.put(M3AdminConstants.PARAMS_NEW_PASSWORD, newPa);
+                    if (CommonUtils.isNetworkAvailable(getApplicationContext())) {
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put(M3AdminConstants.KEY_USER_ID, id);
+                            jsonObject.put(M3AdminConstants.PARAMS_OLD_PASSWORD, oldPa);
+                            jsonObject.put(M3AdminConstants.PARAMS_NEW_PASSWORD, newPa);
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
+                        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.USER_CHANGE_PASSWORD;
+                        serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
+
+                    } else {
+                        AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
                     }
-
-                    progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-                    String url = M3AdminConstants.BUILD_URL + M3AdminConstants.USER_CHANGE_PASSWORD;
-                    serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
-
-                } else {
-                    AlertDialogHelper.showSimpleAlertDialog(this, getString(R.string.error_no_net));
                 }
-
             }
-        }
     }
 
     private boolean validateFields() {

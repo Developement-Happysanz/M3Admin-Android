@@ -6,7 +6,7 @@ public class M3AdminConstants {
     //BASE URL
 //    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
 //    private static final String BASE_URL = "https://iyerandrao.com/";
-    private static final String BASE_URL = "http://happysanz.in/m3tnsrlm/";
+    private static final String BASE_URL = "https://happysanz.in/m3tnsrlm/";
 
     //BUILD URL
 //    public static final String BUILD_URL = BASE_URL + "M3TNSRLM/";
@@ -56,6 +56,9 @@ public class M3AdminConstants {
 
     //    SCHEME LIST
     public static final String SCHEME_LIST = "apipia/list_scheme";
+
+    //    SCHEME LIST
+    public static final String SCHEME_DETAIL = "apipia/scheme_details";
 
 
     //    TRADE LIST
@@ -123,6 +126,9 @@ public class M3AdminConstants {
     public static final String USER_PROFILE = "apipia/user_profile";
 
     //    CREATE USER
+    public static final String USER_PROFILE_TNSRLM = "apimain/user_profile";
+
+    //    CREATE USER
     public static final String UPDATE_PIA_USER_PROFILE = "apipia/user_profile_update";
 
     //    CREATE USER
@@ -149,6 +155,9 @@ public class M3AdminConstants {
     //    STAFF TNSRLM UPDATE
     public static final String UPDATE_USER_TNSRLM = "apimain/update_user";
 
+    //    STAFF TNSRLM UPDATE
+    public static final String UPDATE_PROFILE_TNSRLM = "apimain/user_profile_update";
+
     //    LIVE TRACKING
     public static final String LIVE_TRACKING = "apipia/user_tracking_current";
 
@@ -172,7 +181,7 @@ public class M3AdminConstants {
 
     //    Task add params
     public static final String PARAMS_TASK_TITLE = "task_title";
-    public static final String PARAMS_TASK_ID = "task_title";
+    public static final String PARAMS_TASK_ID = "task_id";
     public static final String PARAMS_TASK_DESCRIPTION = "task_description";
     public static final String PARAMS_TASK_DATE = "task_date";
     public static final String PARAMS_TASK_STATUS = "status";
@@ -184,7 +193,7 @@ public class M3AdminConstants {
     public static final String UPLOAD_CANDIDATE_PIC = "apipia/student_picupload/";
 
     //Mobilizer URL
-    private static final String MOBILIZER_API = "http://happysanz.net/m3test/apimobilizer/";
+    private static final String MOBILIZER_API = "https://happysanz.net/m3test/apimobilizer/";
     public static final String BLOOD_GROUP_LIST = MOBILIZER_API + "select_bloodgroup/";
 
 
@@ -202,6 +211,7 @@ public class M3AdminConstants {
     //    PIA Creation URL
     public static final String PIA_LIST = "apimain/pia_list";
 
+    public static final String TASK_IMAGE_LIST = "https://happysanz.in/m3tnsrlm/apimobilizer/list_taskpic/";
 
     //    Service Params
     public static String PARAM_MESSAGE = "msg";
@@ -212,6 +222,7 @@ public class M3AdminConstants {
     public static final String KEY_USER_ID = "user_id";
     public static final String KEY_STUDENT_ID = "student_id";
     public static final String KEY_USER_MASTER_ID = "user_master_id";
+    public static final String KEY_ROLE_TYPE = "role_type";
     public static final String KEY_NAME = "name";
     public static final String KEY_USER_IMAGE = "user_pic";
     public static final String KEY_USER_TYPE = "user_type";
@@ -234,6 +245,7 @@ public class M3AdminConstants {
 
     // TNSRLM DATA Constants
     public static final String PIA_COUNT = "pia_count";
+    public static final String SCHEME_ID = "scheme_id";
     public static final String MOB_COUNT = "mobilizer_count";
     public static final String CENTER_COUNT = "center_count";
     public static final String PROSPECT_COUNT = "student_count";

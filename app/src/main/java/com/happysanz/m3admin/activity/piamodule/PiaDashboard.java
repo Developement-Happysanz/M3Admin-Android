@@ -21,11 +21,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.activity.loginmodule.ChangePasswordActivity;
 import com.happysanz.m3admin.activity.loginmodule.SplashScreenActivity;
-import com.happysanz.m3admin.bean.pia.ProjectPeriodList;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -305,7 +303,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
         if (view == scheme){
-            Intent intent = new Intent(getApplicationContext(), SchemeActivity.class);
+            Intent intent = new Intent(getApplicationContext(), SchemeDetailActivity.class);
             startActivity(intent);
         }
         if (view == center){
@@ -353,8 +351,8 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
         if (view == aboutUs){
-//            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), AboutUsActivity.class);
+            startActivity(intent);
         }
         if (view == changePassword){
             Intent intent = new Intent(getApplicationContext(), ChangePasswordActivity.class);

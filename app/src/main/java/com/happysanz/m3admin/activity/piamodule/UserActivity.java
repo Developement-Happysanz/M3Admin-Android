@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -141,11 +143,15 @@ public class UserActivity extends AppCompatActivity implements IServiceListener,
         } else {
             userData = mobilizerArrayList.get(position);
         }
-        Intent intent = new Intent(this, UpdateUserActivity.class);
-        intent.putExtra("userObj", userData);
-        intent.putExtra("page", "user");
-        startActivity(intent);
-        finish();
+        if (PreferenceStorage.getUserId(this).equalsIgnoreCase("1")) {
+
+        } else {
+            Intent intent = new Intent(this, UpdateUserActivity.class);
+            intent.putExtra("userObj", userData);
+            intent.putExtra("page", "user");
+            startActivity(intent);
+            finish();
+        }
     }
 
     private class HttpAsyncTask extends AsyncTask<String, Void, Void> {
