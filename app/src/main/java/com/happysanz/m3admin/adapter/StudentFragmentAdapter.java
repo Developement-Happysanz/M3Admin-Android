@@ -21,9 +21,9 @@ public class StudentFragmentAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new AllProspectsFragment();
             case 1:
-                return new RejectedProspectsFragment();
-            case 2:
                 return new ConfirmedProspectsFragment();
+            case 2:
+                return new RejectedProspectsFragment();
         }
         return null;
     }
