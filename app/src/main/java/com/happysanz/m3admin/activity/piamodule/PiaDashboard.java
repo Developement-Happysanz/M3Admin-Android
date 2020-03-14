@@ -81,6 +81,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
         user.setOnClickListener(this);
         addPlan = (RelativeLayout) findViewById(R.id.add_plan_layout);
         addPlan.setOnClickListener(this);
+        addPlan.setVisibility(View.GONE);
         task = (RelativeLayout) findViewById(R.id.task_layout_sidemenu);
         task.setOnClickListener(this);
         tracking = (RelativeLayout) findViewById(R.id.tracking_layout);

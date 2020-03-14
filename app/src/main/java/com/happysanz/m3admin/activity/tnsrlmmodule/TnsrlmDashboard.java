@@ -77,6 +77,7 @@ public class TnsrlmDashboard extends AppCompatActivity  implements IServiceListe
         pia.setOnClickListener(this);
         mobilizationPlan = (RelativeLayout) findViewById(R.id.mobilization_layout);
         mobilizationPlan.setOnClickListener(this);
+        mobilizationPlan.setVisibility(View.GONE);
         tnsrlmStaff = (RelativeLayout) findViewById(R.id.tnsrlm_layout);
         tnsrlmStaff.setOnClickListener(this);
         piaScheme = (RelativeLayout) findViewById(R.id.scheme_layout);
