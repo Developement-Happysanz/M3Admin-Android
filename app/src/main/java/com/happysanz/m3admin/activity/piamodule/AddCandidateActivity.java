@@ -94,6 +94,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -188,6 +189,25 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
     private JSONArray storageDataArray;
     AllProspects allProspects;
 
+    private EditText qualificationDetails, yearOfEdu, yearOfPass, iMarkOne, iMarkTwo, langKnown, motherMob, fatherMob,
+            headFamilyName, eduHeadOfFamily, familyMembers, yearlyIncome, jobCard;
+
+    private ArrayAdapter<String> mJobCardAdapter = null;
+    private List<String> mJobCardList = new ArrayList<String>();
+
+    private ArrayAdapter<String> mYearAdapter = null;
+    private List<String> mYearList = new ArrayList<String>();
+
+    private ArrayAdapter<String> mQualificationAdapter = null;
+    private List<String> mQualificationList = new ArrayList<String>();
+
+    private ArrayAdapter<String> mNationalityAdapter = null;
+    private List<String> mNationalityList = new ArrayList<String>();
+
+    private ArrayAdapter<String> mCasteAdapter = null;
+    private List<String> mCasteList = new ArrayList<String>();
+
+    private Boolean imgurl = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -494,6 +514,30 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     etCandidateStatus.setText(getData.getJSONObject(0).getString("status"));
                     admissionId = getData.getJSONObject(0).getString("id");
 
+                    fatherMob.setText(getData.getJSONObject(0).getString("father_mobile"));
+                    etCandidatesQualification.setText(getData.getJSONObject(0).getString("qualification"));
+                    qualificationDetails.setText(getData.getJSONObject(0).getString("qualification_details"));
+                    yearOfEdu.setText(getData.getJSONObject(0).getString("year_of_edu"));
+                    yearOfPass.setText(getData.getJSONObject(0).getString("year_of_pass"));
+                    iMarkOne.setText(getData.getJSONObject(0).getString("identification_mark_1"));
+                    iMarkTwo.setText(getData.getJSONObject(0).getString("identification_mark_2"));
+                    langKnown.setText(getData.getJSONObject(0).getString("lang_known"));
+                    motherMob.setText(getData.getJSONObject(0).getString("mother_mobile"));
+                    headFamilyName.setText(getData.getJSONObject(0).getString("head_family_name"));
+                    eduHeadOfFamily.setText(getData.getJSONObject(0).getString("head_family_edu"));
+                    familyMembers.setText(getData.getJSONObject(0).getString("no_family"));
+                    yearlyIncome.setText(getData.getJSONObject(0).getString("yearly_income"));
+
+                    String CandidatesJobCard = getData.getJSONObject(0).getString("jobcard_type");
+                    if (CandidatesJobCard.equalsIgnoreCase("MG")) {
+                        jobCard.setText("MGNRGEA Job Card");
+                    } else if (CandidatesJobCard.equalsIgnoreCase("BP")) {
+                        jobCard.setText("BPL/PIP Card");
+                    }
+
+                    PreferenceStorage.saveCaste(this, getData.getJSONObject(0).getString("community_class"));
+                    PreferenceStorage.saveDisability(this, getData.getJSONObject(0).getString("disability"));
+
                 } else if (checkInternalState.equalsIgnoreCase("addStudent")) {
                     if (mProgressDialog != null) {
                         mProgressDialog.cancel();
@@ -507,9 +551,8 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         mProgressDialog.show();
                         saveUserImage();
                     } else {
-
-                        Toast.makeText(getApplicationContext(), "Student profile successfully...", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), ProspectsActivity.class);
+                        Toast.makeText(getApplicationContext(), "Student added successfully...", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), DocumentUploadActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -526,7 +569,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         saveUserImage();
                     } else {
                         Toast.makeText(getApplicationContext(), "Student profile update successfully...", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), ProspectsActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), DocumentUploadActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -579,6 +622,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         if (allProspects != null) {
             String url = allProspects.getStudent_pic();
             if (((url != null) && !(url.isEmpty()))) {
+                imgurl = true;
                 Picasso.get().load(url).placeholder(R.drawable.ic_profile).error(R.drawable.ic_profile).into(imCandidatePicture);
             }
         }
@@ -593,11 +637,60 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         etCandidateAge = findViewById(R.id.et_candidate_age);
         etCandidateAge.setFocusable(false);
 
+        mNationalityList.add("Indian");
+        mNationalityList.add("Other");
+
+        mNationalityAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mNationalityList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mNationalityList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+
         etCandidateNationality = findViewById(R.id.et_candidate_nationality);
+        etCandidateNationality.setFocusable(false);
+        etCandidateNationality.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNationalityList();
+            }
+        });
 
         etCandidateReligion = findViewById(R.id.et_candidate_religion);
 
+        mCasteList.add("SC");
+        mCasteList.add("ST");
+        mCasteList.add("BC");
+        mCasteList.add("MBC");
+        mCasteList.add("OC");
+
+        mCasteAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mCasteList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mCasteList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+
         etCandidateCommunityClass = findViewById(R.id.et_candidate_community_class);
+        etCandidateCommunityClass.setFocusable(false);
+        etCandidateCommunityClass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCasteList();
+            }
+        });
 
         etCandidateCommunity = findViewById(R.id.et_candidate_community);
 
@@ -637,7 +730,33 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         etCandidatesPreferredTiming.setOnClickListener(this);
         etCandidatesPreferredTiming.setFocusable(false);
 
+        mQualificationList.add("School");
+        mQualificationList.add("UG");
+        mQualificationList.add("PG");
+        mQualificationList.add("Diploma");
+        mQualificationList.add("Other");
+
+        mQualificationAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mCasteList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mQualificationList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+
         etCandidatesQualification = findViewById(R.id.et_candidate_qualification);
+        etCandidatesQualification.setFocusable(false);
+        etCandidatesQualification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showQualificationList();
+            }
+        });
 
         etCandidatesLastInstitute = findViewById(R.id.et_candidate_last_institute);
 
@@ -676,6 +795,67 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         if (allProspects == null) {
             etCandidateStatus.setVisibility(View.GONE);
         }
+
+
+        qualificationDetails = findViewById(R.id.et_candidate_qualification_details);
+
+        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = 1980; i <= thisYear; i++) {
+            mYearList.add(Integer.toString(i));
+        }
+        Collections.reverse(mYearList);
+        mYearAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mYearList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mYearList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+
+        yearOfEdu = findViewById(R.id.et_qualification_year_start);
+        yearOfEdu.setFocusable(false);
+
+        yearOfPass = findViewById(R.id.et_qualification_year_end);
+        yearOfPass.setFocusable(false);
+
+        yearOfEdu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEduYearList();
+            }
+        });
+
+        yearOfPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPassYearList();
+            }
+        });
+
+        iMarkOne = findViewById(R.id.et_candidate_identity_one);
+
+        iMarkTwo = findViewById(R.id.et_candidate_identity_two);
+
+        langKnown = findViewById(R.id.et_candidate_languages);
+
+        motherMob = findViewById(R.id.et_mother_mobile_no);
+
+        fatherMob = findViewById(R.id.et_father_mobile_no);
+
+        headFamilyName = findViewById(R.id.et_head_of_the_family);
+
+        eduHeadOfFamily = findViewById(R.id.et_head_of_the_family_qualification);
+
+        familyMembers = findViewById(R.id.et_family_members);
+
+        yearlyIncome = findViewById(R.id.et_family_income);
+
+        jobCard = findViewById(R.id.et_job_card);
 
         btnSubmit = findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(this);
@@ -982,6 +1162,48 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         }*/ else if (!AppValidator.checkNullString(this.etCandidatesAadhaarNo.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid aadhaar card number");
             return false;
+        }else if (!AppValidator.checkNullString(this.etCandidatesQualification.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select valid qualification");
+            return false;
+        }else if (!AppValidator.checkNullString(this.qualificationDetails.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid qualification detail");
+            return false;
+        }else if (!AppValidator.checkNullString(this.yearOfEdu.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select valid year");
+            return false;
+        }else if (!AppValidator.checkNullString(this.yearOfPass.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select valid year");
+            return false;
+        }else if (!AppValidator.checkNullString(this.iMarkOne.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid identification mark");
+            return false;
+        }else if (!AppValidator.checkNullString(this.iMarkTwo.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid identification mark");
+            return false;
+        }else if (!AppValidator.checkNullString(this.langKnown.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid language");
+            return false;
+        }else if (!AppValidator.checkNullString(this.motherMob.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid mobile number");
+            return false;
+        }else if (!AppValidator.checkNullString(this.fatherMob.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid mobile number");
+            return false;
+        }else if (!AppValidator.checkNullString(this.headFamilyName.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid name");
+            return false;
+        }else if (!AppValidator.checkNullString(this.eduHeadOfFamily.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid education");
+            return false;
+        }else if (!AppValidator.checkNullString(this.familyMembers.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid count");
+            return false;
+        }else if (!AppValidator.checkNullString(this.yearlyIncome.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid salary");
+            return false;
+        } else if (!imgurl) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Add student image");
+            return false;
         } else {
             return true;
         }
@@ -1060,6 +1282,31 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 //            CandidatesAadhaarNo = "";
 //        }
 
+        String CandidatesqualificationDetails = qualificationDetails.getText().toString();
+        String CandidatesyearOfEdu = yearOfEdu.getText().toString();
+        String CandidatesyearOfPass = yearOfPass.getText().toString();
+        String CandidatesiMarkOne = iMarkOne.getText().toString();
+        String CandidatesiMarkTwo = iMarkTwo.getText().toString();
+        String CandidateslangKnown = langKnown.getText().toString();
+        String CandidatesmotherMob = motherMob.getText().toString();
+        String CandidatesfatherMob = fatherMob.getText().toString();
+        String CandidatesheadFamilyName = headFamilyName.getText().toString();
+        String CandidateseduHeadOfFamily = eduHeadOfFamily.getText().toString();
+        String CandidatesfamilyMembers = familyMembers.getText().toString();
+        String CandidatesyearlyIncome = yearlyIncome.getText().toString();
+
+
+        String CandidatesJobCard = "";
+        if (jobCard.getText().toString().equalsIgnoreCase("MGNRGEA Job Card")) {
+            CandidatesJobCard = "MG";
+        } else if (jobCard.getText().toString().equalsIgnoreCase("BPL/PIP Card")) {
+            CandidatesJobCard = "BP";
+        }
+
+        PreferenceStorage.saveCaste(this, CandidateCommunityClass);
+        PreferenceStorage.saveDisability(this, AnyDisability);
+
+
         String serverFormatDate = "";
         if (etCandidateDOB.getText().toString() != null && etCandidateDOB.getText().toString() != "") {
 
@@ -1119,6 +1366,21 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 //            jsonObject.put(M3AdminConstants.PARAMS_CREATED_BY, PreferenceStorage.getUserId(getApplicationContext()));
 //            jsonObject.put(M3AdminConstants.PARAMS_CREATED_AT, currentDateandTime);
             jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
+            jsonObject.put(M3AdminConstants.PARAMS_FATHER_MOBILE, CandidatesfatherMob);
+            jsonObject.put(M3AdminConstants.PARAMS_MOTHER_MOBILE, CandidatesmotherMob);
+            jsonObject.put(M3AdminConstants.PARAMS_QUALIFICATION, CandidatesQualification);
+            jsonObject.put(M3AdminConstants.PARAMS_QUALIFICATION_DETAILS, CandidatesqualificationDetails);
+            jsonObject.put(M3AdminConstants.PARAMS_YEAR_OF_EDU, CandidatesyearOfEdu);
+            jsonObject.put(M3AdminConstants.PARAMS_YEAR_OF_PASS, CandidatesyearOfPass);
+            jsonObject.put(M3AdminConstants.PARAMS_IDENTITY_MARK_ONE, CandidatesiMarkOne);
+            jsonObject.put(M3AdminConstants.PARAMS_IDENTITY_MARK_TWO, CandidatesiMarkTwo);
+            jsonObject.put(M3AdminConstants.PARAMS_LANGUAGES_KNOWN, CandidateslangKnown);
+            jsonObject.put(M3AdminConstants.PARAMS_HEAD_OF_FAMILY, CandidatesheadFamilyName);
+            jsonObject.put(M3AdminConstants.PARAMS_EDU_OF_HEAD_OF_FAMILY, CandidateseduHeadOfFamily);
+            jsonObject.put(M3AdminConstants.PARAMS_NO_OF_FAMILY, CandidatesfamilyMembers);
+            jsonObject.put(M3AdminConstants.PARAMS_YEARLY_INCOME, CandidatesyearlyIncome);
+            jsonObject.put(M3AdminConstants.PARAMS_JOB_CARD, CandidatesJobCard);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1183,6 +1445,32 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 //            CandidatesAadhaarNo = "";
 //        }
 
+        String CandidatesqualificationDetails = qualificationDetails.getText().toString();
+        String CandidatesyearOfEdu = yearOfEdu.getText().toString();
+        String CandidatesyearOfPass = yearOfPass.getText().toString();
+        String CandidatesiMarkOne = iMarkOne.getText().toString();
+        String CandidatesiMarkTwo = iMarkTwo.getText().toString();
+        String CandidateslangKnown = langKnown.getText().toString();
+        String CandidatesmotherMob = motherMob.getText().toString();
+        String CandidatesfatherMob = fatherMob.getText().toString();
+        String CandidatesheadFamilyName = headFamilyName.getText().toString();
+        String CandidateseduHeadOfFamily = eduHeadOfFamily.getText().toString();
+        String CandidatesfamilyMembers = familyMembers.getText().toString();
+        String CandidatesyearlyIncome = yearlyIncome.getText().toString();
+
+
+        String CandidatesJobCard = "";
+        if (jobCard.getText().toString().equalsIgnoreCase("MGNRGEA Job Card")) {
+            CandidatesJobCard = "MG";
+        } else if (jobCard.getText().toString().equalsIgnoreCase("BPL/PIP Card")) {
+            CandidatesJobCard = "BP";
+        }
+
+        PreferenceStorage.saveCaste(this, CandidateCommunityClass);
+        PreferenceStorage.saveDisability(this, AnyDisability);
+        PreferenceStorage.saveAdmissionId(this, allProspects.getId());
+
+
         String serverFormatDate = "";
         if (etCandidateDOB.getText().toString() != null && etCandidateDOB.getText().toString() != "") {
 
@@ -1243,6 +1531,20 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 //            jsonObject.put(M3AdminConstants.PARAMS_CREATED_AT, currentDateandTime);
             jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
             jsonObject.put(M3AdminConstants.KEY_STUDENT_ID, allProspects.getId());
+            jsonObject.put(M3AdminConstants.PARAMS_FATHER_MOBILE, CandidatesfatherMob);
+            jsonObject.put(M3AdminConstants.PARAMS_MOTHER_MOBILE, CandidatesmotherMob);
+            jsonObject.put(M3AdminConstants.PARAMS_QUALIFICATION, CandidatesQualification);
+            jsonObject.put(M3AdminConstants.PARAMS_QUALIFICATION_DETAILS, CandidatesqualificationDetails);
+            jsonObject.put(M3AdminConstants.PARAMS_YEAR_OF_EDU, CandidatesyearOfEdu);
+            jsonObject.put(M3AdminConstants.PARAMS_YEAR_OF_PASS, CandidatesyearOfPass);
+            jsonObject.put(M3AdminConstants.PARAMS_IDENTITY_MARK_ONE, CandidatesiMarkOne);
+            jsonObject.put(M3AdminConstants.PARAMS_IDENTITY_MARK_TWO, CandidatesiMarkTwo);
+            jsonObject.put(M3AdminConstants.PARAMS_LANGUAGES_KNOWN, CandidateslangKnown);
+            jsonObject.put(M3AdminConstants.PARAMS_HEAD_OF_FAMILY, CandidatesheadFamilyName);
+            jsonObject.put(M3AdminConstants.PARAMS_EDU_OF_HEAD_OF_FAMILY, CandidateseduHeadOfFamily);
+            jsonObject.put(M3AdminConstants.PARAMS_NO_OF_FAMILY, CandidatesfamilyMembers);
+            jsonObject.put(M3AdminConstants.PARAMS_YEARLY_INCOME, CandidatesyearlyIncome);
+            jsonObject.put(M3AdminConstants.PARAMS_JOB_CARD, CandidatesJobCard);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1360,9 +1662,13 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             if (mProgressDialog != null) {
                 mProgressDialog.cancel();
             }
-
-            Toast.makeText(getApplicationContext(), "Student profile image updated successfully...", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(getApplicationContext(), DocumentUploadActivity.class);
+            i.putExtra("job_card", jobCard.getText().toString());
+            startActivity(i);
             finish();
+            PreferenceStorage.saveAdmissionId(getApplicationContext(), admissionId);
+//            Toast.makeText(getApplicationContext(), "Student profile image updated successfully...", Toast.LENGTH_SHORT).show();
+//            finish();
 //            saveCandidate();
         }
 
@@ -1455,6 +1761,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                 d(TAG, "image Uri is" + selectedImageUri);
                 if (selectedImageUri != null) {
                     d(TAG, "image URI is" + selectedImageUri);
+                    imgurl = true;
                     setPic(selectedImageUri);
                 }
             }
@@ -1624,6 +1931,132 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     public void onClick(DialogInterface dialog, int which) {
                         String strName = mGenderList.get(which);
                         etCandidateSex.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
+    private void showQualificationList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Qualification");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Qualification");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mQualificationAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mQualificationList.get(which);
+                        etCandidatesQualification.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
+    private void showNationalityList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Nationality");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Nationality");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mNationalityAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mNationalityList.get(which);
+                        etCandidateNationality.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
+    private void showCasteList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Caste");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Caste");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mCasteAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mCasteList.get(which);
+                        etCandidateCommunityClass.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
+    private void showJobCardList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Job Card");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Job Card");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mJobCardAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mJobCardList.get(which);
+                        jobCard.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
+    private void showEduYearList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Year");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Year");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mYearAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mYearList.get(which);
+                        yearOfEdu.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
+    private void showPassYearList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Year");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Year");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mYearAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mYearList.get(which);
+                        yearOfPass.setText(strName);
                     }
                 });
         builderSingle.show();

@@ -340,6 +340,19 @@ public class M3AdminConstants {
     public static final String PARAMS_UPDATED_BY = "updated_by";
     public static final String PARAMS_UPDATED_AT = "updated_at";
     public static final String PARAMS_PIA_ID = "pia_id";
+    public static final String PARAMS_FATHER_MOBILE = "father_mobile";
+    public static final String PARAMS_MOTHER_MOBILE = "mother_mobile";
+    public static final String PARAMS_QUALIFICATION_DETAILS = "qualification_details";
+    public static final String PARAMS_YEAR_OF_EDU = "year_of_edu";
+    public static final String PARAMS_YEAR_OF_PASS = "year_of_pass";
+    public static final String PARAMS_IDENTITY_MARK_ONE = "identification_mark_1";
+    public static final String PARAMS_IDENTITY_MARK_TWO = "identification_mark_2";
+    public static final String PARAMS_LANGUAGES_KNOWN = "lang_known";
+    public static final String PARAMS_HEAD_OF_FAMILY = "head_family_name";
+    public static final String PARAMS_EDU_OF_HEAD_OF_FAMILY = "head_family_edu";
+    public static final String PARAMS_NO_OF_FAMILY = "no_family";
+    public static final String PARAMS_YEARLY_INCOME = "yearly_income";
+    public static final String PARAMS_JOB_CARD = "jobcard_type";
 
 
     // Tracking
@@ -348,5 +361,10 @@ public class M3AdminConstants {
     public static final String PARAMS_TRACK_END_DATE = "to_date";
     public static final String PARAMS_MOBILIZER_ID = "mobilizer_id";
 
+
+    public static final String DOC_STATUS = "apimain/prospects_document_status";
+
+    public static final String DOC_UPLOAD = "apipia/document_details_upload/";
+    public static final String PARAMS_ADMISSION_ID = "admission_id";
 
 }
