@@ -91,6 +91,15 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     private Button done;
 
+    private boolean docOne = false;
+    private boolean docTwo = false;
+    private boolean docThree = false;
+    private boolean docFour = false;
+    private boolean docFive = false;
+    private boolean docSix = false;
+    private boolean docSeven = false;
+    private boolean docEight = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +117,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             cast.setVisibility(View.VISIBLE);
         } else {
             cast.setVisibility(View.GONE);
+            docTwo = true;
         }
         disab = findViewById(R.id.disab);
         String dis = PreferenceStorage.getDisability(this);
@@ -115,6 +125,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             disab.setVisibility(View.VISIBLE);
         } else {
             disab.setVisibility(View.GONE);
+            docThree = true;
         }
 
         aadhaar = findViewById(R.id.txtUploadAadhaarCard);
@@ -168,7 +179,11 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             storeDocumentMasterId = "8";
             openImageIntent();
         } else if (v == done) {
-            finish();
+            if (docOne&&docTwo&&docThree&&docFour&&docFive&&docSix&&docSeven&&docEight) {
+                finish();
+            } else {
+                AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), "Upload all necessary documents");
+            }
         }
     }
 
@@ -387,29 +402,29 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
                     selectedFilePath = root.getPath() + File.separator + fname;
                     Log.i(TAG, "Selected File Path:" + selectedFilePath);
-                File sizeCge;
+                    File sizeCge;
 //                selectedFilePath = mActualFilePath;
-                if (selectedFilePath != null && !selectedFilePath.equals("")) {
-                    sizeCge = new File(selectedFilePath);
-                    if (sizeCge.length() >= 12000000) {
-                        AlertDialogHelper.showSimpleAlertDialog(this, "File size too large. File should be at least 12MB");
-                        selectedFilePath = null;
-                    } else {
-                        Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show();
-                        dialog = ProgressDialog.show(DocumentUploadActivity.this, "", "Uploading File...", true);
+                    if (selectedFilePath != null && !selectedFilePath.equals("")) {
+                        sizeCge = new File(selectedFilePath);
+                        if (sizeCge.length() >= 12000000) {
+                            AlertDialogHelper.showSimpleAlertDialog(this, "File size too large. File should be at least 12MB");
+                            selectedFilePath = null;
+                        } else {
+                            Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show();
+                            dialog = ProgressDialog.show(DocumentUploadActivity.this, "", "Uploading File...", true);
 
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //creating new thread to handle Http Operations
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //creating new thread to handle Http Operations
 //                        uploadFile(selectedFilePath);
-                                new PostDataAsyncTask().execute();
-                            }
-                        }).start();
+                                    new PostDataAsyncTask().execute();
+                                }
+                            }).start();
+                        }
+                    } else {
+                        Toast.makeText(this, "Cannot upload file to server", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(this, "Cannot upload file to server", Toast.LENGTH_SHORT).show();
-                }
                 } catch (FileNotFoundException | DocumentException e) {
                     e.printStackTrace();
                 } catch (MalformedURLException e) {
@@ -585,6 +600,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                 switch (storeDocumentMasterId) {
 
                     case "1":
+                        docOne = true;
                         aadhaar.setEnabled(false);
                         aadhaar.setFocusable(false);
                         aadhaar.setClickable(false);
@@ -592,6 +608,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         aadhaar.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "2":
+                        docTwo = true;
                         transferCertificate.setEnabled(false);
                         transferCertificate.setFocusable(false);
                         transferCertificate.setClickable(false);
@@ -599,6 +616,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         transferCertificate.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "3":
+                        docThree = true;
                         communityCertificate.setEnabled(false);
                         communityCertificate.setFocusable(false);
                         communityCertificate.setClickable(false);
@@ -606,6 +624,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         communityCertificate.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "4":
+                        docFour = true;
                         rationCard.setEnabled(false);
                         rationCard.setFocusable(false);
                         rationCard.setClickable(false);
@@ -613,6 +632,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         rationCard.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "5":
+                        docFive = true;
                         voterId.setEnabled(false);
                         voterId.setFocusable(false);
                         voterId.setClickable(false);
@@ -620,6 +640,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         voterId.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "6":
+                        docSix = true;
                         jobCard.setEnabled(false);
                         jobCard.setFocusable(false);
                         jobCard.setClickable(false);
@@ -627,6 +648,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         jobCard.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "7":
+                        docSeven = true;
                         disability.setEnabled(false);
                         disability.setFocusable(false);
                         disability.setClickable(false);
@@ -634,6 +656,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                         disability.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
                         break;
                     case "8":
+                        docEight = true;
                         passBook.setEnabled(false);
                         passBook.setFocusable(false);
                         passBook.setClickable(false);
