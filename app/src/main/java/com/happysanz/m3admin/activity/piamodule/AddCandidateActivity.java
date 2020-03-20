@@ -212,7 +212,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_candidate);
+        setContentView(R.layout.activity_add_candidate_new);
         allProspects = (AllProspects) getIntent().getSerializableExtra("pros");
         setUpUI();
         setupUI(findViewById(R.id.scrollID));
