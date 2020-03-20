@@ -368,6 +368,11 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         }
                     };
 //                    GetBloodGroup();
+                    if (allProspects == null) {
+                        Log.d(TAG, "null");
+                    } else {
+                        getProspectdata();
+                    }
                 } else if (checkInternalState.equalsIgnoreCase("bloodGroup")) {
                     JSONArray getData = response.getJSONArray("Bloodgroup");
                     int getLength = getData.length();
@@ -394,11 +399,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                             return view;
                         }
                     };
-                    if (allProspects == null) {
-                        Log.d(TAG, "null");
-                    } else {
-                        getProspectdata();
-                    }
+
                 } else if (checkInternalState.equalsIgnoreCase("timings")) {
                     JSONArray getData = response.getJSONArray("Timings");
                     int getLength = getData.length();

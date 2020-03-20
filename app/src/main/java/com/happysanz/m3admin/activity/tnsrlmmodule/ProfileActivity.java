@@ -429,7 +429,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             String responseString = null;
 
             httpclient = new DefaultHttpClient();
-            httppost = new HttpPost(String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.UPLOAD_PIC_TNSRLM + PreferenceStorage.getUserId(getApplicationContext()) + "/"));
+            httppost = new HttpPost(String.format(M3AdminConstants.BUILD_URL + M3AdminConstants.UPLOAD_PIC_TNSRLM + "/" + PreferenceStorage.getUserId(getApplicationContext()) + "/"));
 
             try {
                 AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
