@@ -117,7 +117,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             cast.setVisibility(View.VISIBLE);
         } else {
             cast.setVisibility(View.GONE);
-            docTwo = true;
+            docThree = true;
         }
         disab = findViewById(R.id.disab);
         String dis = PreferenceStorage.getDisability(this);
@@ -125,7 +125,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             disab.setVisibility(View.VISIBLE);
         } else {
             disab.setVisibility(View.GONE);
-            docThree = true;
+            docSeven = true;
         }
 
         aadhaar = findViewById(R.id.txtUploadAadhaarCard);

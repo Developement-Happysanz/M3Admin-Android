@@ -856,6 +856,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         yearlyIncome = findViewById(R.id.et_family_income);
 
         jobCard = findViewById(R.id.et_job_card);
+        jobCard.setFocusable(false);
 
         btnSubmit = findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(this);
@@ -888,6 +889,29 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                 return view;
             }
         };
+
+        mJobCardList.add("MGNRGEA Job Card");
+        mJobCardList.add("BPL/PIP Card");
+
+        mJobCardAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mJobCardList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mJobCardList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+
+        jobCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showJobCardList();
+            }
+        });
 
         etCandidateSex.setOnClickListener(new View.OnClickListener() {
             @Override
