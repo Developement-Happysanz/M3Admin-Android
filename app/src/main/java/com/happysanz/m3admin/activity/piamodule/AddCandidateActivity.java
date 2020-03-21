@@ -481,10 +481,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     etCandidateReligion.setText(getData.getJSONObject(0).getString("religion"));
                     etCandidateCommunityClass.setText(getData.getJSONObject(0).getString("community_class"));
                     etCandidateCommunity.setText(getData.getJSONObject(0).getString("community"));
-                    String blod = getData.getJSONObject(0).getString("blood_group");
-                    int i = Integer.valueOf(blod);
-                    etCandidateBloodGroup.setText(bloodGroupList.get(i-1).getBloodGroupName());
-//                    etCandidateBloodGroup.setText(getData.getJSONObject(0).getString("blood_group"));
+                    etCandidateBloodGroup.setText(getData.getJSONObject(0).getString("blood_group"));
                     etCandidateFatherName.setText(getData.getJSONObject(0).getString("father_name"));
                     etCandidateMotherName.setText(getData.getJSONObject(0).getString("mother_name"));
                     etCandidateMobileNo.setText(getData.getJSONObject(0).getString("mobile"));
