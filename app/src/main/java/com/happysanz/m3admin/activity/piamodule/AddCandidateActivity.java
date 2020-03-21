@@ -488,6 +488,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     etCandidateAlterMobileNo.setText(getData.getJSONObject(0).getString("sec_mobile"));
                     etCandidateEmailId.setText(getData.getJSONObject(0).getString("email"));
                     etCandidateState.setText(getData.getJSONObject(0).getString("state"));
+
                     etCandidateCity.setText(getData.getJSONObject(0).getString("city"));
                     etCandidateAddressLine1.setText(getData.getJSONObject(0).getString("address"));
 //                    etCandidateAddressLine2.setText(getData.getJSONObject(0).getString("name"));
