@@ -20,8 +20,8 @@ android {
         applicationId "com.happysanz.m3admin"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 8
-        versionName "1.0.413"
+        versionCode 9
+        versionName "1.0.414"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
