@@ -250,6 +250,7 @@ public class M3AdminConstants {
     public static final String MOB_COUNT = "mobilizer_count";
     public static final String CENTER_COUNT = "center_count";
     public static final String PROSPECT_COUNT = "student_count";
+    public static final String PROSPECT_ID = "prospect_id";
 
 
     public static final String PARAMS_CENTER_ID = "center_id";
@@ -363,8 +364,10 @@ public class M3AdminConstants {
 
 
     public static final String DOC_STATUS = "apimain/prospects_document_status";
+    public static final String DOC_LIST = "apipia/prospects_document";
 
     public static final String DOC_UPLOAD = "apipia/document_details_upload/";
+    public static final String DOC_UPLOAD_UPDATE = "apipia/document_details_update/";
     public static final String PARAMS_ADMISSION_ID = "admission_id";
 
 }

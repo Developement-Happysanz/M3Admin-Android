@@ -215,7 +215,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         setContentView(R.layout.activity_add_candidate_new);
         allProspects = (AllProspects) getIntent().getSerializableExtra("pros");
         setUpUI();
-        setupUI(findViewById(R.id.scrollID));
+//        setupUI(findViewById(R.id.scrollID));
         GetTrade();
 
     }
@@ -570,7 +570,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                         saveUserImage();
                     } else {
                         Toast.makeText(getApplicationContext(), "Student profile update successfully...", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), DocumentUploadActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), DocumentDownloadActivity.class);
                         startActivity(intent);
                         finish();
                     }

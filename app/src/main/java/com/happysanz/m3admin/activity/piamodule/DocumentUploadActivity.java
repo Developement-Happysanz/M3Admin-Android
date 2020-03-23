@@ -27,6 +27,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.JsonArray;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
@@ -41,6 +42,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -99,6 +101,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
     private boolean docSix = false;
     private boolean docSeven = false;
     private boolean docEight = false;
+    private boolean uploadCheck = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -112,22 +115,6 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
         prospectID = PreferenceStorage.getAdmissionId(this);
         cast = findViewById(R.id.commi);
-        String caste = PreferenceStorage.getCaste(this);
-        if (caste.equalsIgnoreCase("SC") || caste.equalsIgnoreCase("ST")) {
-            cast.setVisibility(View.VISIBLE);
-        } else {
-            cast.setVisibility(View.GONE);
-            docThree = true;
-        }
-        disab = findViewById(R.id.disab);
-        String dis = PreferenceStorage.getDisability(this);
-        if (dis.equalsIgnoreCase("1")) {
-            disab.setVisibility(View.VISIBLE);
-        } else {
-            disab.setVisibility(View.GONE);
-            docSeven = true;
-        }
-
         aadhaar = findViewById(R.id.txtUploadAadhaarCard);
         transferCertificate = findViewById(R.id.txtUploadTcMs);
         communityCertificate = findViewById(R.id.txtUploadCC);
@@ -137,6 +124,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         jobCard = findViewById(R.id.txtUploadJobCard);
         passBook = findViewById(R.id.txtUploadPassbook);
         done = findViewById(R.id.btn_done);
+        checkDisplay();
 
         aadhaar.setOnClickListener(this);
         transferCertificate.setOnClickListener(this);
@@ -152,34 +140,92 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
     }
 
+    private void checkDisplay() {
+        String caste = PreferenceStorage.getCaste(this);
+        if (caste.equalsIgnoreCase("SC") || caste.equalsIgnoreCase("ST")) {
+            cast.setVisibility(View.VISIBLE);
+        } else {
+            cast.setVisibility(View.GONE);
+            docThree = true;
+        }
+        disab = findViewById(R.id.disab);
+        String dis = PreferenceStorage.getDisability(this);
+        if (dis.equalsIgnoreCase("1")) {
+            disab.setVisibility(View.VISIBLE);
+        } else {
+            disab.setVisibility(View.GONE);
+            docSeven = true;
+        }
+    }
+
     @Override
     public void onClick(View v) {
         if (v == aadhaar) {
+            if (docOne) {
+                uploadCheck = true;
+            } else {
+                uploadCheck = false;
+            }
             storeDocumentMasterId = "1";
             openImageIntent();
         } else if (v == transferCertificate) {
+            if (docTwo) {
+                uploadCheck = true;
+            } else {
+                uploadCheck = false;
+            }
             storeDocumentMasterId = "2";
             openImageIntent();
         } else if (v == communityCertificate) {
+            if (docThree) {
+                uploadCheck = true;
+            } else {
+                uploadCheck = false;
+            }
             storeDocumentMasterId = "3";
             openImageIntent();
         } else if (v == disability) {
+            if (docSeven) {
+                uploadCheck = true;
+            } else {
+                uploadCheck = false;
+            }
             storeDocumentMasterId = "7";
             openImageIntent();
         } else if (v == rationCard) {
+            if (docFour) {
+                uploadCheck = true;
+            } else {
+                uploadCheck = false;
+            }
             storeDocumentMasterId = "4";
             openImageIntent();
         } else if (v == voterId) {
+            if (docFive) {
+                uploadCheck = true;
+            } else {
+                uploadCheck = false;
+            }
             storeDocumentMasterId = "5";
             openImageIntent();
         } else if (v == jobCard) {
+            if (docSix) {
+                uploadCheck = true;
+            } else {
+                uploadCheck = false;
+            }
             storeDocumentMasterId = "6";
             openImageIntent();
         } else if (v == passBook) {
+            if (docEight) {
+                uploadCheck = true;
+            } else {
+                uploadCheck = false;
+            }
             storeDocumentMasterId = "8";
             openImageIntent();
         } else if (v == done) {
-            if (docOne&&docTwo&&docThree&&docFour&&docFive&&docSix&&docSeven&&docEight) {
+            if (docOne && docTwo && docThree && docFour && docFive && docSix && docSeven && docEight) {
                 finish();
             } else {
                 AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), "Upload all necessary documents");
@@ -232,6 +278,92 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 //            Toast.makeText(this, "New task created.", Toast.LENGTH_SHORT).show();
 ////            finish();
 //            finish();
+            try {
+                JSONArray resdata = response.getJSONArray("doc_status");
+                String docStatus = "";
+                String docTypeID = "";
+                for (int i = 0; i < resdata.length(); i++) {
+                    docTypeID = resdata.getJSONObject(i).getString("id");
+                    docStatus = resdata.getJSONObject(i).getString("selected");
+                    if (!docStatus.equalsIgnoreCase("0")) {
+                        setTheVal(docTypeID);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            checkDisplay();
+
+        }
+    }
+
+    private void setTheVal(String docId) {
+        switch (docId) {
+
+            case "1":
+                docOne = true;
+//                        aadhaar.setEnabled(false);
+                aadhaar.setFocusable(false);
+//                        aadhaar.setClickable(false);
+                aadhaar.setText("Uploaded");
+                aadhaar.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                break;
+            case "2":
+                docTwo = true;
+//                        transferCertificate.setEnabled(false);
+                transferCertificate.setFocusable(false);
+//                        transferCertificate.setClickable(false);
+                transferCertificate.setText("Uploaded");
+                transferCertificate.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                break;
+            case "3":
+                docThree = true;
+//                        communityCertificate.setEnabled(false);
+                communityCertificate.setFocusable(false);
+//                        communityCertificate.setClickable(false);
+                communityCertificate.setText("Uploaded");
+                communityCertificate.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                break;
+            case "4":
+                docFour = true;
+//                        rationCard.setEnabled(false);
+                rationCard.setFocusable(false);
+//                        rationCard.setClickable(false);
+                rationCard.setText("Uploaded");
+                rationCard.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                break;
+            case "5":
+                docFive = true;
+//                        voterId.setEnabled(false);
+                voterId.setFocusable(false);
+//                        voterId.setClickable(false);
+                voterId.setText("Uploaded");
+                voterId.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                break;
+            case "6":
+                docSix = true;
+//                        jobCard.setEnabled(false);
+                jobCard.setFocusable(false);
+//                        jobCard.setClickable(false);
+                jobCard.setText("Uploaded");
+                jobCard.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                break;
+            case "7":
+                docSeven = true;
+//                        disability.setEnabled(false);
+                disability.setFocusable(false);
+//                        disability.setClickable(false);
+                disability.setText("Uploaded");
+                disability.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                break;
+            case "8":
+                docEight = true;
+//                        passBook.setEnabled(false);
+                passBook.setFocusable(false);
+//                        passBook.setClickable(false);
+                passBook.setText("Uploaded");
+                passBook.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
+                break;
         }
     }
 
@@ -247,7 +379,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put(M3AdminConstants.PARAMS_ADMISSION_ID, PreferenceStorage.getAdmissionId(this));
+                jsonObject.put(M3AdminConstants.PROSPECT_ID, PreferenceStorage.getAdmissionId(this));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -266,9 +398,11 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
 
         // Determine Uri of camera image to save.
 //        final File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyDir");
-        File pictureFolder = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES
-        );
+//        File pictureFolder = Environment.getExternalStoragePublicDirectory(
+//                Environment.DIRECTORY_PICTURES
+//        );
+        File pictureFolder = getExternalFilesDir(Environment.DIRECTORY_DCIM);
+
         final File root = new File(pictureFolder, "M3Images");
 
         if (!root.exists()) {
@@ -314,7 +448,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         galleryIntent.setAction(Intent.ACTION_PICK);
 
         // Chooser of filesystem options.
-        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Profile Photo");
+        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Take Photo");
 
         // Add the camera options.
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
@@ -366,9 +500,11 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                     Document document = new Document();
 
 //                    String directoryPath = android.os.Environment.getExternalStorageDirectory().toString();
-                    File pictureFolder = Environment.getExternalStoragePublicDirectory(
-                            Environment.DIRECTORY_DOCUMENTS
-                    );
+//                    File pictureFolder = Environment.getExternalStoragePublicDirectory(
+//                            Environment.DIRECTORY_DOCUMENTS
+//                    );
+                    File pictureFolder = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+
                     final File root = new File(pictureFolder, "M3Documents");
 
                     if (!root.exists()) {
@@ -494,7 +630,12 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
                     String document_proof_number = "0";
 
                     FileInputStream fileInputStream = new FileInputStream(selectedFile);
-                    String SERVER_URL = M3AdminConstants.BUILD_URL + M3AdminConstants.DOC_UPLOAD + "" + id + "/" + document_master_id + "/" + prospectID + "/" + document_proof_number + "/";
+                    String SERVER_URL;
+                    if (uploadCheck) {
+                        SERVER_URL = M3AdminConstants.BUILD_URL + M3AdminConstants.DOC_UPLOAD_UPDATE + "" + id + "/" + document_master_id + "/" + prospectID + "/" + document_proof_number + "/";
+                    } else {
+                        SERVER_URL = M3AdminConstants.BUILD_URL + M3AdminConstants.DOC_UPLOAD + "" + id + "/" + document_master_id + "/" + prospectID + "/" + document_proof_number + "/";
+                    }
                     URI uri = new URI(SERVER_URL.replace(" ", "%20"));
                     String baseURL = uri.toString();
                     URL url = new URL(baseURL);
@@ -597,73 +738,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             super.onPostExecute(result);
             if ((result.contains("OK"))) {
                 Toast.makeText(getApplicationContext(), "Uploaded successfully!", Toast.LENGTH_SHORT).show();
-                switch (storeDocumentMasterId) {
-
-                    case "1":
-                        docOne = true;
-                        aadhaar.setEnabled(false);
-                        aadhaar.setFocusable(false);
-                        aadhaar.setClickable(false);
-                        aadhaar.setText("Uploaded");
-                        aadhaar.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
-                        break;
-                    case "2":
-                        docTwo = true;
-                        transferCertificate.setEnabled(false);
-                        transferCertificate.setFocusable(false);
-                        transferCertificate.setClickable(false);
-                        transferCertificate.setText("Uploaded");
-                        transferCertificate.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
-                        break;
-                    case "3":
-                        docThree = true;
-                        communityCertificate.setEnabled(false);
-                        communityCertificate.setFocusable(false);
-                        communityCertificate.setClickable(false);
-                        communityCertificate.setText("Uploaded");
-                        communityCertificate.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
-                        break;
-                    case "4":
-                        docFour = true;
-                        rationCard.setEnabled(false);
-                        rationCard.setFocusable(false);
-                        rationCard.setClickable(false);
-                        rationCard.setText("Uploaded");
-                        rationCard.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
-                        break;
-                    case "5":
-                        docFive = true;
-                        voterId.setEnabled(false);
-                        voterId.setFocusable(false);
-                        voterId.setClickable(false);
-                        voterId.setText("Uploaded");
-                        voterId.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
-                        break;
-                    case "6":
-                        docSix = true;
-                        jobCard.setEnabled(false);
-                        jobCard.setFocusable(false);
-                        jobCard.setClickable(false);
-                        jobCard.setText("Uploaded");
-                        jobCard.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
-                        break;
-                    case "7":
-                        docSeven = true;
-                        disability.setEnabled(false);
-                        disability.setFocusable(false);
-                        disability.setClickable(false);
-                        disability.setText("Uploaded");
-                        disability.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
-                        break;
-                    case "8":
-                        docEight = true;
-                        passBook.setEnabled(false);
-                        passBook.setFocusable(false);
-                        passBook.setClickable(false);
-                        passBook.setText("Uploaded");
-                        passBook.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_uploded, 0, 0);
-                        break;
-                }
+                setTheVal(storeDocumentMasterId);
             } else {
                 Toast.makeText(getApplicationContext(), "Unable to upload file", Toast.LENGTH_SHORT).show();
             }

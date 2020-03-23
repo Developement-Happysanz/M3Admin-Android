@@ -489,8 +489,9 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "PNG_" + timeStamp + "_";
-        File storageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM), "Camera");
+//        File storageDir = new File(Environment.getExternalStoragePublicDirectory(
+//                Environment.DIRECTORY_DCIM), "Camera");
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_DCIM);
         try {
             image = File.createTempFile(
                     imageFileName,  /* prefix */
