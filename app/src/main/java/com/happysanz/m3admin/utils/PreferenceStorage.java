@@ -34,7 +34,7 @@ public class PreferenceStorage {
     public static String getUserId(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(context);
-        String  userId;
+        String userId;
         userId = sharedPreferences.getString(M3AdminConstants.KEY_USER_ID, "");
         return userId;
     }
@@ -287,7 +287,7 @@ public class PreferenceStorage {
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(context);
         Boolean check = false;
-        check = sharedPreferences.getBoolean("tnsrl_check",check);
+        check = sharedPreferences.getBoolean("tnsrl_check", check);
         return check;
     }
     /*End*/
@@ -337,6 +337,54 @@ public class PreferenceStorage {
                 .getDefaultSharedPreferences(context);
         String staffQualification;
         staffQualification = sharedPreferences.getString(M3AdminConstants.MOB_COUNT, "");
+        return staffQualification;
+    }
+
+    public static void saveMobId(Context context, String mobID) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.PARAMS_MOB_ID, mobID);
+        editor.apply();
+    }
+
+    public static String getMobId(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String staffQualification;
+        staffQualification = sharedPreferences.getString(M3AdminConstants.PARAMS_MOB_ID, "");
+        return staffQualification;
+    }
+
+    public static void saveMonthId(Context context, String mobID) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.PARAMS_MONTH_ID, mobID);
+        editor.apply();
+    }
+
+    public static String getMonthId(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String staffQualification;
+        staffQualification = sharedPreferences.getString(M3AdminConstants.PARAMS_MONTH_ID, "");
+        return staffQualification;
+    }
+
+    public static void saveYearId(Context context, String mobID) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.PARAMS_YEAR_ID, mobID);
+        editor.apply();
+    }
+
+    public static String getYearId(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String staffQualification;
+        staffQualification = sharedPreferences.getString(M3AdminConstants.PARAMS_YEAR_ID, "");
         return staffQualification;
     }
 
@@ -426,5 +474,5 @@ public class PreferenceStorage {
         return userType;
     }
     /*End*/
-    
+
 }

@@ -156,7 +156,7 @@ public class MobilizerActivity extends AppCompatActivity implements IServiceList
         if (PreferenceStorage.getTnsrlmCheck(this)){
             userData = mobilizerArrayList.get(position);
         } else {
-            Intent intent = new Intent(this, UpdateUserActivity.class);
+            Intent intent = new Intent(this, UserDetailsActivity.class);
             intent.putExtra("userObj", userData);
             intent.putExtra("page", "mob");
             startActivity(intent);

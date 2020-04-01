@@ -1,18 +1,22 @@
 package com.happysanz.m3admin.activity.piamodule;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.happysanz.m3admin.R;
@@ -35,9 +39,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
-public class AddTaskActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, DatePickerDialog.OnDateSetListener{
+public class AddTaskActivity extends AppCompatActivity implements View.OnClickListener, IServiceListener, DialogClickListener, DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = AddTaskActivity.class.getName();
 
@@ -46,9 +51,15 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
     Spinner spnMobilizer;
-    String storeMobilizerId ="", res;
+    String storeMobilizerId = "", res;
     Button save;
+    private List<String> mStatusList = new ArrayList<String>();
+    private ArrayAdapter<String> mStatusAdapter = null;
+
     EditText txtTitle, txtDetails, txtDate;
+    private TextView txtStatus, txtType;
+    private List<String> mTypeList = new ArrayList<String>();
+    private ArrayAdapter<String> mTypeAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +100,46 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         save.setOnClickListener(this);
         mDateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
+
+        txtStatus = findViewById(R.id.status);
+        txtStatus.setOnClickListener(this);
+        txtStatus.setFocusable(false);
+
+        mStatusList.add("Ongoing");
+        mStatusList.add("Completed");
+
+        mStatusAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mStatusList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mStatusList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+
+        txtType = findViewById(R.id.task_type);
+        txtType.setOnClickListener(this);
+        txtType.setFocusable(false);
+
+        mTypeList.add("Field Work");
+        mTypeList.add("Office Work");
+
+        mTypeAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mTypeList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mTypeList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
     }
 
     @Override
@@ -121,7 +172,53 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
             }
         } else if (view == txtDate) {
             showBirthdayDate();
+        } else if (view == txtStatus) {
+            showGenderList();
+        } else if (view == txtType) {
+            showTypeList();
         }
+    }
+
+    private void showGenderList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Status");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Status");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mStatusAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mStatusList.get(which);
+                        txtStatus.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
+    private void showTypeList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Type");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Type");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mTypeAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mTypeList.get(which);
+                        txtType.setText(strName);
+                    }
+                });
+        builderSingle.show();
     }
 
     private boolean validateFields() {
@@ -145,6 +242,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         String title = txtTitle.getText().toString();
         String details = txtDetails.getText().toString();
         String serverFormatDate = "";
+        String Task = "";
 
         if (txtDate.getText().toString() != null && txtDate.getText().toString() != "") {
 
@@ -159,14 +257,24 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
             serverFormatDate = formatter.format(testDate);
             System.out.println(".....Date..." + serverFormatDate);
+        }if (txtType.getText().toString() != null && txtType.getText().toString() != "") {
+            if (txtType.getText().toString().equalsIgnoreCase("Field Work")) {
+                Task = "2";
+            } else if (txtType.getText().toString().equalsIgnoreCase("Office Work")) {
+                Task = "1";
+            }
         }
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
-            jsonObject.put(M3AdminConstants.PARAMS_MOB_ID, storeMobilizerId);
+            jsonObject.put(M3AdminConstants.PARAMS_MOBILIZER_ID, storeMobilizerId);
             jsonObject.put(M3AdminConstants.PARAMS_TASK_TITLE, title);
-            jsonObject.put(M3AdminConstants.PARAMS_TASK_DESCRIPTION, details);
+            jsonObject.put(M3AdminConstants.PARAMS_TASK_COMMENTS, details);
             jsonObject.put(M3AdminConstants.PARAMS_TASK_DATE, serverFormatDate);
+            jsonObject.put(M3AdminConstants.PARAMS_TASK_ID, "");
+            jsonObject.put(M3AdminConstants.PARAMS_TASK_TYPE, Task);
+            jsonObject.put(M3AdminConstants.PARAMS_STATUS, txtStatus.getText().toString());
+            jsonObject.put(M3AdminConstants.PARAMS_CREATED_AT, "");
 
         } catch (JSONException e) {
             e.printStackTrace();

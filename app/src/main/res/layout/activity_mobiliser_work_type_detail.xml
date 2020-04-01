@@ -1,56 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:minHeight="?attr/actionBarSize" />
 
-    <ImageView
-        android:id="@+id/back_tic_his"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="5dp"
-        android:contentDescription="@string/app_name"
-        android:minHeight="60dp"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp"
-        android:src="@drawable/ic_arrow_back_white_24dp" />
-
-    <TextView
-        android:id="@+id/tvtitletext"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:gravity="center"
-        android:minHeight="?attr/actionBarSize"
-        android:padding="5dp"
-        android:layout_toRightOf="@+id/back_tic_his"
-        android:text="Update Task"
-        android:textColor="@color/white"
-        android:textSize="20sp"/>
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/blue"
+            android:minHeight="60dp" />
+
+        <ImageView
+            android:id="@+id/back_btn"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:minHeight="60dp"
+            android:paddingStart="13dp"
+            android:paddingEnd="13dp"
+            android:src="@drawable/ic_arrow_back_white_24dp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/back_btn"
+            android:gravity="center_vertical|left"
+            android:minHeight="60dp"
+            android:padding="5dp"
+            android:text="Add Attendance Task"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/edit_task"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:minHeight="60dp"
+            android:paddingStart="13dp"
+            android:paddingEnd="13dp"
+            android:src="@drawable/ic_edit_task" />
+
+    </RelativeLayout>
 
     <ScrollView
-        android:id="@+id/scrollID"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/spn_mobilizer"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="45dp"
+                android:spinnerMode="dialog"
+                android:visibility="gone"
+                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ti_task_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="45dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
 
@@ -60,6 +85,8 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="40dp"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:layout_marginRight="10dp"
                     android:hint="Title"
                     android:singleLine="true" />
@@ -78,6 +105,8 @@
                     android:id="@+id/task_date"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:hint="Task Date" />
@@ -118,6 +147,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:layout_marginRight="10dp"
                     android:hint="Comments" />
 
@@ -142,19 +173,37 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <Button
-                android:id="@+id/btn_done"
+                android:id="@+id/btn_view_photos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="Update"
-                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
                 android:background="@color/blue"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:drawableLeft="@drawable/ic_btn_photos"
+                android:drawableStart="@drawable/ic_btn_photos"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_gravity="center_horizontal"
+                android:drawablePadding="10dp"
+                android:textAllCaps="false"
+                android:text="View Photos"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/save_task"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/blue"
+                android:text="Save"
+                android:visibility="gone"
+                android:textColor="@color/white" />
+
         </LinearLayout>
 
     </ScrollView>
 
-</RelativeLayout>
+
+</LinearLayout>

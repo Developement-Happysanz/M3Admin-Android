@@ -6,8 +6,8 @@ public class M3AdminConstants {
     //BASE URL
 //    private static final String BASE_URL = "https://m3tnsrlm.happysanz.net/";
 //    private static final String BASE_URL = "https://iyerandrao.com/";
-//    private static final String BASE_URL = "https://happysanz.in/m3tnsrlm/";
-    private static final String BASE_URL = "https://mym3app.com/m3admin/";
+    private static final String BASE_URL = "https://happysanz.net/M3TNSRLM/";
+//    private static final String BASE_URL = "https://mym3app.com/m3admin/";
 
     //BUILD URL
 //    public static final String BUILD_URL = BASE_URL + "M3TNSRLM/";
@@ -109,10 +109,10 @@ public class M3AdminConstants {
     public static final String TNSRLM_STAFF_LIST = "apimain/user_list";
 
     //    TASK ADD
-    public static final String TASK_ADD = "apipia/add_task";
+    public static final String TASK_ADD = "apipia/add_attendance_task";
 
     //    TASK UPDATE
-    public static final String TASK_UPDATE = "apipia/update_task";
+    public static final String TASK_UPDATE = "apipia/update_attendance_task";
 
     //    PROJECT PERIOD
     public static final String PROJECT_TIME = "apipia/project_period";
@@ -181,11 +181,13 @@ public class M3AdminConstants {
 
 
     //    Task add params
-    public static final String PARAMS_TASK_TITLE = "task_title";
+    public static final String PARAMS_TASK_TITLE = "title";
     public static final String PARAMS_TASK_ID = "task_id";
     public static final String PARAMS_TASK_DESCRIPTION = "task_description";
+    public static final String PARAMS_TASK_COMMENTS = "comments";
     public static final String PARAMS_TASK_DATE = "task_date";
     public static final String PARAMS_TASK_STATUS = "status";
+    public static final String PARAMS_TASK_TYPE = "task_type";
 
     //    Task add params
     public static final String PARAMS_TRADE_TITLE = "trade_name";
@@ -354,6 +356,7 @@ public class M3AdminConstants {
     public static final String PARAMS_NO_OF_FAMILY = "no_family";
     public static final String PARAMS_YEARLY_INCOME = "yearly_income";
     public static final String PARAMS_JOB_CARD = "jobcard_type";
+    public static final String PARAMS_YEAR_ID = "year_id";
 
 
     // Tracking
@@ -361,6 +364,8 @@ public class M3AdminConstants {
     public static final String PARAMS_TRACK_START_DATE = "from_date";
     public static final String PARAMS_TRACK_END_DATE = "to_date";
     public static final String PARAMS_MOBILIZER_ID = "mobilizer_id";
+    public static final String PARAMS_MONTH_ID = "month_id";
+    public static final String PARAMS_ATTEND_ID = "attendance_id";
 
 
     public static final String DOC_STATUS = "apimain/prospects_document_status";
@@ -369,5 +374,15 @@ public class M3AdminConstants {
     public static final String DOC_UPLOAD = "apipia/document_details_upload/";
     public static final String DOC_UPLOAD_UPDATE = "apipia/document_details_update/";
     public static final String PARAMS_ADMISSION_ID = "admission_id";
+
+
+
+    //    MOBILIZER LIST
+    public static final String GET_WORK_TYPE_MASTER = "apipia/work_type_master";
+    public static final String GET_YEAR_LIST = "apipia/get_year_list_attendance";
+    public static final String GET_MONTH_LIST = "apipia/get_month_list_attendance";
+    public static final String GET_WORK = "apipia/get_month_day_list_attendance";
+    public static final String GET_WORK_DETAIL = "apipia/get_month_day_report_details";
+    public static final String GET_WORK_MONTH_REPORT = "apipia/get_month_attendance_report";
 
 }

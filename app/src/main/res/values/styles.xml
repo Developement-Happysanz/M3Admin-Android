@@ -78,4 +78,8 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="MySwitchTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/blue</item>
+    </style>
+
 </resources>

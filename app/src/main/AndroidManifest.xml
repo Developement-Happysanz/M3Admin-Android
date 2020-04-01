@@ -270,6 +270,41 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
+            android:name=".activity.piamodule.MobiliserWorkTypeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".activity.piamodule.MobiliserWorkTypeDetailActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".activity.piamodule.MobiliserWorkReportActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".activity.piamodule.UserDetailsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".activity.piamodule.MobiliserWorkDetailedReportActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeNoActionBarLogin"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
             android:name=".activity.piamodule.ProspectsActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

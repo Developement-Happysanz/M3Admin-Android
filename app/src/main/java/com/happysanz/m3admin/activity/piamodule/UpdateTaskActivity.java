@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.bean.pia.TaskData;
+import com.happysanz.m3admin.bean.pia.WorkDetails;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -80,7 +81,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
     private static final String TAG = UpdateTaskActivity.class.getName();
     private ServiceHelper serviceHelper;
     private ProgressDialogHelper progressDialogHelper;
-    private EditText edtTitle, edtTaskDetails, edtTaskDate, txtStatus;
+    private EditText edtTitle, edtTaskDetails, edtTaskDate, txtStatus, txtType;
     private Button btnUploadPhotos, btnViewPhotos, btnDone;
     private ImageView ivBack;
     private SimpleDateFormat mDateFormatter;
@@ -89,19 +90,22 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
     private Uri outputFileUri;
     static final int REQUEST_IMAGE_GET = 1;
 
-    private TaskData taskData;
+    private WorkDetails taskData;
 
     private List<String> mStatusList = new ArrayList<String>();
     private ArrayAdapter<String> mStatusAdapter = null;
 
     private Button viewPhotos;
 
+    private List<String> mTypeList = new ArrayList<String>();
+    private ArrayAdapter<String> mTypeAdapter = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_task);
 
-        taskData = (TaskData) getIntent().getSerializableExtra("taskObj");
+        taskData = (WorkDetails) getIntent().getSerializableExtra("taskObj");
 
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
@@ -110,25 +114,30 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
         ivBack = findViewById(R.id.back_tic_his);
         ivBack.setOnClickListener(this);
 
-        edtTitle = findViewById(R.id.et_task_title);
-        edtTitle.setText(taskData.getTaskTitle());
+        edtTitle = findViewById(R.id.task_title);
+        edtTitle.setText(taskData.gettask_title());
 
-        edtTaskDetails = findViewById(R.id.et_task_detail);
-        edtTaskDetails.setText(taskData.getTaskDescription());
+        edtTaskDetails = findViewById(R.id.task_link);
+        edtTaskDetails.setText(taskData.getcomments());
 
-        edtTaskDate = findViewById(R.id.et_task_date);
+        edtTaskDate = findViewById(R.id.task_date);
         edtTaskDate.setOnClickListener(this);
         edtTaskDate.setFocusable(false);
 
         txtStatus = findViewById(R.id.status);
         txtStatus.setOnClickListener(this);
         txtStatus.setFocusable(false);
-        txtStatus.setText(taskData.getStatus());
+        txtStatus.setText(taskData.getstatus());
+
+        txtType = findViewById(R.id.task_type);
+        txtType.setOnClickListener(this);
+        txtType.setFocusable(false);
+        txtType.setText(taskData.getwork_type());
 
         String taskDate = "";
-        if (taskData.getTaskDate() != null && !taskData.getTaskDate().isEmpty()) {
+        if (taskData.getattendance_date() != null && !taskData.getattendance_date().isEmpty()) {
 
-            String date = taskData.getTaskDate();
+            String date = taskData.getattendance_date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
             Date testDate = null;
             try {
@@ -146,8 +155,8 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
         btnDone = findViewById(R.id.btn_done);
         btnDone.setOnClickListener(this);
 
-        viewPhotos = findViewById(R.id.btn_view_photos);
-        viewPhotos.setOnClickListener(this);
+//        viewPhotos = findViewById(R.id.btn_view_photos);
+//        viewPhotos.setOnClickListener(this);
 
         mDateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
@@ -168,6 +177,23 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
                 return view;
             }
         };
+
+        mTypeList.add("Field Work");
+        mTypeList.add("Office Work");
+
+        mTypeAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mTypeList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mTypeList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+
     }
 
     @Override
@@ -217,8 +243,8 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         if (v == ivBack) {
-            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+//            startActivity(intent);
             finish();
         }
         if (v == edtTaskDate) {
@@ -230,7 +256,6 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
             }
         }
         if (v == btnUploadPhotos) {
-            openImageIntent();
         }
         if (v == txtStatus) {
             showGenderList();
@@ -240,6 +265,30 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
             intent.putExtra("eventObj", taskData);
             startActivity(intent);
         }
+        if (v == txtType) {
+            showTypeList();
+        }
+    }
+
+    private void showTypeList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Type");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Type");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mTypeAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mTypeList.get(which);
+                        txtType.setText(strName);
+                    }
+                });
+        builderSingle.show();
     }
 
     private boolean validateFields() {
@@ -301,8 +350,8 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
 //            setResult(RESULT_OK);
             Toast.makeText(this, "Updated successfully...", Toast.LENGTH_SHORT).show();
 //            finish();
-            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+//            startActivity(intent);
             finish();
         }
     }
@@ -318,10 +367,9 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
         if (CommonUtils.isNetworkAvailable(getApplicationContext())) {
 
             String title = edtTitle.getText().toString();
-            String taskDetails = edtTaskDetails.getText().toString();
-            String taskDate = edtTaskDate.getText().toString();
-
+            String details = edtTaskDetails.getText().toString();
             String serverFormatDate = "";
+            String Task = "";
 
             if (edtTaskDate.getText().toString() != null && edtTaskDate.getText().toString() != "") {
 
@@ -336,17 +384,27 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
                 serverFormatDate = formatter.format(testDate);
                 System.out.println(".....Date..." + serverFormatDate);
+            }if (txtType.getText().toString() != null && txtType.getText().toString() != "") {
+                if (txtType.getText().toString().equalsIgnoreCase("Field Work")) {
+                    Task = "2";
+                } else if (txtType.getText().toString().equalsIgnoreCase("Office Work")) {
+                    Task = "1";
+                }
             }
 
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put(M3AdminConstants.PARAMS_TASK_TITLE, title);
-                jsonObject.put(M3AdminConstants.PARAMS_TASK_ID, taskData.getId());
                 jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
-                jsonObject.put(M3AdminConstants.PARAMS_TASK_DESCRIPTION, taskDetails);
-                jsonObject.put(M3AdminConstants.PARAMS_MOB_ID, taskData.getUser_id());
+                jsonObject.put(M3AdminConstants.PARAMS_ATTEND_ID, taskData.getid());
+                jsonObject.put(M3AdminConstants.PARAMS_MOBILIZER_ID, taskData.getmobilizer_id());
+                jsonObject.put(M3AdminConstants.PARAMS_TASK_TITLE, title);
+                jsonObject.put(M3AdminConstants.PARAMS_TASK_COMMENTS, details);
                 jsonObject.put(M3AdminConstants.PARAMS_TASK_DATE, serverFormatDate);
-                jsonObject.put(M3AdminConstants.PARAMS_TASK_STATUS, txtStatus.getText());
+                jsonObject.put(M3AdminConstants.PARAMS_TASK_ID, taskData.gettask_id());
+                jsonObject.put(M3AdminConstants.PARAMS_TASK_TYPE, Task);
+                jsonObject.put(M3AdminConstants.PARAMS_STATUS, txtStatus.getText().toString());
+                jsonObject.put(M3AdminConstants.PARAMS_CREATED_AT, "");
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -397,7 +455,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
     private void showGenderList() {
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
 
-        builderSingle.setTitle("Select Gender");
+        builderSingle.setTitle("Select Status");
         View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
         TextView header = (TextView) view.findViewById(R.id.gender_header);
         header.setText("Select Status");
@@ -413,51 +471,6 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
                     }
                 });
         builderSingle.show();
-    }
-
-    private void openImageIntent() {
-
-        // Determine Uri of camera image to save.
-        final File root = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyDir");
-
-        if (!root.exists()) {
-            if (!root.mkdirs()) {
-                Log.d(TAG, "Failed to create directory for storing images");
-                return;
-            }
-        }
-
-        final String fname = PreferenceStorage.getUserId(this) + ".png";
-        final File sdImageMainDirectory = new File(root.getPath() + File.separator + fname);
-        outputFileUri = Uri.fromFile(sdImageMainDirectory);
-        Log.d(TAG, "camera output Uri" + outputFileUri);
-
-        // Camera.
-        final List<Intent> cameraIntents = new ArrayList<Intent>();
-        final Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        final PackageManager packageManager = getPackageManager();
-        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
-        for (ResolveInfo res : listCam) {
-            final String packageName = res.activityInfo.packageName;
-            final Intent intent = new Intent(captureIntent);
-            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
-            intent.setPackage(packageName);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-            cameraIntents.add(intent);
-        }
-
-        // Filesystem.
-        final Intent galleryIntent = new Intent();
-        galleryIntent.setType("image/*");
-        galleryIntent.setAction(Intent.ACTION_PICK);
-
-        // Chooser of filesystem options.
-        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Profile Photo");
-
-        // Add the camera options.
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
-
-        startActivityForResult(chooserIntent, REQUEST_IMAGE_GET);
     }
 
 }
