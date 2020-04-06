@@ -454,6 +454,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
         String piaPhone = "";
         String piaEmail = "";
         String piaProfilePic = "";
+        String schemeId = "";
 
         try {
 
@@ -483,17 +484,17 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
                     PreferenceStorage.savePIAPhone(this, piaPhone);
                 }
 
-                // PIA Preference - PIA Email
-                piaEmail = piaProfile.getString("pia_email");
-                if ((piaEmail != null) && !(piaEmail.isEmpty()) && !piaEmail.equalsIgnoreCase("null")) {
-                    PreferenceStorage.savePIAEmail(this, piaEmail);
+                // PIA Preference - PIA Scheme
+                schemeId = piaProfile.getString("scheme_id");
+                if ((schemeId != null) && !(schemeId.isEmpty()) && !schemeId.equalsIgnoreCase("null")) {
+                    PreferenceStorage.saveSchemeId(this, schemeId);
                 }
 
                 // PIA Preference - PIA Pic
-                piaProfilePic = piaProfile.getString("profile_pic");
-                if ((piaProfilePic != null) && !(piaProfilePic.isEmpty()) && !piaProfilePic.equalsIgnoreCase("null")) {
-                    PreferenceStorage.saveUserPicture(this, piaProfilePic);
-                }
+//                piaProfilePic = piaProfile.getString("profile_pic");
+//                if ((piaProfilePic != null) && !(piaProfilePic.isEmpty()) && !piaProfilePic.equalsIgnoreCase("null")) {
+//                    PreferenceStorage.saveUserPicture(this, piaProfilePic);
+//                }
             }
 
         } catch (Exception ex) {

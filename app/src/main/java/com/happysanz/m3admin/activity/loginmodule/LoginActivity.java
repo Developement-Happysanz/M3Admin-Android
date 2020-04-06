@@ -364,17 +364,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     PreferenceStorage.savePIAEmail(this, piaEmail);
                 }
 
-                // PIA Preference - PIA Pic
-                piaProfilePic = piaProfile.getString("profile_pic");
-                if ((piaProfilePic != null) && !(piaProfilePic.isEmpty()) && !piaProfilePic.equalsIgnoreCase("null")) {
-                    PreferenceStorage.saveUserPicture(this, piaProfilePic);
-                }
-
                 // PIA Preference - PIA Scheme
                 schemeId = piaProfile.getString("scheme_id");
                 if ((schemeId != null) && !(schemeId.isEmpty()) && !schemeId.equalsIgnoreCase("null")) {
                     PreferenceStorage.saveSchemeId(this, schemeId);
                 }
+
+                // PIA Preference - PIA Pic
+//                piaProfilePic = piaProfile.getString("profile_pic");
+//                if ((piaProfilePic != null) && !(piaProfilePic.isEmpty()) && !piaProfilePic.equalsIgnoreCase("null")) {
+//                    PreferenceStorage.saveUserPicture(this, piaProfilePic);
+//                }
             }
 
         } catch (Exception ex) {

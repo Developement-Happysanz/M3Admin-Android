@@ -207,6 +207,9 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
     private ArrayAdapter<String> mCasteAdapter = null;
     private List<String> mCasteList = new ArrayList<String>();
 
+    private ArrayAdapter<String> mPassAdapter = null;
+    private List<String> mPassList = new ArrayList<String>();
+
     private Boolean imgurl = false;
 
     @Override
@@ -752,6 +755,7 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
         etCandidatesQualification = findViewById(R.id.et_candidate_qualification);
         etCandidatesQualification.setFocusable(false);
+        etCandidatesQualification.setClickable(false);
         etCandidatesQualification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -762,6 +766,33 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         etCandidatesLastInstitute = findViewById(R.id.et_candidate_last_institute);
 
         etCandidatesQualifiedPromotion = findViewById(R.id.et_candidate_qualified_promotion);
+
+
+        mPassList.add("PASS");
+        mPassList.add("FAIL");
+        mPassList.add("DROPOUT");
+
+        mPassAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mPassList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                Log.d(TAG, "getview called" + position);
+                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                gendername.setText(mPassList.get(position));
+
+                // ... Fill in other views ...
+                return view;
+            }
+        };
+
+        etCandidatesQualifiedPromotion.setFocusable(false);
+        etCandidatesQualifiedPromotion.setClickable(false);
+        etCandidatesQualifiedPromotion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPassList();
+            }
+        });
 
         etCandidatesTC = findViewById(R.id.et_candidate_tc);
 
@@ -1228,6 +1259,9 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             return false;
         } else if (!imgurl) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Add student image");
+            return false;
+        } else if (Integer.parseInt(yearOfEdu.getText().toString().trim()) > Integer.parseInt(yearOfPass.getText().toString().trim()) ) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select Proper Year Of Education and Year of Passing");
             return false;
         } else {
             return true;
@@ -1977,6 +2011,27 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
                     public void onClick(DialogInterface dialog, int which) {
                         String strName = mQualificationList.get(which);
                         etCandidatesQualification.setText(strName);
+                    }
+                });
+        builderSingle.show();
+    }
+
+    private void showPassList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Qualification Status");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Qualification Status");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(mPassAdapter
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = mPassList.get(which);
+                        etCandidatesQualifiedPromotion.setText(strName);
                     }
                 });
         builderSingle.show();

@@ -136,6 +136,10 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         passBook.setOnClickListener(this);
         done.setOnClickListener(this);
 
+
+        docFive = true;
+        docEight = true;
+
         getDocStatus();
 
     }
@@ -168,6 +172,8 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             }
             storeDocumentMasterId = "1";
             openImageIntent();
+        } else if (v == ivBack) {
+            finish();
         } else if (v == transferCertificate) {
             if (docTwo) {
                 uploadCheck = true;
@@ -389,7 +395,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
 
         } else {
-            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection available");
+//            AlertDialogHelper.showSimpleAlertDialog(this, "No Network connection available");
         }
     }
 

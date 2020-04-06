@@ -110,7 +110,7 @@ public class DocumentDownloadActivity  extends AppCompatActivity implements View
         url = taskData.getfile_name();
         android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Download");
-        alertDialogBuilder.setMessage("Do you want to download this file name " + taskData.getdoc_proof_number() + "?");
+        alertDialogBuilder.setMessage("Do you want to download " + taskData.getdoc_name() + "?");
         alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface arg0, int arg1) {
@@ -137,6 +137,8 @@ public class DocumentDownloadActivity  extends AppCompatActivity implements View
         } else if (v == addDoc) {
             Intent newi = new Intent (this, DocumentUploadActivity.class);
             startActivity(newi);
+        } else if (v == ivBack) {
+            finish();
         }
     }
 
