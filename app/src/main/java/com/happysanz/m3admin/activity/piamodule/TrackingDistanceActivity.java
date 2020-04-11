@@ -3,6 +3,7 @@ package com.happysanz.m3admin.activity.piamodule;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
@@ -17,7 +18,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.RoundCap;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.happysanz.m3admin.R;
+import com.happysanz.m3admin.adapter.StartStopListAdapter;
+import com.happysanz.m3admin.bean.pia.StartStop;
+import com.happysanz.m3admin.bean.pia.StartStopList;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +42,11 @@ public class TrackingDistanceActivity extends FragmentActivity implements OnMapR
     List<LatLng> list = new ArrayList<>();
     String d;
     TextView dis;
+    private ListView startStopList;
+    StartStopList tradeDataList;
+    ArrayList<StartStop> taskDataArrayList = new ArrayList<>();
+    ArrayList<StartStop> taskDataArrayList1 = new ArrayList<>();
+    StartStopListAdapter startStopListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +54,33 @@ public class TrackingDistanceActivity extends FragmentActivity implements OnMapR
         setContentView(R.layout.activity_tracking);
         dis = findViewById(R.id.distance);
         dis.setVisibility(View.VISIBLE);
-
+        startStopList = findViewById(R.id.start_stop_list);
         list =  getIntent().getParcelableArrayListExtra("latlng");
         dis.setText("Distance Travelled : " + getIntent().getSerializableExtra("dist").toString() + " Km");
+
+        String scamDatas = getIntent().getStringExtra("start");
+//        String scamSubCategoryText  = getIntent().getStringExtra("scamSubCategoryText");
+        try {
+            JsonParser parser = new JsonParser();
+            JsonObject scamDataJsonObject = parser.parse(scamDatas).getAsJsonObject();
+            Gson gson = new Gson();
+            StartStopList tradeDataList = gson.fromJson(scamDataJsonObject.toString(), StartStopList.class);
+            if (tradeDataList.getStartStop() != null && tradeDataList.getStartStop().size() > 0) {
+//            totalCount = tradeDataList.getCount();
+//            isLoadingForFirstTime = false;
+                this.taskDataArrayList.addAll(tradeDataList.getStartStop());
+                if (startStopListAdapter == null) {
+                    startStopListAdapter = new StartStopListAdapter(this, this.taskDataArrayList);
+                    startStopList.setAdapter(startStopListAdapter);
+                } else {
+                    startStopListAdapter.notifyDataSetChanged();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
 
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +97,7 @@ public class TrackingDistanceActivity extends FragmentActivity implements OnMapR
         mapView.onCreate(mapViewBundle);
         mapView.getMapAsync(this);
     }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

@@ -130,7 +130,7 @@ public class AllProspectsFragment extends Fragment implements AdapterView.OnItem
             centers = upcomingHolidayArrayList.get(position);
         }
 
-        if (!PreferenceStorage.getUserId(getActivity()).equalsIgnoreCase("1")) {
+        if (!PreferenceStorage.getTnsrlmCheck(getActivity())) {
             Intent intent = new Intent(getActivity(), AddCandidateActivity.class);
             intent.putExtra("pros", centers);
             startActivity(intent);

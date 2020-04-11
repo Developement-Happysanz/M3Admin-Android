@@ -292,7 +292,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
         if (view == task){
-            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MobilizerActivity.class);
             startActivity(intent);
         }
         if (view == tracking){
@@ -360,7 +360,7 @@ public class PiaDashboard extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
         if (view == taskDash){
-            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
+            Intent intent = new Intent(getApplicationContext(), MobilizerActivity.class);
             startActivity(intent);
         } if (view == logout){
             android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(this);

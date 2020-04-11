@@ -97,6 +97,9 @@ public class VideoGalleryActivity extends Activity implements YouTubePlayer.OnFu
                 startActivity(intent);
             }
         });
+        if (PreferenceStorage.getTnsrlmCheck(this)){
+            findViewById(R.id.add_photo).setVisibility(View.GONE);
+        }
         centerVideoArrayList = new ArrayList<>();
         /*ivBack = findViewById(R.id.back_tic_his);
         ivBack.setOnClickListener(this);*/

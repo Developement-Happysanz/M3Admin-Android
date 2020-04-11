@@ -1900,10 +1900,10 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
 
         Calendar userAge = new GregorianCalendar(year, monthOfYear, dayOfMonth);
         Calendar minAdultAge = new GregorianCalendar();
-        minAdultAge.add(Calendar.YEAR, -18);
+        minAdultAge.add(Calendar.YEAR, -15);
         if (minAdultAge.before(userAge)) {
 //            SHOW_ERROR_MESSAGE;
-            Toast.makeText(getApplicationContext(), "Age must be 18+", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Age must be 15+", Toast.LENGTH_LONG).show();
         } else {
             etCandidateDOB.setText(mDateFormatter.format(userAge.getTime()));
             getAge(year, monthOfYear, dayOfMonth);

@@ -54,6 +54,9 @@ public class CenterDetailActivity extends AppCompatActivity implements View.OnCl
         centerBanner = findViewById(R.id.center_logo12331);
         editDetails = findViewById(R.id.ic_edit_details);
         editDetails.setOnClickListener(this);
+        if (PreferenceStorage.getTnsrlmCheck(this)) {
+            editDetails.setVisibility(View.GONE);
+        }
 
         CenterInfo = findViewById(R.id.center_detail);
         galleryLayout = findViewById(R.id.gallery_layout);
@@ -75,8 +78,14 @@ public class CenterDetailActivity extends AppCompatActivity implements View.OnCl
 
     private void loadCentersDetails() {
         JSONObject jsonObject = new JSONObject();
+        String id = "";
+        if (PreferenceStorage.getUserId(this).equalsIgnoreCase("1")) {
+            id = PreferenceStorage.getPIAProfileId(this);
+        } else {
+            id = PreferenceStorage.getUserId(this);
+        }
         try {
-            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(this));
+            jsonObject.put(M3AdminConstants.KEY_USER_ID, id);
             jsonObject.put(M3AdminConstants.PARAMS_CENTER_ID, centers.getid());
 
         } catch (JSONException e) {
@@ -100,12 +109,14 @@ public class CenterDetailActivity extends AppCompatActivity implements View.OnCl
             PreferenceStorage.saveCenterId(this, centers.getid());
             startActivity(intent);
         } else if (view == editDetails) {
-            Intent intent = new Intent(this, AddCenterDetailActivity.class);
-            PreferenceStorage.saveCenterId(this, centers.getid());
-            intent.putExtra("page", "update");
-            intent.putExtra("center", centers);
-            startActivity(intent);
-            finish();
+            if (!PreferenceStorage.getTnsrlmCheck(this)) {
+                Intent intent = new Intent(this, AddCenterDetailActivity.class);
+                PreferenceStorage.saveCenterId(this, centers.getid());
+                intent.putExtra("page", "update");
+                intent.putExtra("center", centers);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 

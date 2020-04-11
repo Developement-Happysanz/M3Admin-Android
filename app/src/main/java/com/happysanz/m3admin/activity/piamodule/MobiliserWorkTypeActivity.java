@@ -4,13 +4,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -54,7 +58,7 @@ public class MobiliserWorkTypeActivity extends AppCompatActivity implements ISer
     private Mobilizer pia;
     private ArrayList yearList = new ArrayList();
     private ArrayAdapter<String> dataAdapter3;
-    private Spinner yearSelect;
+    private TextView yearSelect;
     private String checkS = "";
     TabLayout tab;
     ViewPager viewPager;
@@ -79,7 +83,7 @@ public class MobiliserWorkTypeActivity extends AppCompatActivity implements ISer
         findViewById(R.id.add_user).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AddNewUserActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AddTaskActivity.class);
                 intent.putExtra("page", "mob");
                 startActivity(intent);
                 finish();
@@ -98,18 +102,10 @@ public class MobiliserWorkTypeActivity extends AppCompatActivity implements ISer
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         yearSelect = findViewById(R.id.year_select);
-        yearSelect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        yearSelect.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0) {
-                    storeClassId =  parent.getSelectedItem().toString();
-                    PreferenceStorage.saveYearId(getApplicationContext(), storeClassId);
-                    loadMonth();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onClick(View v) {
+                showYears();
             }
         });
 
@@ -129,6 +125,30 @@ public class MobiliserWorkTypeActivity extends AppCompatActivity implements ISer
         report.setOnClickListener(this);
 
 
+    }
+
+    private void showYears() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(this);
+
+        builderSingle.setTitle("Select Year");
+        View view = getLayoutInflater().inflate(R.layout.gender_header_layout, null);
+        TextView header = (TextView) view.findViewById(R.id.gender_header);
+        header.setText("Select Year");
+        builderSingle.setCustomTitle(view);
+
+        builderSingle.setAdapter(dataAdapter3
+                ,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = yearList.get(which).toString();
+                        yearSelect.setText(strName);
+                        storeClassId = strName;
+                        PreferenceStorage.saveYearId(getApplicationContext(), storeClassId);
+                        loadMonth();
+                    }
+                });
+        builderSingle.show();
     }
 
     public void callGetClassTestService() {
@@ -283,14 +303,22 @@ public class MobiliserWorkTypeActivity extends AppCompatActivity implements ISer
                     JSONArray getData = response.getJSONArray("result");
                     String year = "";
                     yearList.clear();
-                    yearList.add("Select Year");
                     for (int i = 0; i < getData.length(); i++) {
                         year = getData.getJSONObject(i).getString("year_id");
                         yearList.add(year);
                     }
-                    dataAdapter3 = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item_ns, yearList);
-                    yearSelect.setAdapter(dataAdapter3);
-                    yearSelect.setWillNotDraw(false);
+                    dataAdapter3 = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, yearList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent) {
+                            Log.d(TAG, "getview called" + position);
+                            View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                            TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                            gendername.setText(yearList.get(position).toString());
+
+                            // ... Fill in other views ...
+                            return view;
+                        }
+                    };
                 } else if (checkS.equalsIgnoreCase("month")) {
                     JSONArray getData = response.getJSONArray("result");
 

@@ -63,7 +63,7 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
 //    ViewPager viewPager;
     private String storeClassId = "";
 
-    EditText txtTitle, txtDetails, txtDate, txtStatus, txtType;
+    EditText txtTitle, txtDetails, txtDate, txtStatus, txtType, txtMobComt;
     Button viewPhotos;
     ImageView EditTask;
 
@@ -87,6 +87,7 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
         txtDate = findViewById(R.id.task_date);
         txtStatus = findViewById(R.id.status);
         txtType = findViewById(R.id.task_type);
+        txtMobComt = findViewById(R.id.mobiliser_comment);
 
         txtTitle.setClickable(false);
         txtTitle.setFocusable(false);
@@ -102,6 +103,9 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
 
         txtType.setClickable(false);
         txtType.setFocusable(false);
+
+        txtMobComt.setClickable(false);
+        txtMobComt.setFocusable(false);
 
         viewPhotos = findViewById(R.id.btn_view_photos);
         viewPhotos.setOnClickListener(this);
@@ -220,6 +224,7 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
                 txtStatus.setText(getDataResult.getString("status"));
                 txtDetails.setText(getDataResult.getString("comments"));
                 txtType.setText(getDataResult.getString("work_type"));
+                txtMobComt.setText(getDataResult.getString("mobilizer_comments"));
 
             } catch (JSONException e) {
                 e.printStackTrace();

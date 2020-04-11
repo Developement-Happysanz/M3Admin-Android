@@ -67,7 +67,7 @@
 <!--            android:theme="@style/MySwitchTheme"-->
 <!--            android:padding="10dp"/>-->
 
-        <Spinner
+        <TextView
             android:id="@+id/year_select"
             android:layout_width="120dp"
             android:layout_height="50dp"
@@ -76,6 +76,10 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/round_btn_plain"/>
 

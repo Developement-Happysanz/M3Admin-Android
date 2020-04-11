@@ -60,6 +60,13 @@ public class MobiliserWorkDetailedReportActivity extends AppCompatActivity imple
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);
 
+        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         loadMoreListView = findViewById(R.id.detailed_report_list);
         loadMoreListView.setOnItemClickListener(this);
 

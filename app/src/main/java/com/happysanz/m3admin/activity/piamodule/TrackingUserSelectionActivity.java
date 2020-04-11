@@ -26,6 +26,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.happysanz.m3admin.R;
 import com.happysanz.m3admin.adapter.TaskDataListAdapter;
+import com.happysanz.m3admin.bean.pia.StartStop;
+import com.happysanz.m3admin.bean.pia.StartStopList;
 import com.happysanz.m3admin.bean.pia.StoreMobilizer;
 import com.happysanz.m3admin.bean.pia.StoreTrade;
 import com.happysanz.m3admin.bean.pia.TaskData;
@@ -42,6 +44,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,7 +63,7 @@ public class TrackingUserSelectionActivity extends AppCompatActivity implements 
     private ProgressDialogHelper progressDialogHelper;
     ListView loadMoreListView;
     TaskDataListAdapter taskDataListAdapter;
-    ArrayList<TaskData> taskDataArrayList;
+    ArrayList<StartStop> taskDataArrayList;
     protected boolean isLoadingForFirstTime = true;
     EditText spnMobilizer;
     String storeMobilizerId = "", res;
@@ -348,25 +351,41 @@ public class TrackingUserSelectionActivity extends AppCompatActivity implements 
                 } else if (res.equalsIgnoreCase("data")) {
                     String lat, lng;
                     Double latitude, longitude;
-                    JSONArray trackingDetails = response.getJSONArray("trackingDetails");
-                    JSONArray distance = response.getJSONArray("Distance");
-                    d = distance.getJSONObject(0).getString("km");
-                    DecimalFormat df = new DecimalFormat("#.##");
-                    String d1 = df.format(Double.valueOf(d));
+                    if (response.getJSONObject("tracking_status").getString("status").equalsIgnoreCase("success")) {
+                        JSONArray trackingDetails = response.getJSONObject("tracking_status").getJSONArray("trackingDetails");
+                        JSONArray distance = response.getJSONObject("tracking_status").getJSONArray("Distance");
+                        d = distance.getJSONObject(0).getString("km");
+                        DecimalFormat df = new DecimalFormat("#.##");
+                        String d1 = df.format(Double.valueOf(d));
 //                    dis.setText("Distance Travelled : " + d1 + " Km");
-                    for (int a = 0 ; a < trackingDetails.length(); a++) {
-                        lat = trackingDetails.getJSONObject(a).getString("Latitude");
-                        lng = trackingDetails.getJSONObject(a).getString("Longitude");
-                        latitude = Double.valueOf(lat);
-                        longitude = Double.valueOf(lng);
-                        LatLng location = new LatLng(latitude, longitude);
-                        list.add(location);
-                    }
-                    Intent intent = new Intent(this, TrackingDistanceActivity.class);
+                        for (int a = 0; a < trackingDetails.length(); a++) {
+                            lat = trackingDetails.getJSONObject(a).getString("Latitude");
+                            lng = trackingDetails.getJSONObject(a).getString("Longitude");
+                            latitude = Double.valueOf(lat);
+                            longitude = Double.valueOf(lng);
+                            LatLng location = new LatLng(latitude, longitude);
+                            list.add(location);
+                        }
+                        Intent intent = new Intent(this, TrackingDistanceActivity.class);
 //                    intent.putParcelableArrayListExtra("latlng", list);
-                    intent.putParcelableArrayListExtra("latlng", (ArrayList<? extends Parcelable>) list);
-                    intent.putExtra("dist",  d1);
-                    startActivity(intent);
+                        intent.putParcelableArrayListExtra("latlng", (ArrayList<? extends Parcelable>) list);
+                        intent.putExtra("dist", d1);
+
+                        Gson gson = new Gson();
+                        StartStopList tradeDataList = gson.fromJson(response.getJSONObject("start_stop_status").toString(), StartStopList.class);
+                        if (tradeDataList.getStartStop() != null && tradeDataList.getStartStop().size() > 0) {
+//                        totalCount = tradeDataList.getCount();
+                            isLoadingForFirstTime = false;
+//                        updateListAdapter(tradeDataList.getTradeData());
+//                        this.taskDataArrayList.addAll(tradeDataList.getStartStop());
+                            intent.putExtra("start", response.getJSONObject("start_stop_status").toString());
+                        } else {
+                            intent.putExtra("start", "");
+                        }
+                        startActivity(intent);
+                    } else {
+                        AlertDialogHelper.showSimpleAlertDialog(this, response.getJSONObject("tracking_status").getString(M3AdminConstants.PARAM_MESSAGE));
+                    }
                 } else if (res.equalsIgnoreCase("LIvdata")) {
                     String lat, lng;
                     Double latitude, longitude;

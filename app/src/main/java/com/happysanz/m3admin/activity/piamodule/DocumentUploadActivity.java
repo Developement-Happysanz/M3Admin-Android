@@ -137,8 +137,8 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
         done.setOnClickListener(this);
 
 
-        docFive = true;
-        docEight = true;
+//        docFive = true;
+//        docEight = true;
 
         getDocStatus();
 
@@ -231,7 +231,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             storeDocumentMasterId = "8";
             openImageIntent();
         } else if (v == done) {
-            if (docOne && docTwo && docThree && docFour && docFive && docSix && docSeven && docEight) {
+            if (docOne && docTwo && docThree && docFour && docSix && docSeven) {
                 finish();
             } else {
                 AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), "Upload all necessary documents");
