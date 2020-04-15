@@ -1,5 +1,6 @@
 package com.happysanz.m3admin.activity.piamodule;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +28,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static android.util.Log.d;
 
@@ -122,7 +127,31 @@ public class MobiliserWorkDetailedReportActivity extends AppCompatActivity imple
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.d(TAG, "onEvent list item clicked" + position);
+        WorkDetails service = null;
+        if ((serviceListAdapter != null) && (serviceListAdapter.ismSearching())) {
+            Log.d(TAG, "while searching");
+            int actualindex = serviceListAdapter.getActualEventPos(position);
+            Log.d(TAG, "actual index" + actualindex);
+            service = serviceArrayList.get(actualindex);
+        } else {
+            service = serviceArrayList.get(position);
+        }
+        String start = service.getattendance_date();
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = formatter.parse(start);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String a = android.text.format.DateFormat.format("M", date).toString();
+        PreferenceStorage.saveMonthId(view.getContext(), a);
 
+        Intent intent = new Intent(view.getContext(), MobiliserWorkTypeDetailActivity.class);
+        intent.putExtra("serviceObj", service);
+        intent.putExtra("page", "report");
+        startActivity(intent);
     }
 
     @Override

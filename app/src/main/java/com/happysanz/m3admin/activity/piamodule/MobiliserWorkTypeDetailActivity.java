@@ -63,9 +63,10 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
 //    ViewPager viewPager;
     private String storeClassId = "";
 
-    EditText txtTitle, txtDetails, txtDate, txtStatus, txtType, txtMobComt;
+    EditText txtTitle, txtDetails, txtDate, txtStatus, txtType, txtMobComt, txtDist;
     Button viewPhotos;
     ImageView EditTask;
+private String page = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +89,7 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
         txtStatus = findViewById(R.id.status);
         txtType = findViewById(R.id.task_type);
         txtMobComt = findViewById(R.id.mobiliser_comment);
+        txtDist = findViewById(R.id.km);
 
         txtTitle.setClickable(false);
         txtTitle.setFocusable(false);
@@ -107,6 +109,9 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
         txtMobComt.setClickable(false);
         txtMobComt.setFocusable(false);
 
+        txtDist.setClickable(false);
+        txtDist.setFocusable(false);
+
         viewPhotos = findViewById(R.id.btn_view_photos);
         viewPhotos.setOnClickListener(this);
 
@@ -120,9 +125,8 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
         Intent intent = getIntent();
         if (intent.hasExtra("serviceObj")) {
             pia = (WorkDetails) intent.getSerializableExtra("serviceObj");
+            page = intent.getStringExtra("page");
 //            PreferenceStorage.savePIAProfileId(this, pia.getUser_id());
-            callGetClassTestService();
-        } else {
             callGetClassTestService();
         }
         if (PreferenceStorage.getTnsrlmCheck(this)) {
@@ -218,6 +222,7 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
         if (validateSignInResponse(response)) {
             try {
                 JSONObject getData = response.getJSONObject("attedance_details");
+                JSONObject getkmData = response.getJSONObject("km_data_details");
                 JSONObject getDataResult = getData.getJSONObject("result");
                 txtTitle.setText(getDataResult.getString("title"));
                 txtDate.setText(getDataResult.getString("attendance_date"));
@@ -225,7 +230,19 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
                 txtDetails.setText(getDataResult.getString("comments"));
                 txtType.setText(getDataResult.getString("work_type"));
                 txtMobComt.setText(getDataResult.getString("mobilizer_comments"));
-
+                if (getkmData.getString("status").equalsIgnoreCase("success")) {
+                    txtDist.setText(getkmData.getJSONObject("km_data").getString("km"));
+                }
+                if (page.equalsIgnoreCase("report")) {
+                    txtTitle.setEnabled(false);
+                    txtDate.setEnabled(false);
+                    txtStatus.setEnabled(false);
+                    txtDetails.setEnabled(false);
+                    txtType.setEnabled(false);
+                    txtMobComt.setEnabled(false);
+                    txtDist.setEnabled(false);
+                    EditTask.setVisibility(View.GONE);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -241,9 +258,9 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
     @Override
     public void onClick(View v) {
         if (v == viewPhotos) {
-//            Intent intent = new Intent(getApplicationContext(), ViewTaskPhotosActivity.class);
-//            intent.putExtra("eventObj", taskData);
-//            startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), ViewTaskPhotosActivity.class);
+            intent.putExtra("eventObj", pia);
+            startActivity(intent);
         }else if (v == EditTask) {
             Intent intent = new Intent(this, UpdateTaskActivity.class);
             intent.putExtra("taskObj", pia);

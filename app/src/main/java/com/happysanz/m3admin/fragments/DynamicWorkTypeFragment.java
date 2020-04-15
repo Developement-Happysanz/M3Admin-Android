@@ -266,6 +266,7 @@ public class DynamicWorkTypeFragment extends Fragment implements IServiceListene
         PreferenceStorage.saveMonthId(view.getContext(), a);
 
         Intent intent = new Intent(view.getContext(), MobiliserWorkTypeDetailActivity.class);
+        intent.putExtra("page", "work");
         intent.putExtra("serviceObj", service);
         startActivity(intent);
     }

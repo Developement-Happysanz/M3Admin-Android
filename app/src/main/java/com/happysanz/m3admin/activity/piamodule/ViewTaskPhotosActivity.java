@@ -15,6 +15,7 @@ import com.happysanz.m3admin.adapter.TaskPictureListAdapter;
 import com.happysanz.m3admin.bean.pia.TaskData;
 import com.happysanz.m3admin.bean.pia.TaskPicture;
 import com.happysanz.m3admin.bean.pia.TaskPictureList;
+import com.happysanz.m3admin.bean.pia.WorkDetails;
 import com.happysanz.m3admin.helper.AlertDialogHelper;
 import com.happysanz.m3admin.helper.ProgressDialogHelper;
 import com.happysanz.m3admin.interfaces.DialogClickListener;
@@ -42,13 +43,14 @@ public class ViewTaskPhotosActivity extends AppCompatActivity implements View.On
     Handler mHandler = new Handler();
     int pageNumber = 0, totalCount = 0;
     protected boolean isLoadingForFirstTime = true;
+    private WorkDetails workDetails;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_task_photos);
 
-        taskData = (TaskData) getIntent().getSerializableExtra("eventObj");
+        workDetails = (WorkDetails) getIntent().getSerializableExtra("eventObj");
 
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
@@ -130,7 +132,7 @@ public class ViewTaskPhotosActivity extends AppCompatActivity implements View.On
     private void viewTaskPhotos() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(M3AdminConstants.PARAMS_TASK_ID, taskData.getId());
+            jsonObject.put(M3AdminConstants.PARAMS_TASK_ID, workDetails.gettask_id());
 
         } catch (JSONException e) {
             e.printStackTrace();
