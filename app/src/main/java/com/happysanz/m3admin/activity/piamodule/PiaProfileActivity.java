@@ -221,23 +221,23 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
 
     private boolean validateFields() {
         if (!M3Validator.checkNullString(this.piaName.getText().toString().trim())) {
-            piaName.setError(getString(R.string.empty_entry));
+            piaName.setError(getString(R.string.err_name));
             requestFocus(piaName);
             return false;
         } else if (!M3Validator.checkNullString(this.piaAddress.getText().toString().trim())) {
-            piaAddress.setError(getString(R.string.empty_entry));
+            piaAddress.setError(getString(R.string.err_address));
             requestFocus(piaAddress);
             return false;
         } else if (!M3Validator.checkNullString(this.piaName.getText().toString().trim())) {
-            piaName.setError(getString(R.string.empty_entry));
+            piaName.setError(getString(R.string.err_name));
             requestFocus(piaName);
             return false;
         } else if (!M3Validator.checkNullString(this.piaEmail.getText().toString().trim())) {
-            piaEmail.setError(getString(R.string.empty_entry));
+            piaEmail.setError(getString(R.string.err_mail));
             requestFocus(piaEmail);
             return false;
         } else if (!M3Validator.checkNullString(this.piaPhone.getText().toString().trim())) {
-            piaPhone.setError(getString(R.string.empty_entry));
+            piaPhone.setError(getString(R.string.err_number));
             requestFocus(piaPhone);
             return false;
         }  else {

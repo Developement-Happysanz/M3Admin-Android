@@ -132,7 +132,7 @@ public class AddNewPiaActivity extends AppCompatActivity implements IServiceList
         progressDialogHelper.hideProgressDialog();
         if (validateSignInResponse(response)) {
             Intent intent = new Intent(this, PiaActivity.class);
-            Toast.makeText(AddNewPiaActivity.this, "Pia created successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddNewPiaActivity.this, "You have just created a profile for " + name + "!", Toast.LENGTH_SHORT).show();
 //            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
@@ -147,11 +147,11 @@ public class AddNewPiaActivity extends AppCompatActivity implements IServiceList
     private boolean validateFields() {
 
         if (!M3Validator.checkNullString(this.uNumber.getText().toString().trim())) {
-            uNumber.setError(getString(R.string.err_entry));
+            uNumber.setError(getString(R.string.err_prn));
             requestFocus(uNumber);
             return false;
         } else if (!M3Validator.checkNullString(this.piaName.getText().toString().trim())) {
-            piaName.setError(getString(R.string.empty_entry));
+            piaName.setError(getString(R.string.err_name));
             requestFocus(piaName);
             return false;
         }else if (!M3Validator.checkNullString(this.piaAddress.getText().toString().trim())) {
@@ -171,7 +171,7 @@ public class AddNewPiaActivity extends AppCompatActivity implements IServiceList
             requestFocus(piaPhone);
             return false;
         }else if (!M3Validator.checkNullString(this.piaPhone.getText().toString().trim())) {
-            piaPhone.setError(getString(R.string.empty_entry));
+            piaPhone.setError(getString(R.string.err_number));
             requestFocus(piaPhone);
             return false;
         } else if (!M3Validator.checkUniqueNumLength(this.uNumber.getText().toString().trim())) {

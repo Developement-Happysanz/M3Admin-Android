@@ -85,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="MOBILIZER"
+                    android:text="MOBILIZERS"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -113,8 +113,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="PROSPECTS"
+                    android:text="@string/new_prospects_name"
                     android:textColor="@color/black"
+                    android:textAllCaps="true"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -141,7 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="CENTER INFO"
+                    android:text="TRAINING CENTERS"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -169,7 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="TRADE"
+                    android:text="COURSES"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -198,7 +199,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="TASK"
+                    android:text="WORK SCHEDULE"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />

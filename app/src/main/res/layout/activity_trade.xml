@@ -33,7 +33,7 @@
             android:gravity="center_vertical|left"
             android:minHeight="60dp"
             android:padding="5dp"
-            android:text="Trade"
+            android:text="Courses"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -66,7 +66,7 @@
             android:layout_weight="0.5"
             android:background="@color/grey"
             android:gravity="center"
-            android:text="Trade"
+            android:text="Courses"
             android:textColor="@color/black"
             android:textSize="18sp" />
 

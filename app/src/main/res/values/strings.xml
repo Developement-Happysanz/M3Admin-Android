@@ -13,17 +13,21 @@
 
     <!--General-->
     <string name="progress_loading">Loading&#8230;</string>
+    <string name="new_prospects_name">Candidates</string>
     <string name="err_entry">Entry Invalid</string>
-    <string name="err_mail">Enter vaild mail ID</string>
-    <string name="err_number">Enter vaild phone number</string>
+    <string name="err_mail">Enter mail ID</string>
+    <string name="err_prn">Enter PRN number</string>
+    <string name="err_name">Enter name</string>
+    <string name="err_address">Enter address</string>
+    <string name="err_number">Enter mobile number</string>
     <string name="empty_entry">Field cannot be empty</string>
     <string name="pass_match">New password and confirm password do not match!</string>
     <string name="err_min_uniq_length">Unique number must be exactly 13 characters&#8230;</string>
     <string name="error_no_net">No internet access. Please check your connection and try again.</string>
 
     <!--Sign In -->
-    <string name="err_username">Enter valid username</string>
-    <string name="err_empty_password">Enter valid password</string>
+    <string name="err_username">Enter your username</string>
+    <string name="err_empty_password">Enter your password</string>
     <string name="err_min_pass_length">Short passwords are easy to guess! Try one with at least 6 characters&#8230;</string>
 
 
@@ -56,7 +60,7 @@
     <string name="label_delete">DELETE</string>
 
 
-    <string name="pia">Training Partner</string>
+    <string name="pia">Training Provider</string>
     <string name="partn">Partner</string>
     <string name="pia_dashb">Training Partner Dashboard</string>
 
@@ -77,6 +81,6 @@ M3 comes as web and mobile application which operates independently but in a syn
 
 M3 is optimized in a way that this application can be deployed for any kind of initiatives that involves field work.
 </string>
-    <string name="about">About</string>
+    <string name="about">About M3</string>
 
 </resources>

@@ -53,9 +53,9 @@ public class ProspectsActivity extends AppCompatActivity implements IServiceList
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
-        tabLayout.addTab(tabLayout.newTab().setText("All Prospects"));
-        tabLayout.addTab(tabLayout.newTab().setText("Confirmed"));
-        tabLayout.addTab(tabLayout.newTab().setText("Rejected"));
+        tabLayout.addTab(tabLayout.newTab().setText("All Candidates"));
+        tabLayout.addTab(tabLayout.newTab().setText("Qualified"));
+        tabLayout.addTab(tabLayout.newTab().setText("Unqualified"));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 

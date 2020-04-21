@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="@string/partn"
+                    android:text="@string/pia"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textAllCaps="true"
@@ -187,8 +187,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="PROSPECTS"
+                    android:text="@string/new_prospects_name"
                     android:textColor="@color/black"
+                    android:textAllCaps="true"
                     android:textSize="16sp"
                     android:textStyle="bold" />
                 <TextView
@@ -237,7 +238,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:text="GRAPH"
+                    android:text="STATISTICS"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />

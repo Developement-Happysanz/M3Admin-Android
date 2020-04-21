@@ -63,7 +63,7 @@
                 android:inputType="number"
                 android:maxLength="13"
                 android:layout_marginRight="30dp"
-                android:hint="PRN"
+                android:hint="PRN number"
                 android:singleLine="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -123,7 +123,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginRight="30dp"
-                android:hint="Mail"
+                android:hint="Email ID"
                 android:inputType="textEmailAddress"
                 android:singleLine="true" />
 
@@ -145,7 +145,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginRight="30dp"
-                android:hint="Phone"
+                android:hint="Mobile Number"
                 android:inputType="number"
                 android:singleLine="true" />
 

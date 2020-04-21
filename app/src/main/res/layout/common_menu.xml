@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
 
-        android:text="About us"
+        android:text="@string/about"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold" />
