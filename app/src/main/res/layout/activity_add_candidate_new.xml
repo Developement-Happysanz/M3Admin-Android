@@ -85,7 +85,7 @@
                     android:id="@+id/et_candidate_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Name*"
+                    android:hint="Candidate Name*"
                     android:inputType="text"
                     android:singleLine="true"
                     android:maxLength="40"
@@ -103,7 +103,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
-                        android:hint="Sex*"
+                        android:hint="Gender*"
                         android:focusable="false"
 
                         android:spinnerMode="dropdown"
@@ -222,7 +222,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
-                        android:hint="Father Name*"
+                        android:hint="Father's Name*"
                         android:inputType="text"
                         android:maxLength="40"
                         
@@ -234,7 +234,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
-                        android:hint="Mother Name*"
+                        android:hint="Mother's Name*"
                         android:inputType="text"
                         android:maxLength="40"
                         
@@ -286,7 +286,7 @@
                     android:layout_weight="0.60"
                     android:focusable="false"
 
-                    android:hint="Qualification*"
+                    android:hint="Education level*"
                     android:maxLength="40"
                     android:inputType="text"
                     android:singleLine="true"
@@ -308,7 +308,7 @@
                     android:id="@+id/et_candidate_qualified_promotion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Qualified Promotion*"
+                    android:hint="Education Status*"
                     
                     android:inputType="text"
                     android:maxLength="40"
@@ -337,7 +337,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.50"
-                        android:hint="Year of Education*"
+                        android:hint="Year of Admission*"
                         android:focusable="false"
 
                         android:spinnerMode="dropdown"
@@ -351,7 +351,7 @@
                         android:layout_weight="0.50"
                         android:focusable="false"
 
-                        android:hint="Year of Passing*"
+                        android:hint="Year of Graduation*"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -438,7 +438,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="Father Mobile Number*"
+                    android:hint="Father's Mobile Number*"
                     android:inputType="number"
                     android:maxLength="15"
                     
@@ -450,7 +450,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789"
-                    android:hint="Mother Mobile Number*"
+                    android:hint="Mother's Mobile Number*"
                     android:inputType="number"
                     android:maxLength="15"
                     
@@ -550,7 +550,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     
-                    android:hint="Preferred Trade*"
+                    android:hint="Preferred Course*"
                     android:spinnerMode="dropdown"
                     android:textSize="14sp" />
 
@@ -621,7 +621,7 @@
                     android:layout_height="wrap_content"
                     
                     android:digits="0123456789"
-                    android:hint="Aadhaar Number*"
+                    android:hint="Aadhaar Card Number*"
                     android:inputType="number"
                     android:maxLength="20"
                     android:singleLine="true"

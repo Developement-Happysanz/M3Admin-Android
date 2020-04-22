@@ -144,6 +144,7 @@ public class UpdateUserActivity extends AppCompatActivity implements View.OnClic
         });
         txtGender.setFocusable(false);
         save = findViewById(R.id.save_user);
+        save.setText("Save");
         save.setOnClickListener(this);
         mDateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
 
@@ -430,7 +431,7 @@ public class UpdateUserActivity extends AppCompatActivity implements View.OnClic
 
             if (res.equalsIgnoreCase("send")) {
 
-                Toast.makeText(this, "Updated successfully...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Changes made to your staff profile are saved.", Toast.LENGTH_SHORT).show();
                 if (mob.equalsIgnoreCase("mob")){
                     Intent intent = new Intent(getApplicationContext(), MobilizerActivity.class);
                     startActivity(intent);
