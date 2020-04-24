@@ -236,7 +236,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_toRightOf="@id/img_pros"
                             android:gravity="center_vertical"
-                            android:text="Prospects"
+                            android:text="Candidates"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
@@ -317,7 +317,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_toRightOf="@id/img_task"
                             android:gravity="center_vertical"
-                            android:text="Task"
+                            android:text="Work Schedule"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
