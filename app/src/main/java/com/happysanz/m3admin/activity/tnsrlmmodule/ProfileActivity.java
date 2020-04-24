@@ -119,19 +119,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private boolean validateFields() {
         if (!M3Validator.checkNullString(this.name.getText().toString().trim())) {
-            name.setError(getString(R.string.empty_entry));
+            name.setError(getString(R.string.err_username));
             requestFocus(name);
             return false;
         } else if (!M3Validator.checkNullString(this.address.getText().toString().trim())) {
-            address.setError(getString(R.string.empty_entry));
+            address.setError(getString(R.string.err_address));
             requestFocus(address);
             return false;
         } else if (!M3Validator.checkNullString(this.email.getText().toString().trim())) {
-            email.setError(getString(R.string.empty_entry));
+            email.setError(getString(R.string.err_mail));
             requestFocus(email);
             return false;
         } else if (!M3Validator.checkNullString(this.phone.getText().toString().trim())) {
-            phone.setError(getString(R.string.empty_entry));
+            phone.setError(getString(R.string.err_number));
+            requestFocus(phone);
+            return false;
+        }  else if (!M3Validator.checkMobileNumLength(this.phone.getText().toString().trim())) {
+            phone.setError(getString(R.string.err_number_length));
             requestFocus(phone);
             return false;
         }  else {
@@ -244,7 +248,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     Intent intent = new Intent(getApplicationContext(), TnsrlmDashboard.class);
                     startActivity(intent);
                     finish();
-                    Toast.makeText(this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Changes to your profile are saved.", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

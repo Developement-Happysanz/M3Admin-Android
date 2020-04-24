@@ -100,19 +100,19 @@ public class ChangePasswordActivity  extends AppCompatActivity implements View.O
 
     private boolean validateFields() {
         if (!M3Validator.checkNullString(this.oldPass.getText().toString().trim())) {
-            oldPass.setError(getString(R.string.empty_entry));
+            oldPass.setError("Enter current password.");
             requestFocus(oldPass);
             return false;
         } else if (!M3Validator.checkNullString(this.newPass.getText().toString().trim())) {
-            newPass.setError(getString(R.string.empty_entry));
+            newPass.setError("Enter New password.");
             requestFocus(newPass);
             return false;
         } else if (!M3Validator.checkNullString(this.confirmPass.getText().toString().trim())) {
-            confirmPass.setError(getString(R.string.empty_entry));
+            confirmPass.setError("Please confirm the new password by re-tying it.");
             requestFocus(confirmPass);
             return false;
         } else if (!(this.confirmPass.getText().toString().trim().equalsIgnoreCase(this.newPass.getText().toString().trim()))) {
-            confirmPass.setError(getString(R.string.pass_match));
+            confirmPass.setError("This doesn't match with your new password.");
             requestFocus(confirmPass);
             return false;
         } else if (!M3Validator.checkStringMinLength(6, this.newPass.getText().toString().trim())) {
@@ -176,7 +176,7 @@ public class ChangePasswordActivity  extends AppCompatActivity implements View.O
         progressDialogHelper.hideProgressDialog();
 
         if (validateSignInResponse(response)) {
-            Toast.makeText(ChangePasswordActivity.this, "Password reset successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ChangePasswordActivity.this, "Your password has been reset.", Toast.LENGTH_SHORT).show();
             finish();
         }
     }

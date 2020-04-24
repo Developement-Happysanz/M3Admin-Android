@@ -25,7 +25,12 @@ public class SchemeVideos extends YouTubeBaseActivity {
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_player);
         button = (Button) findViewById(R.id.button);
         String abc = getIntent().getStringExtra("video");
-
+        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         onInitializedListener = new YouTubePlayer.OnInitializedListener(){
 
             @Override

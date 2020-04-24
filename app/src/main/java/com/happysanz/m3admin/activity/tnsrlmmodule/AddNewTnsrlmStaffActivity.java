@@ -338,8 +338,7 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
     public void onResponse(JSONObject response) {
         progressDialogHelper.hideProgressDialog();
         if (validateSignInResponse(response)) {
-
-            Toast.makeText(this, "Added successfully...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You have just created a profile for your staff!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), TnsrlmStaffActivity.class);
             startActivity(intent);
             finish();
@@ -380,37 +379,40 @@ public class AddNewTnsrlmStaffActivity extends AppCompatActivity implements View
     private boolean validateFields() {
 
         if (!AppValidator.checkNullString(this.txtName.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid name");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter staff name");
             return false;
         } else if (!AppValidator.checkNullString(this.txtGender.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Select valid gender");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select gender");
             return false;
         } else if (!AppValidator.checkNullString(this.txtDob.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid Date of Birth");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter date of birth");
             return false;
         } else if (!AppValidator.checkNullString(this.txtNationality.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid nationality");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter nationality");
             return false;
         } else if (!AppValidator.checkNullString(this.txtReligion.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid religion");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter religion");
             return false;
         } else if (!AppValidator.checkNullString(this.txtClass.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid community class");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter community class");
             return false;
         } else if (!AppValidator.checkNullString(this.txtCommunity.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid community");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter community");
             return false;
         } else if (!AppValidator.checkNullString(this.txtAddress.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Select valid Address");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter address");
             return false;
         } else if (!AppValidator.checkNullString(this.txtPhone.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid Phone");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter phone number");
+            return false;
+        } else if (!AppValidator.checkStringMinLength(10, this.txtPhone.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Invalid phone number");
             return false;
         } else if (!AppValidator.checkNullString(this.txtQualification.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid Qualification");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter qualification");
             return false;
         } else if (!AppValidator.checkNullString(this.txtMail.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid mobile number");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter Email ID");
             return false;
         } else {
             return true;

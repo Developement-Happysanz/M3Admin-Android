@@ -155,11 +155,11 @@ public class AddNewPiaActivity extends AppCompatActivity implements IServiceList
             requestFocus(piaName);
             return false;
         }else if (!M3Validator.checkNullString(this.piaAddress.getText().toString().trim())) {
-            piaAddress.setError(getString(R.string.empty_entry));
+            piaAddress.setError(getString(R.string.err_address));
             requestFocus(piaAddress);
             return false;
         }else if (!M3Validator.checkNullString(this.piaEmail.getText().toString().trim())) {
-            piaEmail.setError(getString(R.string.empty_entry));
+            piaEmail.setError(getString(R.string.err_mail));
             requestFocus(piaEmail);
             return false;
         }else if (!M3Validator.isEmailValid(this.piaEmail.getText().toString().trim())) {
@@ -167,7 +167,7 @@ public class AddNewPiaActivity extends AppCompatActivity implements IServiceList
             requestFocus(piaEmail);
             return false;
         }else if (!M3Validator.checkMobileNumLength(this.piaPhone.getText().toString().trim())) {
-            piaPhone.setError(getString(R.string.err_number));
+            piaPhone.setError(getString(R.string.err_number_length));
             requestFocus(piaPhone);
             return false;
         }else if (!M3Validator.checkNullString(this.piaPhone.getText().toString().trim())) {

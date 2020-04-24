@@ -33,7 +33,7 @@
             android:gravity="center_vertical|left"
             android:minHeight="60dp"
             android:padding="5dp"
-            android:text="TNSRLM Staff"
+            android:text="Staff"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="10dp"
-            android:text="* Click on staff to edit"
+            android:text="* To edit a staff profile, tap on the respective staff's name."
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -81,7 +81,7 @@
                 android:layout_weight="0.5"
                 android:background="@color/white"
                 android:gravity="center"
-                android:text="Name"
+                android:text="Staff"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />

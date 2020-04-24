@@ -57,6 +57,8 @@ public class PiaSchemeActivity extends AppCompatActivity implements View.OnClick
         addNewPia = (ImageView) findViewById(R.id.add_pia);
 
         addNewPia.setVisibility(View.GONE);
+        TextView asdf = findViewById(R.id.skilName);
+        asdf.setText("Scheme");
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +67,7 @@ public class PiaSchemeActivity extends AppCompatActivity implements View.OnClick
         });
 
         tite = findViewById(R.id.title);
-        tite.setText("Scheme List");
+        tite.setText("Skill Development Schemes");
 
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
