@@ -6,7 +6,7 @@ android {
         config {
             keyAlias 'm3admin_alias'
             keyPassword 'M3admin@123'
-            storeFile file('D:\\HappySanzTech\\AppWorkSpace\\Heylaapp\\app\\m3admin.jks')
+            storeFile file('D:\\HappySanzTech\\AppWorkSpace\\M3Admin\\app\\m3admin.jks')
 //            storeFile file('F:\\StudioProjects\\M3Admin\\app\\m3admin.jks')
             storePassword 'M3admin@123'
             flavorDimensions "default"
