@@ -33,7 +33,7 @@
             android:gravity="center_vertical|left"
             android:minHeight="60dp"
             android:padding="5dp"
-            android:text="Center Detail"
+            android:text="Create Training Center Profile"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -71,7 +71,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Upload Photo for Logo"
+                        android:text="Set profile picture"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/center_name"
                 android:layout_margin="20dp"
-                android:hint="Center Detail" />
+                android:hint="Introduction" />
 
             <EditText
                 android:id="@+id/center_address"
@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/center_detail"
                 android:layout_margin="20dp"
-                android:hint="Center Address" />
+                android:hint="Address" />
 
             <LinearLayout
                 android:id="@+id/gallery_layout"

@@ -55,8 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:visibility="gone"
-        android:text="* Click on mobilizer to edit"
+        android:text="* To edit a mobilizer profile, tap on the respective mobilizer's name."
         android:textColor="@color/colorPrimary"
         android:textSize="16sp"
         android:textStyle="bold" />

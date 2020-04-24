@@ -232,6 +232,7 @@ public class DocumentUploadActivity extends AppCompatActivity implements View.On
             openImageIntent();
         } else if (v == done) {
             if (docOne && docTwo && docThree && docFour && docSix && docSeven) {
+                Toast.makeText(this, "You have just created a new candidate profile!", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
                 AlertDialogHelper.showSimpleAlertDialog(getApplicationContext(), "Upload all necessary documents");

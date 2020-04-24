@@ -35,7 +35,7 @@
             android:gravity="center_vertical|left"
             android:minHeight="60dp"
             android:padding="5dp"
-            android:text="Add Video"
+            android:text="Upload Video"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -69,7 +69,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginRight="30dp"
-                android:hint="Video Title"
+                android:hint="Title"
                 android:singleLine="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -89,7 +89,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginRight="30dp"
-                android:hint="Video Link"
+                android:hint="URL"
                 android:singleLine="true" />
 
         </com.google.android.material.textfield.TextInputLayout>

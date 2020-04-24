@@ -293,13 +293,16 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
 
     private boolean validateFields() {
         if (!AppValidator.checkNullString(this.edtTitle.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid title");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Give your task a title");
             return false;
         } else if (!AppValidator.checkNullString(this.edtTaskDetails.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid task details");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Write your task");
             return false;
         } else if (!AppValidator.checkNullString(this.edtTaskDate.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid date");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Choose the date");
+            return false;
+        } else if (!AppValidator.checkNullString(this.txtStatus.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Set a status");
             return false;
         } else {
             return true;
@@ -348,7 +351,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements View.OnClic
 
         if (validateSignInResponse(response)) {
 //            setResult(RESULT_OK);
-            Toast.makeText(this, "Updated successfully...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Changes made to the task are saved.", Toast.LENGTH_SHORT).show();
 //            finish();
 //            Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
 //            startActivity(intent);

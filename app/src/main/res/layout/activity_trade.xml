@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -49,6 +50,15 @@
             android:src="@drawable/ic_add_button" />
 
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="* To edit a course, tap on its name."
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,7 +74,7 @@
             android:layout_height="50dp"
             android:layout_margin="1dp"
             android:layout_weight="0.5"
-            android:background="@color/grey"
+            android:background="@color/white"
             android:gravity="center"
             android:text="Course"
             android:textColor="@color/black"
@@ -75,7 +85,7 @@
             android:layout_height="50dp"
             android:layout_margin="1dp"
             android:layout_weight="0.5"
-            android:background="@color/grey"
+            android:background="@color/white"
             android:gravity="center"
             android:text="Status"
             android:textColor="@color/black"

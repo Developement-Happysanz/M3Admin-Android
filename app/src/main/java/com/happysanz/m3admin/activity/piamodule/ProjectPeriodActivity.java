@@ -67,7 +67,7 @@ public class ProjectPeriodActivity extends AppCompatActivity implements View.OnC
             }
         });
         TextView title = findViewById(R.id.title);
-        title.setText("Project Duration");
+        title.setText("Project Timeline");
         serviceHelper = new ServiceHelper(this);
         serviceHelper.setServiceListener(this);
         progressDialogHelper = new ProgressDialogHelper(this);

@@ -85,6 +85,13 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
         save = findViewById(R.id.save_trade);
         save.setOnClickListener(this);
 
+        if (tradeData != null) {
+            TextView title = findViewById(R.id.title);
+            title.setText("Update Course");
+            save.setText("Save");
+        } else {
+        }
+
         if (tradeData != null){
             txtTitle.setText(tradeData.getTradeName());
             txtStatus.setText(tradeData.getStatus());
@@ -145,7 +152,7 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
 
     private boolean validateFields() {
         if (!M3Validator.checkNullString(this.txtTitle.getText().toString().trim())) {
-            txtTitle.setError(getString(R.string.empty_entry));
+            txtTitle.setError("Enter a course name");
             requestFocus(txtTitle);
             return false;
         } else {
@@ -216,9 +223,9 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
         progressDialogHelper.hideProgressDialog();
         if (validateSignInResponse(response)) {
             if (tradeData != null) {
-                Toast.makeText(this, "Updated successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Changes made in the course have been saved.", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Added successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "You have just created a new course!", Toast.LENGTH_SHORT).show();
             }
             Intent intent = new Intent(getApplicationContext(), TradeActivity.class);
             startActivity(intent);

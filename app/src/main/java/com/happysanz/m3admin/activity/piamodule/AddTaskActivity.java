@@ -223,13 +223,16 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
 
     private boolean validateFields() {
         if (!AppValidator.checkNullString(this.txtTitle.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid title");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Give your task a title");
             return false;
         } else if (!AppValidator.checkNullString(this.txtDetails.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid task details");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Write your task");
             return false;
         } else if (!AppValidator.checkNullString(this.txtDate.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter valid date");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Choose the date");
+            return false;
+        }  else if (!AppValidator.checkNullString(storeMobilizerId)) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Select mobilizer");
             return false;
         } else {
             return true;
@@ -357,7 +360,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                     ArrayAdapter<StoreMobilizer> adapter = new ArrayAdapter<StoreMobilizer>(getApplicationContext(), R.layout.spinner_item_ns, classesList);
                     spnMobilizer.setAdapter(adapter);
                 } else {
-                    Toast.makeText(this, "Added successfully...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "You've just created a task!", Toast.LENGTH_SHORT).show();
 //                    Intent intent = new Intent(getApplicationContext(), TaskActivity.class);
 //                    startActivity(intent);
                     finish();

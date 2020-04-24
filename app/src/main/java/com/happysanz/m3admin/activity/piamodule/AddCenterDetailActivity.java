@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -125,6 +126,8 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
         savedetails.setOnClickListener(this);
 
         if (page.equalsIgnoreCase("update")) {
+            TextView title = findViewById(R.id.title);
+            title.setText("Edit Training Center");
             before.setVisibility(View.GONE);
             after.setVisibility(View.VISIBLE);
             loadCentersDetails();
@@ -226,15 +229,15 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
 
     private boolean validateFields() {
         if (!M3Validator.checkNullString(this.centerName.getText().toString().trim())) {
-            centerName.setError(getString(R.string.empty_entry));
+            centerName.setError("Enter name of your training center");
             requestFocus(centerName);
             return false;
         } else if (!M3Validator.checkNullString(this.centerDetail.getText().toString().trim())) {
-            centerDetail.setError(getString(R.string.empty_entry));
+            centerDetail.setError("Give a brief introduction about your center");
             requestFocus(centerDetail);
             return false;
         } else if (!M3Validator.checkNullString(this.centerAddress.getText().toString().trim())) {
-            centerAddress.setError(getString(R.string.empty_entry));
+            centerAddress.setError("Enter the address");
             requestFocus(centerAddress);
             return false;
         } else {
@@ -310,7 +313,7 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
                     centerDetail.setText(centeInfo);
                     centerAddress.setText(centeAddress);
                 } else if (res.equalsIgnoreCase("update")) {
-                    Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Changes made to the training center profile are saved.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), CenterDetailActivity.class);
                     intent.putExtra("cent", centers);
                     startActivity(intent);
@@ -323,6 +326,7 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
                 if (!mActualFilePath.isEmpty()) {
                     new UploadFileToServer().execute();
                 } else {
+                    Toast.makeText(this, "You have just created a new training center profile!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), CenterActivity.class);
                     startActivity(intent);
                     finish();

@@ -97,7 +97,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_toRightOf="@id/img_master"
                             android:gravity="center_vertical"
-                            android:text="Master"
+                            android:text="Masters"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
@@ -201,7 +201,7 @@
                             android:gravity="center_vertical"
                             android:paddingTop="10dp"
                             android:paddingBottom="10dp"
-                            android:text="Project Duration"
+                            android:text="Project Timeline"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
@@ -263,7 +263,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_toRightOf="@id/img_user"
                             android:gravity="center_vertical"
-                            android:text="User"
+                            android:text="Staff"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 
@@ -344,7 +344,7 @@
                             android:layout_marginLeft="15dp"
                             android:layout_toRightOf="@id/img_tracking"
                             android:gravity="center_vertical"
-                            android:text="Tracking"
+                            android:text="Track Mobilizers"
                             android:textColor="@color/black"
                             android:textSize="18sp" />
 

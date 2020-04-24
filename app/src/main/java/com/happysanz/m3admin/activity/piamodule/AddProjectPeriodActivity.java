@@ -173,7 +173,7 @@ public class AddProjectPeriodActivity extends AppCompatActivity implements IServ
         progressDialogHelper.hideProgressDialog();
 
         if (validateSignInResponse(response)) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Project period update");
+            AlertDialogHelper.showSimpleAlertDialog(this, "You have just created a project timeline!");
             Intent intent = new Intent(getApplicationContext(), ProjectPeriodActivity.class);
             startActivity(intent);
             finish();

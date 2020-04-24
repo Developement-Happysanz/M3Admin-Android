@@ -485,6 +485,9 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
         } else if (!AppValidator.checkNullString(this.txtPhone.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter phone number");
             return false;
+        } else if (!AppValidator.checkStringMinLength(10, this.txtPhone.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Invalid phone number");
+            return false;
         } else if (!AppValidator.checkNullString(this.txtQualification.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter ualification");
             return false;

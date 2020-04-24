@@ -33,7 +33,7 @@
             android:gravity="center_vertical|left"
             android:minHeight="60dp"
             android:padding="5dp"
-            android:text="Training Centers"
+            android:text="Center Details"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -83,6 +83,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Center Detail"
+                android:visibility="gone"
                 android:textColor="@color/blue" />
 
             <TextView
@@ -93,6 +94,12 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gallery"
+                android:textSize="20sp"
+                android:gravity="center"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -105,7 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/blue"
-                    android:text="Gallery"
+                    android:text="Photos"
                     android:textColor="@color/white" />
 
 

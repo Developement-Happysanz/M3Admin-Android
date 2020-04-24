@@ -2,6 +2,7 @@ package com.happysanz.m3admin.activity.piamodule;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -52,7 +53,10 @@ public class TrackingLiveActivity extends FragmentActivity implements OnMapReady
                 finish();
             }
         });
-
+        findViewById(R.id.titleasd).setVisibility(View.GONE);
+        findViewById(R.id.start_stop_list).setVisibility(View.GONE);
+        TextView title = findViewById(R.id.title);
+        title.setText("Live Tracking");
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);

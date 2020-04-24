@@ -31,7 +31,7 @@
         android:layout_toRightOf="@+id/back_tic_his"
         android:minHeight="?attr/actionBarSize"
         android:padding="5dp"
-        android:text="View Task Photos"
+        android:text="Tasks Photo Gallery"
         android:textColor="@color/white"
         android:textSize="20sp" />
 

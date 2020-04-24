@@ -89,12 +89,12 @@ public class AddVideoActivity extends AppCompatActivity implements View.OnClickL
 
     private boolean validateFields() {
         if (!M3Validator.checkNullString(this.title.getText().toString().trim())) {
-            title.setError(getString(R.string.empty_entry));
+            title.setError("Give your video a title");
             requestFocus(title);
             return false;
         }
         if (!M3Validator.checkNullString(this.link.getText().toString().trim())) {
-            link.setError(getString(R.string.empty_entry));
+            link.setError("Paste the URL of the video here");
             requestFocus(link);
             return false;
         } else {
@@ -112,7 +112,7 @@ public class AddVideoActivity extends AppCompatActivity implements View.OnClickL
     public void onResponse(JSONObject response) {
         progressDialogHelper.hideProgressDialog();
         if (validateSignInResponse(response)) {
-            Toast.makeText(this, "Added successfully...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Video uploaded for your training center.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, VideoGalleryActivity.class);
             startActivity(intent);
             finish();
