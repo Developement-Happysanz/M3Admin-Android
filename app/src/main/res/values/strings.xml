@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">M3 Admin</string>
-    <string name="app_name_pia">M3 Admin</string>
+    <string name="app_name_pia">M3 Training Provider</string>
     <string name="app_name_tnsrlm">M3 Admin</string>
     <string name="error_occurred">Error</string>
     <string name="empty" />
@@ -30,6 +30,7 @@
     <string name="err_username">Enter your username</string>
     <string name="err_empty_password">Enter your password</string>
     <string name="err_min_pass_length">Short passwords are easy to guess! Try one with at least 6 characters&#8230;</string>
+    <string name="err_username_pass_error">Invalid username/password. Kindly ensure they\'re correct.</string>
 
 
     <!--live-->

@@ -218,7 +218,7 @@ public class CenterActivity extends AppCompatActivity implements  IServiceListen
             Intent intent = new Intent(this, AddCenterDetailActivity.class);
             intent.putExtra("page", "add");
             startActivity(intent);
-            finish();
+//            finish();
         }
     }
 }

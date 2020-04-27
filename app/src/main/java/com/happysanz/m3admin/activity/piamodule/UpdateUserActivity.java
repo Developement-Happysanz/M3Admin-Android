@@ -104,7 +104,7 @@ public class UpdateUserActivity extends AppCompatActivity implements View.OnClic
 
         user = (Mobilizer) getIntent().getSerializableExtra("userObj");
         TextView text1 = findViewById(R.id.title);
-//        text1.setText("TNSRLM Staff");
+        text1.setText("Edit Staff Profile");
 
         spnMobilizer = findViewById(R.id.spn_role);
         spnMobilizer.setFocusable(false);
