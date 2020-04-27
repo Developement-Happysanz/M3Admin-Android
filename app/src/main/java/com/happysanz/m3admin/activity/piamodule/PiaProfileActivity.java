@@ -221,23 +221,23 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
 
     private boolean validateFields() {
         if (!M3Validator.checkNullString(this.piaName.getText().toString().trim())) {
-            piaName.setError(getString(R.string.err_name));
+            piaName.setError("Enter your name");
             requestFocus(piaName);
             return false;
         } else if (!M3Validator.checkNullString(this.piaAddress.getText().toString().trim())) {
-            piaAddress.setError(getString(R.string.err_address));
+            piaAddress.setError("Enter your address");
             requestFocus(piaAddress);
             return false;
-        } else if (!M3Validator.checkNullString(this.piaName.getText().toString().trim())) {
-            piaName.setError(getString(R.string.err_name));
-            requestFocus(piaName);
-            return false;
         } else if (!M3Validator.checkNullString(this.piaEmail.getText().toString().trim())) {
-            piaEmail.setError(getString(R.string.err_mail));
+            piaEmail.setError("Enter your Email ID");
             requestFocus(piaEmail);
             return false;
         } else if (!M3Validator.checkNullString(this.piaPhone.getText().toString().trim())) {
-            piaPhone.setError(getString(R.string.err_number));
+            piaPhone.setError("Enter your mobile number");
+            requestFocus(piaPhone);
+            return false;
+        }  else if (!M3Validator.checkMobileNumLength(this.piaPhone.getText().toString().trim())) {
+            piaPhone.setError(getString(R.string.err_number_length));
             requestFocus(piaPhone);
             return false;
         }  else {
@@ -307,7 +307,7 @@ public class PiaProfileActivity extends AppCompatActivity implements View.OnClic
                 PreferenceStorage.savePIAAddress(this, piaAddress.getText().toString());
                 PreferenceStorage.savePIAPhone(this, piaPhone.getText().toString());
                 PreferenceStorage.savePIAEmail(this, piaEmail.getText().toString());
-                Toast.makeText(this, "Changes saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Changes to your profile are saved.", Toast.LENGTH_SHORT).show();
             }
         }
     }

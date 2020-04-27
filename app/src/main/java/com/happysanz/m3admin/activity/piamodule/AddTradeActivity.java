@@ -87,7 +87,7 @@ public class AddTradeActivity extends AppCompatActivity implements View.OnClickL
 
         if (tradeData != null) {
             TextView title = findViewById(R.id.title);
-            title.setText("Update Course");
+            title.setText("Edit Course");
             save.setText("Save");
         } else {
         }

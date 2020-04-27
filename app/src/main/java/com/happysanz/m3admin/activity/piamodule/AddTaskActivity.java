@@ -347,7 +347,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                     String classId = "";
                     String className = "";
                     ArrayList<StoreMobilizer> classesList = new ArrayList<>();
-
+                    classesList.add(new StoreMobilizer("","Select Mobiliser"));
                     for (int i = 0; i < getLength; i++) {
 
                         classId = getData.getJSONObject(i).getString("user_id");

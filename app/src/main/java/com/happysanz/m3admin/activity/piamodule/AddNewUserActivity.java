@@ -489,7 +489,7 @@ public class AddNewUserActivity extends AppCompatActivity implements View.OnClic
             AlertDialogHelper.showSimpleAlertDialog(this, "Invalid phone number");
             return false;
         } else if (!AppValidator.checkNullString(this.txtQualification.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Enter ualification");
+            AlertDialogHelper.showSimpleAlertDialog(this, "Enter qualification");
             return false;
         } else if (!AppValidator.checkNullString(this.txtMail.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter Email ID");

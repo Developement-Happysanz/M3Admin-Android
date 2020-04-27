@@ -167,7 +167,7 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="40dp"
                     android:layout_marginRight="30dp"
-                    android:hint="Mail"
+                    android:hint="EMail ID"
                     android:singleLine="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -188,7 +188,7 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="40dp"
                     android:layout_marginRight="30dp"
-                    android:hint="Phone"
+                    android:hint="Mobile number"
                     android:inputType="number"
                     android:singleLine="true" />
 

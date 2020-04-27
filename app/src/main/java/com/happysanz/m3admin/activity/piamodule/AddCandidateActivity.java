@@ -1207,6 +1207,15 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
         } else if (!AppValidator.checkNullString(this.etCandidateMobileNo.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's mobile number");
             return false;
+        } else if (!AppValidator.checkStringMinLength(10, this.etCandidateMobileNo.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Invalid mobile number");
+            return false;
+        } else if (!AppValidator.checkStringMinLength(10, this.fatherMob.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Invalid mobile number");
+            return false;
+        } else if (!AppValidator.checkStringMinLength(10, this.motherMob.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Invalid mobile number");
+            return false;
         } else if (!AppValidator.checkNullString(this.etCandidateState.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's state");
             return false;
@@ -1227,6 +1236,9 @@ public class AddCandidateActivity extends AppCompatActivity implements DatePicke
             return false;
         }*/ else if (!AppValidator.checkNullString(this.etCandidatesAadhaarNo.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Enter candidate's aadhaar card number");
+            return false;
+        }else if (!AppValidator.checkStringMinLength(12, this.etCandidatesAadhaarNo.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Aadhar number not valid!");
             return false;
         }else if (!AppValidator.checkNullString(this.etCandidatesQualification.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Select candidate's qualification");

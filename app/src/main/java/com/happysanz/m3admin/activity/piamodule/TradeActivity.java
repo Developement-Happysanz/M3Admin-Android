@@ -188,11 +188,13 @@ public class TradeActivity extends AppCompatActivity implements View.OnClickList
         } else {
             tradeData = tradeDataArrayList.get(position);
         }
-        Intent intent = new Intent(this, AddTradeActivity.class);
-        intent.putExtra("eventObj", tradeData);
-        intent.putExtra("page", "edit");
-        startActivity(intent);
-        finish();
+        if (!PreferenceStorage.getTnsrlmCheck(this)) {
+            Intent intent = new Intent(this, AddTradeActivity.class);
+            intent.putExtra("eventObj", tradeData);
+            intent.putExtra("page", "edit");
+            startActivity(intent);
+            finish();
+        }
     }
     
 }
