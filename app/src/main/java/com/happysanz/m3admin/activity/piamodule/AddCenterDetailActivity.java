@@ -318,6 +318,8 @@ public class AddCenterDetailActivity extends AppCompatActivity implements View.O
                     intent.putExtra("cent", centers);
                     startActivity(intent);
                     finish();
+                } else {
+                    Toast.makeText(this, "You have just created a new training center profile!", Toast.LENGTH_SHORT).show();
                 }
                 String id = response.getString(M3AdminConstants.PARAMS_CENTER_ID);
                 PreferenceStorage.saveCenterId(this, id);

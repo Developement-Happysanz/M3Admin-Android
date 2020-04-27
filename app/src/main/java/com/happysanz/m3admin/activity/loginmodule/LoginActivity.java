@@ -151,7 +151,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             requestFocus(edtPassword);
             return false;
         } else if (!M3Validator.checkStringMinLength(6, this.edtPassword.getText().toString().trim())) {
-            edtPassword.setError(getString(R.string.err_min_pass_length));
+            edtPassword.setError("Invalid username/passsword. Kindly ensure they're correct.");
             requestFocus(edtPassword);
             return false;
         } else {
