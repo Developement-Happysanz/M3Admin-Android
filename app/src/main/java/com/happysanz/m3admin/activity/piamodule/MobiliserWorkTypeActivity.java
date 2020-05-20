@@ -91,6 +91,9 @@ public class MobiliserWorkTypeActivity extends AppCompatActivity implements ISer
         });
 
         pia = (Mobilizer) getIntent().getSerializableExtra("userObj");
+        TextView text1 = findViewById(R.id.title);
+        text1.setText(pia.getName()+" - Work Detail");
+
         String mobid = "";
         mobid = pia.getUser_id();
         PreferenceStorage.saveMobId(this, mobid);

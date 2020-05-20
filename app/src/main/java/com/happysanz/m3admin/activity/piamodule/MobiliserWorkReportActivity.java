@@ -126,10 +126,13 @@ public class MobiliserWorkReportActivity extends AppCompatActivity implements IS
         viewDetailed = findViewById(R.id.detailed_report);
         mobilizerArrayList = new ArrayList<>();
 
+        TextView text1 = findViewById(R.id.title);
+        text1.setText(PreferenceStorage.getMobName(this)+" - Work Report");
         Intent intent = getIntent();
         if (intent.hasExtra("serviceObj")) {
             pia = (WorkDetails) intent.getSerializableExtra("serviceObj");
-//            PreferenceStorage.savePIAProfileId(this, pia.getUser_id());
+
+//            PreferenceStorage.getMobName(this);
             callGetClassTestService();
         } else {
             callGetClassTestService();

@@ -59,7 +59,9 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     EditText txtTitle, txtDetails, txtDate;
     private TextView txtStatus, txtType;
     private List<String> mTypeList = new ArrayList<String>();
-    private ArrayAdapter<String> mTypeAdapter = null;
+    private ArrayAdapter<StoreMobilizer> mTypeAdapter = null;
+    private String tasktypeID = "";
+    ArrayList<StoreMobilizer> classesList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,9 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                 finish();
             }
         });
+        TextView text1 = findViewById(R.id.title);
+        text1.setText(PreferenceStorage.getMobName(this) + " - Create Task");
+        storeMobilizerId = PreferenceStorage.getMobId(this);
         spnMobilizer = findViewById(R.id.spn_mobilizer);
         txtTitle = findViewById(R.id.task_title);
         txtDetails = findViewById(R.id.task_link);
@@ -125,21 +130,10 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         txtType.setOnClickListener(this);
         txtType.setFocusable(false);
 
-        mTypeList.add("Field Work");
-        mTypeList.add("Office Work");
+//        mTypeList.add("Field Work");
+//        mTypeList.add("Office Work");
 
-        mTypeAdapter = new ArrayAdapter<String>(this, R.layout.gender_layout, R.id.gender_name, mTypeList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                Log.d(TAG, "getview called" + position);
-                View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
-                TextView gendername = (TextView) view.findViewById(R.id.gender_name);
-                gendername.setText(mTypeList.get(position));
 
-                // ... Fill in other views ...
-                return view;
-            }
-        };
     }
 
     @Override
@@ -150,17 +144,17 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void loadMobilizers() {
-        res = "spnMobilizer";
+        res = "spnWork";
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(M3AdminConstants.KEY_PIA_ID, PreferenceStorage.getUserId(getApplicationContext()));
+            jsonObject.put(M3AdminConstants.KEY_USER_ID, PreferenceStorage.getUserId(getApplicationContext()));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.GET_MOBILIZER_LIST;
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.GET_WORK_TYPE_MASTER;
         serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 
@@ -214,8 +208,15 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String strName = mTypeList.get(which);
-                        txtType.setText(strName);
+
+                        StoreMobilizer classList = (StoreMobilizer) classesList.get(which);
+                        txtType.setText(classList.getMobilizerName());
+                        tasktypeID = classList.getMobilizerId();
+                        if (tasktypeID.equalsIgnoreCase("2") || tasktypeID.equalsIgnoreCase("1")) {
+                            findViewById(R.id.ti_task_title).setVisibility(View.VISIBLE);
+                        } else {
+                            findViewById(R.id.ti_task_title).setVisibility(View.GONE);
+                        }
                     }
                 });
         builderSingle.show();
@@ -223,15 +224,22 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
 
     private boolean validateFields() {
         if (!AppValidator.checkNullString(this.txtTitle.getText().toString().trim())) {
-            AlertDialogHelper.showSimpleAlertDialog(this, "Give your task a title");
-            return false;
+            if (tasktypeID.equalsIgnoreCase("2") || tasktypeID.equalsIgnoreCase("1")) {
+                AlertDialogHelper.showSimpleAlertDialog(this, "Give your task a title");
+                return false;
+            } else {
+                return true;
+            }
         } else if (!AppValidator.checkNullString(this.txtDetails.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Write your task");
             return false;
         } else if (!AppValidator.checkNullString(this.txtDate.getText().toString().trim())) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Choose the date");
             return false;
-        }  else if (!AppValidator.checkNullString(storeMobilizerId)) {
+        } else if (!AppValidator.checkNullString(this.txtType.getText().toString().trim())) {
+            AlertDialogHelper.showSimpleAlertDialog(this, "Choose task type");
+            return false;
+        } else if (!AppValidator.checkNullString(storeMobilizerId)) {
             AlertDialogHelper.showSimpleAlertDialog(this, "Select mobilizer");
             return false;
         } else {
@@ -246,6 +254,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         String details = txtDetails.getText().toString();
         String serverFormatDate = "";
         String Task = "";
+        Task = tasktypeID;
 
         if (txtDate.getText().toString() != null && txtDate.getText().toString() != "") {
 
@@ -260,12 +269,6 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
             serverFormatDate = formatter.format(testDate);
             System.out.println(".....Date..." + serverFormatDate);
-        }if (txtType.getText().toString() != null && txtType.getText().toString() != "") {
-            if (txtType.getText().toString().equalsIgnoreCase("Field Work")) {
-                Task = "2";
-            } else if (txtType.getText().toString().equalsIgnoreCase("Office Work")) {
-                Task = "1";
-            }
         }
         JSONObject jsonObject = new JSONObject();
         try {
@@ -338,27 +341,39 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         if (validateSignInResponse(response)) {
 
             try {
-                if (res.equalsIgnoreCase("spnMobilizer")) {
-                    JSONArray getData = response.getJSONArray("userList");
+                if (res.equalsIgnoreCase("spnWork")) {
+                    JSONArray getData = response.getJSONArray("result");
                     int getLength = getData.length();
                     String subjectName = null;
                     Log.d(TAG, "userData dictionary" + getData.toString());
 
                     String classId = "";
                     String className = "";
-                    ArrayList<StoreMobilizer> classesList = new ArrayList<>();
-                    classesList.add(new StoreMobilizer("","Select Mobiliser"));
                     for (int i = 0; i < getLength; i++) {
 
-                        classId = getData.getJSONObject(i).getString("user_id");
-                        className = getData.getJSONObject(i).getString("name");
+                        classId = getData.getJSONObject(i).getString("id");
+                        className = getData.getJSONObject(i).getString("work_type");
 
                         classesList.add(new StoreMobilizer(classId, className));
                     }
 
                     //fill data in spinner
-                    ArrayAdapter<StoreMobilizer> adapter = new ArrayAdapter<StoreMobilizer>(getApplicationContext(), R.layout.spinner_item_ns, classesList);
-                    spnMobilizer.setAdapter(adapter);
+//                    ArrayAdapter<StoreMobilizer> adapter = new ArrayAdapter<StoreMobilizer>(getApplicationContext(), R.layout.spinner_item_ns, classesList);
+//                    spnMobilizer.setAdapter(adapter);
+
+                    mTypeAdapter = new ArrayAdapter<StoreMobilizer>(this, R.layout.gender_layout, R.id.gender_name, classesList) { // The third parameter works around ugly Android legacy. http://stackoverflow.com/a/18529511/145173
+                        @Override
+                        public View getView(int position, View convertView, ViewGroup parent) {
+                            Log.d(TAG, "getview called" + position);
+                            View view = getLayoutInflater().inflate(R.layout.gender_layout, parent, false);
+                            TextView gendername = (TextView) view.findViewById(R.id.gender_name);
+                            gendername.setText(classesList.get(position).getMobilizerName());
+
+                            // ... Fill in other views ...
+                            return view;
+                        }
+                    };
+
                 } else {
                     Toast.makeText(this, "You've just created a task!", Toast.LENGTH_SHORT).show();
 //                    Intent intent = new Intent(getApplicationContext(), TaskActivity.class);

@@ -38,7 +38,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static android.util.Log.d;
 
@@ -64,6 +66,7 @@ public class MobiliserWorkTypeDetailActivity extends AppCompatActivity implement
     private String storeClassId = "";
 
     EditText txtTitle, txtDetails, txtDate, txtStatus, txtType, txtMobComt, txtDist;
+    private TextView upAt, addAt;
     Button viewPhotos;
     ImageView EditTask;
 private String page = "";
@@ -90,6 +93,8 @@ private String page = "";
         txtType = findViewById(R.id.task_type);
         txtMobComt = findViewById(R.id.mobiliser_comment);
         txtDist = findViewById(R.id.km);
+        upAt = findViewById(R.id.updated_at);
+        addAt = findViewById(R.id.add_at);
 
         txtTitle.setClickable(false);
         txtTitle.setFocusable(false);
@@ -132,6 +137,18 @@ private String page = "";
         if (PreferenceStorage.getTnsrlmCheck(this)) {
             findViewById(R.id.add_user).setVisibility(View.GONE);
         }
+
+        if (pia.getwork_type_id().equalsIgnoreCase("3")||pia.getwork_type_id().equalsIgnoreCase("4")) {
+            viewPhotos.setVisibility(View.GONE);
+            findViewById(R.id.ti_task_title).setVisibility(View.GONE);
+            findViewById(R.id.ti_mob_comt).setVisibility(View.GONE);
+            findViewById(R.id.ti_km).setVisibility(View.GONE);
+        }
+        if (pia.getwork_type_id().equalsIgnoreCase("1")) {
+            viewPhotos.setVisibility(View.GONE);
+            findViewById(R.id.ti_km).setVisibility(View.GONE);
+        }
+
     }
 
     public void callGetClassTestService() {
@@ -230,6 +247,25 @@ private String page = "";
                 txtDetails.setText(getDataResult.getString("comments"));
                 txtType.setText(getDataResult.getString("work_type"));
                 txtMobComt.setText(getDataResult.getString("mobilizer_comments"));
+
+                String date = getDataResult.getString("created_at");
+                String date1 = getDataResult.getString("updated_at");
+                String serverFormatDate = "";
+                String serverFormatDate1 = "";
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+                Date testDate = null;
+                Date testDate1 = null;
+                try {
+                    testDate = sdf.parse(date);
+                    testDate1 = sdf.parse(date1);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-mm-yyyy");
+                serverFormatDate = formatter.format(testDate);
+                serverFormatDate1 = formatter.format(testDate1);
+                upAt.setText("Updated on: " + serverFormatDate1);
+                addAt.setText("Created on: " + serverFormatDate);
                 if (getkmData.getString("status").equalsIgnoreCase("success")) {
                     txtDist.setText(getkmData.getJSONObject("km_data").getString("km"));
                 }

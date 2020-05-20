@@ -132,14 +132,14 @@ public class ViewTaskPhotosActivity extends AppCompatActivity implements View.On
     private void viewTaskPhotos() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(M3AdminConstants.PARAMS_TASK_ID, workDetails.gettask_id());
+            jsonObject.put(M3AdminConstants.PARAMS_TASK_ID, workDetails.getid());
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         progressDialogHelper.showProgressDialog(getString(R.string.progress_loading));
-        String url = M3AdminConstants.TASK_IMAGE_LIST;
+        String url = M3AdminConstants.BUILD_URL + M3AdminConstants.TASK_IMAGE_LIST;
         serviceHelper.makeGetServiceCall(jsonObject.toString(), url);
     }
 

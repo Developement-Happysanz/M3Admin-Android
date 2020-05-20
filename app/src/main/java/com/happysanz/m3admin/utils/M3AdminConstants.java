@@ -215,7 +215,7 @@ public class M3AdminConstants {
     //    PIA Creation URL
     public static final String PIA_LIST = "apimain/pia_list";
 
-    public static final String TASK_IMAGE_LIST = "https://happysanz.in/m3tnsrlm/apimobilizer/list_taskpic/";
+    public static final String TASK_IMAGE_LIST = "apimobilizer/list_taskpic/";
 
     //    Service Params
     public static String PARAM_MESSAGE = "msg";

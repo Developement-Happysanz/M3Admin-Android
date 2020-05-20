@@ -216,10 +216,30 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/add_at"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="18sp"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/colorPrimary"/>
+
+            <TextView
+                android:id="@+id/updated_at"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="18sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/colorPrimary"/>
+
             <Button
                 android:id="@+id/btn_view_photos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="10dp"
                 android:background="@color/blue"

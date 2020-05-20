@@ -90,7 +90,8 @@ public class UserDetailsActivity  extends AppCompatActivity implements View.OnCl
 
         user = (Mobilizer) getIntent().getSerializableExtra("userObj");
         TextView text1 = findViewById(R.id.title);
-//        text1.setText("TNSRLM Staff");
+        text1.setText("User Detail - " + user.getName());
+        PreferenceStorage.saveMobName(this, user.getName());
 
 //        spnMobilizer.setVisibility(View.GONE);
 

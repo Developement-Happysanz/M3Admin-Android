@@ -356,6 +356,22 @@ public class PreferenceStorage {
         return staffQualification;
     }
 
+    public static void saveMobName(Context context, String mobID) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(M3AdminConstants.PARAMS_MOB_ID, mobID);
+        editor.apply();
+    }
+
+    public static String getMobName(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager
+                .getDefaultSharedPreferences(context);
+        String staffQualification;
+        staffQualification = sharedPreferences.getString(M3AdminConstants.PARAMS_MOB_ID, "");
+        return staffQualification;
+    }
+
     public static void saveMonthId(Context context, String mobID) {
         SharedPreferences sharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(context);

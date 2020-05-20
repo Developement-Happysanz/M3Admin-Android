@@ -159,6 +159,8 @@ public class MobilizerActivity extends AppCompatActivity implements IServiceList
             Intent intent = new Intent(this, UserDetailsActivity.class);
             intent.putExtra("userObj", userData);
             intent.putExtra("page", "mob");
+            PreferenceStorage.saveMobId(this, userData.getUser_id());
+            PreferenceStorage.saveMobName(this, userData.getName());
             startActivity(intent);
             finish();
         }
