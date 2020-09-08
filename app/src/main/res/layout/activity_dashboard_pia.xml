@@ -116,8 +116,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/master_layout"
-                        android:visibility="gone"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/txt_scheme"
@@ -144,16 +144,16 @@
                             android:textSize="16sp" />
 
                         <!--<TextView-->
-                            <!--android:id="@+id/txt_project"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_marginLeft="40dp"-->
-                            <!--android:gravity="center_vertical"-->
-                            <!--android:paddingTop="10dp"-->
-                            <!--android:paddingBottom="10dp"-->
-                            <!--android:text="Project"-->
-                            <!--android:textColor="@color/black"-->
-                            <!--android:textSize="16sp" />-->
+                        <!--android:id="@+id/txt_project"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="40dp"-->
+                        <!--android:gravity="center_vertical"-->
+                        <!--android:paddingTop="10dp"-->
+                        <!--android:paddingBottom="10dp"-->
+                        <!--android:text="Project"-->
+                        <!--android:textColor="@color/black"-->
+                        <!--android:textSize="16sp" />-->
 
                         <TextView
                             android:id="@+id/txt_trade"
@@ -174,11 +174,11 @@
                             android:layout_marginLeft="40dp"
                             android:gravity="center_vertical"
                             android:paddingTop="10dp"
-                            android:visibility="gone"
                             android:paddingBottom="10dp"
                             android:text="Batch"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/txt_trade_batch"
@@ -189,9 +189,9 @@
                             android:paddingTop="10dp"
                             android:paddingBottom="10dp"
                             android:text="Trade and Batch"
-                            android:visibility="gone"
                             android:textColor="@color/black"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/txt_time"
@@ -353,8 +353,8 @@
                     <RelativeLayout
                         android:id="@+id/control_panel_layout"
                         android:layout_width="match_parent"
-                        android:visibility="gone"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/img_control_panel"
@@ -416,8 +416,8 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/grey"
-                            android:layout_margin="10dp"/>
+                            android:layout_margin="10dp"
+                            android:background="@color/grey" />
 
                         <include
                             android:id="@+id/activity_toolbar"
@@ -427,8 +427,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:textSize="14sp"
-                            android:text="@string/app_version"/>
+                            android:text="@string/app_version"
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 

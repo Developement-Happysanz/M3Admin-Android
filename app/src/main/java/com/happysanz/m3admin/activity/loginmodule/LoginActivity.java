@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         boolean requestPermission = PermissionUtil.requestAllPermissions(this);
 
-        if (requestPermission == true) {
+        if (requestPermission) {
 
             Log.i(TAG,
                     "Displaying contacts permission rationale to provide additional context.");
