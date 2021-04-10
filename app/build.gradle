@@ -6,22 +6,22 @@ android {
         config {
             keyAlias 'm3admin_alias'
             keyPassword 'M3admin@123'
-            storeFile file('D:\\HappySanzTech\\AppWorkSpace\\M3Admin\\app\\m3admin.jks')
+            storeFile file('G:\\HappySanzTech\\AppWorkSpace\\M3Admin\\app\\m3admin.jks')
 //            storeFile file('F:\\StudioProjects\\M3Admin\\app\\m3admin.jks')
             storePassword 'M3admin@123'
             flavorDimensions "default"
         }
     }
 
-    compileSdkVersion 29
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 30
+    buildToolsVersion '29.0.2'
 
     defaultConfig {
         applicationId "com.happysanz.m3admin"
         minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 10
-        versionName "1.0.415"
+        targetSdkVersion 30
+        versionCode 11
+        versionName "1.0.416"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
